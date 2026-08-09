@@ -16,11 +16,19 @@ Prisma و SQLite/PostgreSQL و NextAuth (Auth.js). تدعم ثلاثة أدوا�
 
 ```bash
 npm install
-cp .env.example .env      # ثم عدّل AUTH_SECRET بقيمة عشوائية جديدة (openssl rand -base64 32)
+cp .env.example .env
+# عدّل .env: ضع مسارًا مطلقًا (absolute path) لـ DATABASE_URL يشير إلى prisma/dev.db
+# داخل مجلد المشروع لديك، وغيّر AUTH_SECRET بقيمة عشوائية جديدة (openssl rand -base64 32)
 npx prisma migrate dev    # ينشئ قاعدة بيانات SQLite ويطبّق المخطط
 npm run db:seed           # يضيف حساب المدير والدورات الأربعة وحساب متدرب تجريبي
 npm run dev               # يشغّل الموقع على http://localhost:3000
 ```
+
+> **ملاحظة مهمة**: استخدم مسارًا **مطلقًا** لملف SQLite في `DATABASE_URL` (مثل
+> `file:/home/you/project/prisma/dev.db`) وليس مسارًا نسبيًا مثل `file:./dev.db` — لأن أداة
+> Prisma (migrate/seed) وتطبيق Next.js وقت التشغيل يفسّران المسار النسبي بشكل مختلف، فينتهي بك
+> الأمر بملفي قاعدة بيانات مختلفين دون أن تشعر. إعداد Docker المرفق يستخدم مسارًا مطلقًا بالفعل
+> فلا داعي للقلق عند النشر به.
 
 ### حسابات ابتدائية بعد التشغيل (Seed)
 
