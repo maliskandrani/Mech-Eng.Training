@@ -1,0 +1,123 @@
+// Prisma schema for the training platform (courses, trainers, students)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  TRAINER
+  STUDENT
+}
+
+enum MaterialType {
+  BOOK
+  VIDEO
+  SLIDE
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(STUDENT)
+  avatarUrl    String?
+  title        String? // professional title shown on trainer profile
+  bio          String?
+  phone        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  coursesTaught Course[]     @relation("TrainerCourses")
+  enrollments   Enrollment[]
+
+  @@map("users")
+}
+
+model Category {
+  id      String   @id @default(cuid())
+  slug    String   @unique
+  name    String
+  courses Course[]
+
+  @@map("categories")
+}
+
+model Course {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  title         String
+  subtitle      String?
+  description   String?
+  posterUrl     String?
+  introVideoUrl String?
+  price         Float       @default(0)
+  level         CourseLevel @default(BEGINNER)
+  published     Boolean     @default(false)
+  order         Int         @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  trainerId  String
+  trainer    User     @relation("TrainerCourses", fields: [trainerId], references: [id])
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  modules     Module[]
+  enrollments Enrollment[]
+
+  @@map("courses")
+}
+
+model Module {
+  id       String @id @default(cuid())
+  title    String
+  order    Int    @default(0)
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  materials Material[]
+
+  @@map("modules")
+}
+
+model Material {
+  id        String       @id @default(cuid())
+  title     String
+  type      MaterialType
+  fileUrl   String
+  fileSize  Int?
+  order     Int          @default(0)
+  createdAt DateTime     @default(now())
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@map("materials")
+}
+
+model Enrollment {
+  id          String   @id @default(cuid())
+  userId      String
+  courseId    String
+  progress    Int      @default(0)
+  enrolledAt  DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
