@@ -1,5 +1,9 @@
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import createIntlMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
+
+const intlMiddleware = createIntlMiddleware(routing);
 
 const ROLE_PREFIX: Record<string, string> = {
   ADMIN: "/dashboard/admin",
@@ -9,9 +13,13 @@ const ROLE_PREFIX: Record<string, string> = {
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
-  const user = req.auth?.user;
 
-  if (!pathname.startsWith("/dashboard")) return NextResponse.next();
+  // The dashboard is a separate, Arabic-only route tree — not localized.
+  if (!pathname.startsWith("/dashboard")) {
+    return intlMiddleware(req);
+  }
+
+  const user = req.auth?.user;
 
   if (!user) {
     const loginUrl = new URL("/login", req.nextUrl.origin);
@@ -33,5 +41,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
 };

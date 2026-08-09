@@ -1,9 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
+import NextLink from "next/link";
 import { notFound } from "next/navigation";
+import { getLocale, getTranslations, getFormatter } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
 import { getCourseBySlug } from "@/lib/queries";
-import { arabicCount, formatPrice, LEVEL_LABELS, MATERIAL_TYPE_LABELS } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
 import EnrollButton from "@/components/site/EnrollButton";
 
@@ -13,7 +15,14 @@ export default async function CourseDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [course, session] = await Promise.all([getCourseBySlug(slug), auth()]);
+  const [course, session, locale, t, tTrainers, format] = await Promise.all([
+    getCourseBySlug(slug),
+    auth(),
+    getLocale(),
+    getTranslations("courses"),
+    getTranslations("trainers"),
+    getFormatter(),
+  ]);
 
   if (!course) notFound();
 
@@ -24,12 +33,15 @@ export default async function CourseDetailPage({
   const isStudent = session?.user?.role === "STUDENT";
   const lessons = course.sections.flatMap((s) => s.lessons);
   const totalMaterials = lessons.reduce((n, l) => n + l.materials.length, 0);
+  const loginHref = `${localizedHref(locale, "/login")}?callbackUrl=${encodeURIComponent(
+    localizedHref(locale, `/courses/${course.slug}`)
+  )}`;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       {!course.published && (
         <div className="mb-6 rounded-xl border border-accent/40 bg-accent/10 px-4 py-3 text-sm text-accent-soft">
-          هذه الدورة في وضع المسودة ولا يمكن للمتدربين رؤيتها إلا بعد النشر.
+          {t("draftNotice")}
         </div>
       )}
 
@@ -38,7 +50,7 @@ export default async function CourseDetailPage({
           <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
             {course.category && <span className="text-accent-soft">{course.category.name}</span>}
             <span>·</span>
-            <span>{LEVEL_LABELS[course.level] ?? course.level}</span>
+            <span>{t(`level.${course.level}` as "level.BEGINNER")}</span>
           </div>
 
           <h1 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">{course.title}</h1>
@@ -52,25 +64,23 @@ export default async function CourseDetailPage({
                 <Image src={course.posterUrl} alt={course.title} fill className="object-cover" />
               </div>
             ) : (
-              <div className="flex h-full items-center justify-center text-muted">
-                لم يتم رفع فيديو تقديمي أو صورة غلاف بعد
-              </div>
+              <div className="flex h-full items-center justify-center text-muted">{t("noVideoOrPoster")}</div>
             )}
           </div>
 
           {course.description && (
             <div className="mt-8">
-              <h2 className="text-xl font-bold text-foreground">عن الدورة</h2>
+              <h2 className="text-xl font-bold text-foreground">{t("aboutTitle")}</h2>
               <p className="mt-3 whitespace-pre-line leading-8 text-muted">{course.description}</p>
             </div>
           )}
 
           <div className="mt-10">
-            <h2 className="text-xl font-bold text-foreground">محتوى الدورة</h2>
+            <h2 className="text-xl font-bold text-foreground">{t("contentTitle")}</h2>
             <p className="mt-1 text-sm text-muted">
-              {arabicCount(course.sections.length, "قسم", "قسمان", "أقسام")} ·{" "}
-              {arabicCount(lessons.length, "درس", "درسان", "دروس")} ·{" "}
-              {arabicCount(totalMaterials, "ملف تدريبي", "ملفان تدريبيان", "ملفات تدريبية")}
+              {t("sectionsCount", { count: course.sections.length })} ·{" "}
+              {t("lessonsCount", { count: lessons.length })} ·{" "}
+              {t("materialsCount", { count: totalMaterials })}
             </p>
             <div className="mt-4 space-y-4">
               {course.sections.map((section, si) => (
@@ -93,18 +103,18 @@ export default async function CourseDetailPage({
                                 <span className="text-accent-soft">🔒</span>
                                 <span>{mat.title}</span>
                                 <span className="rounded-full border border-border px-2 py-0.5 text-xs">
-                                  {MATERIAL_TYPE_LABELS[mat.type] ?? mat.type}
+                                  {t(`materialType.${mat.type}` as "materialType.BOOK")}
                                 </span>
                               </li>
                             ))}
                           </ul>
                         ) : (
-                          <p className="mt-2 text-sm text-muted">المحتوى قيد الإضافة.</p>
+                          <p className="mt-2 text-sm text-muted">{t("contentPending")}</p>
                         )}
                       </div>
                     ))}
                     {section.lessons.length === 0 && (
-                      <p className="p-4 text-sm text-muted">لا توجد دروس في هذا القسم بعد.</p>
+                      <p className="p-4 text-sm text-muted">{t("lessonsPendingInSection")}</p>
                     )}
                   </div>
                 </div>
@@ -115,30 +125,32 @@ export default async function CourseDetailPage({
 
         <aside className="space-y-6">
           <div className="rounded-2xl border border-border bg-background-card p-6">
-            <div className="text-3xl font-extrabold text-accent">{formatPrice(course.price)}</div>
+            <div className="text-3xl font-extrabold text-accent">
+              {course.price > 0 ? format.number(course.price, { style: "currency", currency: "SAR" }) : t("free")}
+            </div>
 
             {!session?.user && (
-              <Link
-                href={`/login?callbackUrl=/courses/${course.slug}`}
+              <NextLink
+                href={loginHref}
                 className="mt-5 block w-full rounded-xl gold-gradient px-6 py-3 text-center font-bold text-accent-foreground transition hover:opacity-90"
               >
-                سجّل دخولك للالتحاق
-              </Link>
+                {t("loginToEnroll")}
+              </NextLink>
             )}
             {isStudent && <div className="mt-5"><EnrollButton courseId={course.id} /></div>}
             {session?.user && !isStudent && (
-              <Link
+              <NextLink
                 href="/dashboard"
                 className="mt-5 block w-full rounded-xl border border-border px-6 py-3 text-center font-semibold text-foreground transition hover:border-accent hover:text-accent"
               >
-                إدارة الدورة من لوحة التحكم
-              </Link>
+                {t("manageFromDashboard")}
+              </NextLink>
             )}
 
             <ul className="mt-6 space-y-2 text-sm text-muted">
-              <li>✔ الوصول الكامل لجميع مواد الدورة</li>
-              <li>✔ كتب PDF وفيديوهات وسلايدز</li>
-              <li>✔ تحديثات مستمرة على المحتوى</li>
+              <li>✔ {t("perks.fullAccess")}</li>
+              <li>✔ {t("perks.materials")}</li>
+              <li>✔ {t("perks.updates")}</li>
             </ul>
           </div>
 
@@ -155,9 +167,9 @@ export default async function CourseDetailPage({
               )}
             </div>
             <div>
-              <p className="text-xs text-muted">المدرب</p>
+              <p className="text-xs text-muted">{t("trainerLabel")}</p>
               <h3 className="font-bold text-foreground">{course.trainer.name}</h3>
-              <p className="text-sm text-muted">{course.trainer.title ?? "مدرب معتمد"}</p>
+              <p className="text-sm text-muted">{course.trainer.title ?? tTrainers("defaultTitle")}</p>
             </div>
           </Link>
         </aside>

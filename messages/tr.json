@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "Komple Makine ve Boru Mühendisliği Akademisi",
+    "description": "Boru ve mekanik ekipman mühendisliği, merkezi HVAC sistemleri ve mühendislik tasarım yazılımlarında uzmanlaşmış eğitim kursları."
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "courses": "Kurslar",
+    "trainers": "Eğitmenler",
+    "dashboard": "Kontrol Paneli",
+    "logout": "Çıkış yap",
+    "login": "Giriş yap",
+    "signup": "Kayıt ol"
+  },
+  "brand": {
+    "line1": "Komple Makine ve Boru",
+    "line2": "Mühendisliği Akademisi"
+  },
+  "language": {
+    "label": "Dil"
+  },
+  "home": {
+    "badge": "Uzmanlaşmış mühendislik eğitim akademisi",
+    "titleLead": "Tereddüt engelini aş,",
+    "titleHighlight": "deneyim zamanla gelir",
+    "subtitle": "Sabit ve döner boru ve mekanik ekipman mühendisliği, merkezi HVAC sistemleri ve mühendislik tasarım yazılımlarında uzmanlaşmış eğitim kursları — Müh. Mohamed Rajab tarafından petrol, gaz ve petrokimya sektöründeki gerçek saha deneyimiyle sunulmaktadır.",
+    "ctaExplore": "Kursları keşfet",
+    "ctaRegister": "Kursiyer olarak kaydol",
+    "features": {
+      "content": { "title": "Kapsamlı bilimsel içerik", "desc": "Teorik temellerden pratik uygulamalara ve gerçek projelere." },
+      "practical": { "title": "Basitleştirilmiş pratik uygulamalar", "desc": "El hesaplamaları, mühendislik yazılımları ve 3D modelleme." },
+      "skills": { "title": "İş piyasasına hazır beceriler", "desc": "Petrol, gaz ve petrokimya sektöründe gerçek saha deneyimi." },
+      "progress": { "title": "Başlangıçtan profesyonelliğe", "desc": "Seviyenizle birlikte gelişen kademeli bir eğitim yolu." }
+    },
+    "coursesTitle": "Eğitim Kursları",
+    "coursesSubtitle": "Mevcut kapsamlı kurs, yakında daha fazlası.",
+    "viewAll": "Tüm kursları görüntüle ←",
+    "noCourses": "Şu anda yayınlanmış kurs yok.",
+    "trainersTitle": "Eğitmenlerimiz"
+  },
+  "footer": {
+    "description": "Boru ve mekanik ekipman mühendisliği, merkezi HVAC ve mühendislik tasarım yazılımlarında gerçek saha deneyimine dayalı kapsamlı bilimsel içerik.",
+    "quickLinks": "Hızlı Bağlantılar",
+    "contactTitle": "Bize Ulaşın",
+    "contactText": "Kurslar ve kayıt hakkında sorularınız için lütfen akademinin e-posta adresi üzerinden iletişime geçin.",
+    "copyright": "© {year} Komple Makine ve Boru Mühendisliği Akademisi. Tüm hakları saklıdır."
+  },
+  "courses": {
+    "pageTitle": "Eğitim Kursları",
+    "pageSubtitle": "İlgilendiğiniz kategoriyi seçin veya belirli bir kurs arayın.",
+    "all": "Tümü",
+    "searchPlaceholder": "Bir kurs ara...",
+    "noResults": "Şu anda eşleşen kurs yok.",
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "trainerLabel": "Eğitmen",
+    "free": "Ücretsiz",
+    "noPoster": "Henüz kapak görseli yok",
+    "level": {
+      "BEGINNER": "Başlangıç",
+      "INTERMEDIATE": "Orta",
+      "ADVANCED": "İleri"
+    },
+    "materialType": {
+      "BOOK": "Kitap (PDF)",
+      "VIDEO": "Video",
+      "SLIDE": "Slaytlar"
+    },
+    "sectionsCount": "{count, plural, other {# bölüm}}",
+    "lessonsCount": "{count, plural, other {# ders}}",
+    "materialsCount": "{count, plural, other {# eğitim dosyası}}",
+    "draftNotice": "Bu kurs taslak modundadır ve yayınlanana kadar kursiyerler tarafından görülemez.",
+    "aboutTitle": "Kurs hakkında",
+    "contentTitle": "Kurs içeriği",
+    "contentPending": "İçerik eklenmektedir.",
+    "lessonsPendingInSection": "Bu bölümde henüz ders yok.",
+    "noVideoOrPoster": "Henüz tanıtım videosu veya kapak görseli yüklenmedi",
+    "loginToEnroll": "Kaydolmak için giriş yapın",
+    "manageFromDashboard": "Kursu kontrol panelinden yönetin",
+    "enrollNow": "Şimdi kaydol",
+    "enrolling": "Kaydolunuyor...",
+    "enrolled": "Kaydolundu ✓",
+    "enrolledMessage": "Kursa başarıyla kaydoldunuz. Kontrol panelinizden takip edebilirsiniz.",
+    "perks": {
+      "fullAccess": "Tüm kurs materyallerine tam erişim",
+      "materials": "PDF kitaplar, videolar ve slaytlar",
+      "updates": "Sürekli içerik güncellemeleri"
+    }
+  },
+  "trainers": {
+    "pageTitle": "Eğitmenler",
+    "pageSubtitle": "Akademide kurs veren eğitmen ekibiyle tanışın.",
+    "defaultTitle": "Sertifikalı eğitmen",
+    "coursesCount": "{count, plural, other {# kurs}}",
+    "coursesTitle": "{name} kursları",
+    "noCourses": "Bu eğitmenin şu anda yayınlanmış kursu yok."
+  },
+  "auth": {
+    "loginTitle": "Giriş yap",
+    "loginSubtitle": "Kontrol panelinize ve kurslarınıza erişmek için giriş yapın.",
+    "email": "E-posta",
+    "password": "Şifre",
+    "passwordHint": "En az 8 karakter.",
+    "loginButton": "Giriş yap",
+    "loggingIn": "Giriş yapılıyor...",
+    "noAccount": "Hesabınız yok mu?",
+    "registerLink": "Kursiyer hesabı oluştur",
+    "invalidCredentials": "E-posta veya şifre hatalı.",
+    "registerTitle": "Kursiyer hesabı oluştur",
+    "registerSubtitle": "Kurslara kaydolmak ve takip etmek için hesabınızı oluşturun.",
+    "fullName": "Ad Soyad",
+    "registerButton": "Hesap oluştur",
+    "registering": "Oluşturuluyor...",
+    "haveAccount": "Zaten bir hesabınız var mı?"
+  }
+}

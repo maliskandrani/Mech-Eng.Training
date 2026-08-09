@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getTrainerById } from "@/lib/queries";
 import CourseCard from "@/components/site/CourseCard";
 
@@ -8,7 +9,7 @@ export default async function TrainerProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const trainer = await getTrainerById(id);
+  const [trainer, t] = await Promise.all([getTrainerById(id), getTranslations("trainers")]);
   if (!trainer) notFound();
 
   return (
@@ -24,13 +25,13 @@ export default async function TrainerProfilePage({
         </div>
         <div>
           <h1 className="text-2xl font-extrabold text-foreground">{trainer.name}</h1>
-          <p className="mt-1 font-medium text-accent-soft">{trainer.title ?? "مدرب معتمد"}</p>
+          <p className="mt-1 font-medium text-accent-soft">{trainer.title ?? t("defaultTitle")}</p>
           {trainer.bio && <p className="mt-3 max-w-2xl leading-7 text-muted">{trainer.bio}</p>}
         </div>
       </div>
 
       <div className="mt-10">
-        <h2 className="text-xl font-bold text-foreground">دورات {trainer.name}</h2>
+        <h2 className="text-xl font-bold text-foreground">{t("coursesTitle", { name: trainer.name })}</h2>
         {trainer.coursesTaught.length > 0 ? (
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {trainer.coursesTaught.map((course) => (
@@ -38,7 +39,7 @@ export default async function TrainerProfilePage({
             ))}
           </div>
         ) : (
-          <p className="mt-4 text-muted">لا توجد دورات منشورة لهذا المدرب حاليًا.</p>
+          <p className="mt-4 text-muted">{t("noCourses")}</p>
         )}
       </div>
     </div>

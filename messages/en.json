@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "Complete Mechanical & Piping Engineering Academy",
+    "description": "Specialized training courses in piping and mechanical equipment engineering, central HVAC systems, and engineering design software."
+  },
+  "nav": {
+    "home": "Home",
+    "courses": "Courses",
+    "trainers": "Trainers",
+    "dashboard": "Dashboard",
+    "logout": "Log out",
+    "login": "Log in",
+    "signup": "Sign up"
+  },
+  "brand": {
+    "line1": "Complete Mechanical &",
+    "line2": "Piping Engineering Academy"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "home": {
+    "badge": "Specialized engineering training academy",
+    "titleLead": "Break through the hesitation barrier,",
+    "titleHighlight": "experience comes with time",
+    "subtitle": "Specialized training courses in static and rotating piping and mechanical equipment engineering, central HVAC systems, and engineering design software — delivered by Eng. Mohamed Rajab with real hands-on experience in the oil, gas, and petrochemical industry.",
+    "ctaExplore": "Explore courses",
+    "ctaRegister": "Sign up as a trainee",
+    "features": {
+      "content": { "title": "Comprehensive scientific content", "desc": "From theoretical fundamentals to practical applications and real projects." },
+      "practical": { "title": "Simplified practical applications", "desc": "Manual calculations, engineering software, and 3D modeling." },
+      "skills": { "title": "Job-market-ready skills", "desc": "Real field experience in the oil, gas, and petrochemical sector." },
+      "progress": { "title": "From beginner to professional", "desc": "A progressive training path that grows with your skill level." }
+    },
+    "coursesTitle": "Training Courses",
+    "coursesSubtitle": "The current comprehensive course, with more coming soon.",
+    "viewAll": "View all courses ←",
+    "noCourses": "No published courses at the moment.",
+    "trainersTitle": "Our Trainers"
+  },
+  "footer": {
+    "description": "Comprehensive scientific content backed by real field experience in piping and mechanical equipment engineering, central HVAC, and engineering design software.",
+    "quickLinks": "Quick Links",
+    "contactTitle": "Contact Us",
+    "contactText": "For questions about courses and enrollment, please reach out via the academy's email.",
+    "copyright": "© {year} Complete Mechanical & Piping Engineering Academy. All rights reserved."
+  },
+  "courses": {
+    "pageTitle": "Training Courses",
+    "pageSubtitle": "Choose a category you're interested in, or search for a specific course.",
+    "all": "All",
+    "searchPlaceholder": "Search for a course...",
+    "noResults": "No matching courses right now.",
+    "prev": "Previous",
+    "next": "Next",
+    "trainerLabel": "Trainer",
+    "free": "Free",
+    "noPoster": "No cover image yet",
+    "level": {
+      "BEGINNER": "Beginner",
+      "INTERMEDIATE": "Intermediate",
+      "ADVANCED": "Advanced"
+    },
+    "materialType": {
+      "BOOK": "Book (PDF)",
+      "VIDEO": "Video",
+      "SLIDE": "Slides"
+    },
+    "sectionsCount": "{count, plural, one {# section} other {# sections}}",
+    "lessonsCount": "{count, plural, one {# lesson} other {# lessons}}",
+    "materialsCount": "{count, plural, one {# training file} other {# training files}}",
+    "draftNotice": "This course is in draft mode and won't be visible to trainees until it's published.",
+    "aboutTitle": "About this course",
+    "contentTitle": "Course content",
+    "contentPending": "Content is being added.",
+    "lessonsPendingInSection": "No lessons in this section yet.",
+    "noVideoOrPoster": "No intro video or cover image uploaded yet",
+    "loginToEnroll": "Log in to enroll",
+    "manageFromDashboard": "Manage this course from the dashboard",
+    "enrollNow": "Enroll now",
+    "enrolling": "Enrolling...",
+    "enrolled": "Enrolled ✓",
+    "enrolledMessage": "You've been enrolled successfully. You can follow along from your dashboard.",
+    "perks": {
+      "fullAccess": "Full access to all course materials",
+      "materials": "PDF books, videos, and slides",
+      "updates": "Continuous content updates"
+    }
+  },
+  "trainers": {
+    "pageTitle": "Trainers",
+    "pageSubtitle": "Meet the team of trainers delivering courses at the academy.",
+    "defaultTitle": "Certified trainer",
+    "coursesCount": "{count, plural, one {# course} other {# courses}}",
+    "coursesTitle": "{name}'s courses",
+    "noCourses": "This trainer has no published courses right now."
+  },
+  "auth": {
+    "loginTitle": "Log in",
+    "loginSubtitle": "Log in to access your dashboard and courses.",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least 8 characters.",
+    "loginButton": "Log in",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Create a trainee account",
+    "invalidCredentials": "Incorrect email or password.",
+    "registerTitle": "Create a trainee account",
+    "registerSubtitle": "Create your account to enroll in courses and follow along.",
+    "fullName": "Full name",
+    "registerButton": "Create account",
+    "registering": "Creating...",
+    "haveAccount": "Already have an account?"
+  }
+}

@@ -1,13 +1,15 @@
 "use client";
 
 import { useActionState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 import { loginAction } from "@/lib/actions/session-actions";
 
 type State = { ok: false; error: string } | null;
 
 export default function LoginForm() {
+  const t = useTranslations("auth");
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
 
@@ -21,7 +23,7 @@ export default function LoginForm() {
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
 
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-muted">البريد الإلكتروني</label>
+        <label className="mb-1.5 block text-sm font-medium text-muted">{t("email")}</label>
         <input
           type="email"
           name="email"
@@ -31,7 +33,7 @@ export default function LoginForm() {
       </div>
 
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-muted">كلمة المرور</label>
+        <label className="mb-1.5 block text-sm font-medium text-muted">{t("password")}</label>
         <input
           type="password"
           name="password"
@@ -51,13 +53,13 @@ export default function LoginForm() {
         disabled={pending}
         className="w-full rounded-xl gold-gradient px-6 py-3 font-bold text-accent-foreground transition hover:opacity-90 disabled:opacity-60"
       >
-        {pending ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
+        {pending ? t("loggingIn") : t("loginButton")}
       </button>
 
       <p className="text-center text-sm text-muted">
-        ليس لديك حساب؟{" "}
+        {t("noAccount")}{" "}
         <Link href="/register" className="text-accent hover:underline">
-          إنشاء حساب متدرب
+          {t("registerLink")}
         </Link>
       </p>
     </form>

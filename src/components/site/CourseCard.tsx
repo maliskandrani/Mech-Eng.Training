@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
-import { formatPrice, LEVEL_LABELS } from "@/lib/utils";
+import { useTranslations, useFormatter } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 type CourseCardData = {
   slug: string;
@@ -14,6 +14,9 @@ type CourseCardData = {
 };
 
 export default function CourseCard({ course }: { course: CourseCardData }) {
+  const t = useTranslations("courses");
+  const format = useFormatter();
+
   return (
     <Link
       href={`/courses/${course.slug}`}
@@ -29,7 +32,7 @@ export default function CourseCard({ course }: { course: CourseCardData }) {
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-muted">
-            <span className="text-sm">لا توجد صورة غلاف بعد</span>
+            <span className="text-sm">{t("noPoster")}</span>
           </div>
         )}
         {course.category && (
@@ -48,12 +51,14 @@ export default function CourseCard({ course }: { course: CourseCardData }) {
         <div className="mt-auto flex items-center justify-between pt-3 text-sm">
           <span className="text-muted">{course.trainer.name}</span>
           <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">
-            {LEVEL_LABELS[course.level] ?? course.level}
+            {t(`level.${course.level}` as "level.BEGINNER")}
           </span>
         </div>
 
         <div className="border-t border-border pt-3">
-          <span className="font-bold text-accent">{formatPrice(course.price)}</span>
+          <span className="font-bold text-accent">
+            {course.price > 0 ? format.number(course.price, { style: "currency", currency: "SAR" }) : t("free")}
+          </span>
         </div>
       </div>
     </Link>

@@ -1,6 +1,13 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
-export default function Footer() {
+export default async function Footer() {
+  const [t, tNav, tBrand] = await Promise.all([
+    getTranslations("footer"),
+    getTranslations("nav"),
+    getTranslations("brand"),
+  ]);
+
   return (
     <footer className="border-t border-border bg-background-elevated">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -10,34 +17,29 @@ export default function Footer() {
               <span className="flex h-8 w-8 items-center justify-center rounded-lg gold-gradient text-accent-foreground font-bold">
                 م
               </span>
-              <span className="font-bold text-foreground">أكاديمية الهندسة الميكانيكية وهندسة الأنابيب</span>
+              <span className="font-bold text-foreground">{tBrand("line1")} {tBrand("line2")}</span>
             </div>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              محتوى علمي متكامل بخبرة ميدانية حقيقية في هندسة الأنابيب والمعدات الميكانيكية،
-              التكييف المركزي، وبرمجيات التصميم الهندسي.
-            </p>
+            <p className="mt-3 text-sm leading-6 text-muted">{t("description")}</p>
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground">روابط سريعة</h4>
+            <h4 className="font-semibold text-foreground">{t("quickLinks")}</h4>
             <ul className="mt-3 space-y-2 text-sm text-muted">
-              <li><Link href="/courses" className="hover:text-accent">الدورات التدريبية</Link></li>
-              <li><Link href="/trainers" className="hover:text-accent">المدربون</Link></li>
-              <li><Link href="/login" className="hover:text-accent">تسجيل الدخول</Link></li>
-              <li><Link href="/register" className="hover:text-accent">إنشاء حساب متدرب</Link></li>
+              <li><Link href="/courses" className="hover:text-accent">{tNav("courses")}</Link></li>
+              <li><Link href="/trainers" className="hover:text-accent">{tNav("trainers")}</Link></li>
+              <li><Link href="/login" className="hover:text-accent">{tNav("login")}</Link></li>
+              <li><Link href="/register" className="hover:text-accent">{tNav("signup")}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-foreground">تواصل معنا</h4>
-            <p className="mt-3 text-sm text-muted">
-              للاستفسارات حول الدورات والتسجيل، يرجى التواصل عبر البريد الإلكتروني الخاص بالأكاديمية.
-            </p>
+            <h4 className="font-semibold text-foreground">{t("contactTitle")}</h4>
+            <p className="mt-3 text-sm text-muted">{t("contactText")}</p>
           </div>
         </div>
 
         <p className="mt-8 border-t border-border pt-6 text-center text-xs text-muted">
-          © {new Date().getFullYear()} أكاديمية الهندسة الميكانيكية وهندسة الأنابيب. جميع الحقوق محفوظة.
+          {t("copyright", { year: new Date().getFullYear() })}
         </p>
       </div>
     </footer>

@@ -4,10 +4,14 @@ export default function PaginationBar({
   page,
   totalPages,
   buildHref,
+  prevLabel = "السابق",
+  nextLabel = "التالي",
 }: {
   page: number;
   totalPages: number;
   buildHref: (page: number) => string;
+  prevLabel?: string;
+  nextLabel?: string;
 }) {
   if (totalPages <= 1) return null;
 
@@ -22,7 +26,7 @@ export default function PaginationBar({
           page === 1 ? "pointer-events-none opacity-40" : "text-muted hover:border-accent hover:text-accent"
         }`}
       >
-        السابق
+        {prevLabel}
       </Link>
 
       {pages.map((p) => (
@@ -44,7 +48,7 @@ export default function PaginationBar({
           page === totalPages ? "pointer-events-none opacity-40" : "text-muted hover:border-accent hover:text-accent"
         }`}
       >
-        التالي
+        {nextLabel}
       </Link>
     </div>
   );

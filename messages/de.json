@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "Akademie für Maschinenbau- und Rohrleitungstechnik",
+    "description": "Spezialisierte Schulungen in Rohrleitungs- und Maschinenbautechnik, zentralen Klimaanlagen und technischer Konstruktionssoftware."
+  },
+  "nav": {
+    "home": "Startseite",
+    "courses": "Kurse",
+    "trainers": "Trainer",
+    "dashboard": "Dashboard",
+    "logout": "Abmelden",
+    "login": "Anmelden",
+    "signup": "Registrieren"
+  },
+  "brand": {
+    "line1": "Akademie für Maschinenbau-",
+    "line2": "und Rohrleitungstechnik"
+  },
+  "language": {
+    "label": "Sprache"
+  },
+  "home": {
+    "badge": "Spezialisierte technische Weiterbildungsakademie",
+    "titleLead": "Durchbrechen Sie die Hürde des Zögerns,",
+    "titleHighlight": "Erfahrung kommt mit der Zeit",
+    "subtitle": "Spezialisierte Schulungen in der Technik statischer und rotierender Rohrleitungs- und Maschinenbaukomponenten, zentralen Klimaanlagen und technischer Konstruktionssoftware — geleitet von Ing. Mohamed Rajab mit echter Praxiserfahrung in der Öl-, Gas- und Petrochemiebranche.",
+    "ctaExplore": "Kurse entdecken",
+    "ctaRegister": "Als Teilnehmer registrieren",
+    "features": {
+      "content": { "title": "Umfassende wissenschaftliche Inhalte", "desc": "Von theoretischen Grundlagen bis zu praktischen Anwendungen und realen Projekten." },
+      "practical": { "title": "Vereinfachte praktische Anwendungen", "desc": "Manuelle Berechnungen, technische Software und 3D-Modellierung." },
+      "skills": { "title": "Arbeitsmarktreife Fähigkeiten", "desc": "Echte Felderfahrung in der Öl-, Gas- und Petrochemiebranche." },
+      "progress": { "title": "Vom Anfänger zum Profi", "desc": "Ein progressiver Schulungsweg, der mit Ihrem Niveau wächst." }
+    },
+    "coursesTitle": "Schulungskurse",
+    "coursesSubtitle": "Der aktuelle Komplettkurs, weitere folgen bald.",
+    "viewAll": "Alle Kurse ansehen ←",
+    "noCourses": "Derzeit keine veröffentlichten Kurse.",
+    "trainersTitle": "Unsere Trainer"
+  },
+  "footer": {
+    "description": "Umfassende wissenschaftliche Inhalte, gestützt auf echte Felderfahrung in Rohrleitungs- und Maschinenbautechnik, zentraler Klimatechnik und technischer Konstruktionssoftware.",
+    "quickLinks": "Schnelllinks",
+    "contactTitle": "Kontaktieren Sie uns",
+    "contactText": "Bei Fragen zu Kursen und Anmeldung wenden Sie sich bitte an die E-Mail-Adresse der Akademie.",
+    "copyright": "© {year} Akademie für Maschinenbau- und Rohrleitungstechnik. Alle Rechte vorbehalten."
+  },
+  "courses": {
+    "pageTitle": "Schulungskurse",
+    "pageSubtitle": "Wählen Sie die gewünschte Kategorie oder suchen Sie nach einem bestimmten Kurs.",
+    "all": "Alle",
+    "searchPlaceholder": "Nach einem Kurs suchen...",
+    "noResults": "Derzeit keine passenden Kurse.",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "trainerLabel": "Trainer",
+    "free": "Kostenlos",
+    "noPoster": "Noch kein Titelbild vorhanden",
+    "level": {
+      "BEGINNER": "Anfänger",
+      "INTERMEDIATE": "Mittelstufe",
+      "ADVANCED": "Fortgeschritten"
+    },
+    "materialType": {
+      "BOOK": "Buch (PDF)",
+      "VIDEO": "Video",
+      "SLIDE": "Folien"
+    },
+    "sectionsCount": "{count, plural, one {# Abschnitt} other {# Abschnitte}}",
+    "lessonsCount": "{count, plural, one {# Lektion} other {# Lektionen}}",
+    "materialsCount": "{count, plural, one {# Schulungsdatei} other {# Schulungsdateien}}",
+    "draftNotice": "Dieser Kurs befindet sich im Entwurfsmodus und ist für Teilnehmer erst nach der Veröffentlichung sichtbar.",
+    "aboutTitle": "Über diesen Kurs",
+    "contentTitle": "Kursinhalt",
+    "contentPending": "Inhalt wird noch hinzugefügt.",
+    "lessonsPendingInSection": "Noch keine Lektionen in diesem Abschnitt.",
+    "noVideoOrPoster": "Noch kein Vorstellungsvideo oder Titelbild hochgeladen",
+    "loginToEnroll": "Zum Anmelden für den Kurs einloggen",
+    "manageFromDashboard": "Kurs über das Dashboard verwalten",
+    "enrollNow": "Jetzt anmelden",
+    "enrolling": "Anmeldung läuft...",
+    "enrolled": "Angemeldet ✓",
+    "enrolledMessage": "Sie wurden erfolgreich für den Kurs angemeldet. Sie können ihn über Ihr Dashboard verfolgen.",
+    "perks": {
+      "fullAccess": "Voller Zugriff auf alle Kursmaterialien",
+      "materials": "PDF-Bücher, Videos und Folien",
+      "updates": "Fortlaufende Inhaltsaktualisierungen"
+    }
+  },
+  "trainers": {
+    "pageTitle": "Trainer",
+    "pageSubtitle": "Lernen Sie das Trainerteam der Akademie kennen.",
+    "defaultTitle": "Zertifizierter Trainer",
+    "coursesCount": "{count, plural, one {# Kurs} other {# Kurse}}",
+    "coursesTitle": "Kurse von {name}",
+    "noCourses": "Dieser Trainer hat derzeit keine veröffentlichten Kurse."
+  },
+  "auth": {
+    "loginTitle": "Anmelden",
+    "loginSubtitle": "Melden Sie sich an, um auf Ihr Dashboard und Ihre Kurse zuzugreifen.",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "passwordHint": "Mindestens 8 Zeichen.",
+    "loginButton": "Anmelden",
+    "loggingIn": "Anmeldung läuft...",
+    "noAccount": "Noch kein Konto?",
+    "registerLink": "Teilnehmerkonto erstellen",
+    "invalidCredentials": "E-Mail oder Passwort ist falsch.",
+    "registerTitle": "Teilnehmerkonto erstellen",
+    "registerSubtitle": "Erstellen Sie Ihr Konto, um sich für Kurse anzumelden und diese zu verfolgen.",
+    "fullName": "Vollständiger Name",
+    "registerButton": "Konto erstellen",
+    "registering": "Wird erstellt...",
+    "haveAccount": "Sie haben bereits ein Konto?"
+  }
+}

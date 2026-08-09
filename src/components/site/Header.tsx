@@ -1,15 +1,22 @@
-import Link from "next/link";
+import NextLink from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { auth, signOut } from "@/lib/auth";
 import { ROLE_LABELS } from "@/lib/utils";
-
-const NAV_LINKS = [
-  { href: "/", label: "الرئيسية" },
-  { href: "/courses", label: "الدورات التدريبية" },
-  { href: "/trainers", label: "المدربون" },
-];
+import LanguageSwitcher from "@/components/site/LanguageSwitcher";
 
 export default async function Header() {
-  const session = await auth();
+  const [session, t, tBrand] = await Promise.all([
+    auth(),
+    getTranslations("nav"),
+    getTranslations("brand"),
+  ]);
+
+  const NAV_LINKS = [
+    { href: "/", label: t("home") },
+    { href: "/courses", label: t("courses") },
+    { href: "/trainers", label: t("trainers") },
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/85 backdrop-blur-md">
@@ -18,8 +25,8 @@ export default async function Header() {
           <span className="flex h-9 w-9 items-center justify-center rounded-lg gold-gradient text-accent-foreground font-bold">
             م
           </span>
-          <span className="text-sm font-bold text-foreground sm:text-base">
-            أكاديمية الهندسة الميكانيكية <span className="text-accent">وهندسة الأنابيب</span>
+          <span className="hidden text-sm font-bold text-foreground sm:block sm:text-base">
+            {tBrand("line1")} <span className="text-accent">{tBrand("line2")}</span>
           </span>
         </Link>
 
@@ -32,21 +39,23 @@ export default async function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+
           {session?.user ? (
             <div className="flex items-center gap-3">
-              <Link
+              <NextLink
                 href="/dashboard"
                 className="hidden text-sm text-muted sm:block"
                 title={session.user.email ?? undefined}
               >
                 {session.user.name} · {ROLE_LABELS[session.user.role]}
-              </Link>
-              <Link
+              </NextLink>
+              <NextLink
                 href="/dashboard"
                 className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
               >
-                لوحة التحكم
-              </Link>
+                {t("dashboard")}
+              </NextLink>
               <form
                 action={async () => {
                   "use server";
@@ -57,7 +66,7 @@ export default async function Header() {
                   type="submit"
                   className="rounded-lg border border-border px-3 py-2 text-sm text-muted transition hover:border-accent hover:text-accent"
                 >
-                  تسجيل الخروج
+                  {t("logout")}
                 </button>
               </form>
             </div>
@@ -67,13 +76,13 @@ export default async function Header() {
                 href="/login"
                 className="rounded-lg border border-border px-4 py-2 text-sm text-foreground transition hover:border-accent hover:text-accent"
               >
-                تسجيل الدخول
+                {t("login")}
               </Link>
               <Link
                 href="/register"
                 className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
               >
-                إنشاء حساب
+                {t("signup")}
               </Link>
             </div>
           )}

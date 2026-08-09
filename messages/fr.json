@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "Académie Complète d'Ingénierie Mécanique et de Tuyauterie",
+    "description": "Formations spécialisées en ingénierie de la tuyauterie et des équipements mécaniques, systèmes CVC centralisés et logiciels de conception technique."
+  },
+  "nav": {
+    "home": "Accueil",
+    "courses": "Formations",
+    "trainers": "Formateurs",
+    "dashboard": "Tableau de bord",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "signup": "S'inscrire"
+  },
+  "brand": {
+    "line1": "Académie Complète d'Ingénierie",
+    "line2": "Mécanique et de Tuyauterie"
+  },
+  "language": {
+    "label": "Langue"
+  },
+  "home": {
+    "badge": "Académie de formation technique spécialisée",
+    "titleLead": "Franchissez la barrière de l'hésitation,",
+    "titleHighlight": "l'expérience vient avec le temps",
+    "subtitle": "Formations spécialisées en ingénierie de la tuyauterie et des équipements mécaniques statiques et rotatifs, systèmes CVC centralisés et logiciels de conception technique — dispensées par l'ingénieur Mohamed Rajab fort d'une expérience de terrain réelle dans le secteur pétrolier, gazier et pétrochimique.",
+    "ctaExplore": "Découvrir les formations",
+    "ctaRegister": "S'inscrire comme stagiaire",
+    "features": {
+      "content": { "title": "Contenu scientifique complet", "desc": "Des fondamentaux théoriques aux applications pratiques et projets réels." },
+      "practical": { "title": "Applications pratiques simplifiées", "desc": "Calculs manuels, logiciels d'ingénierie et modélisation 3D." },
+      "skills": { "title": "Compétences prêtes pour le marché du travail", "desc": "Expérience de terrain réelle dans le secteur pétrolier, gazier et pétrochimique." },
+      "progress": { "title": "Du débutant au professionnel", "desc": "Un parcours de formation progressif qui évolue avec votre niveau." }
+    },
+    "coursesTitle": "Formations",
+    "coursesSubtitle": "La formation complète actuelle, et bientôt d'autres.",
+    "viewAll": "Voir toutes les formations ←",
+    "noCourses": "Aucune formation publiée pour le moment.",
+    "trainersTitle": "Nos Formateurs"
+  },
+  "footer": {
+    "description": "Contenu scientifique complet appuyé par une expérience de terrain réelle en ingénierie de la tuyauterie et des équipements mécaniques, CVC centralisé et logiciels de conception technique.",
+    "quickLinks": "Liens Rapides",
+    "contactTitle": "Contactez-nous",
+    "contactText": "Pour toute question sur les formations et les inscriptions, veuillez nous contacter via l'e-mail de l'académie.",
+    "copyright": "© {year} Académie Complète d'Ingénierie Mécanique et de Tuyauterie. Tous droits réservés."
+  },
+  "courses": {
+    "pageTitle": "Formations",
+    "pageSubtitle": "Choisissez la catégorie qui vous intéresse, ou recherchez une formation précise.",
+    "all": "Toutes",
+    "searchPlaceholder": "Rechercher une formation...",
+    "noResults": "Aucune formation correspondante pour le moment.",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "trainerLabel": "Formateur",
+    "free": "Gratuit",
+    "noPoster": "Pas encore d'image de couverture",
+    "level": {
+      "BEGINNER": "Débutant",
+      "INTERMEDIATE": "Intermédiaire",
+      "ADVANCED": "Avancé"
+    },
+    "materialType": {
+      "BOOK": "Livre (PDF)",
+      "VIDEO": "Vidéo",
+      "SLIDE": "Diapositives"
+    },
+    "sectionsCount": "{count, plural, one {# section} other {# sections}}",
+    "lessonsCount": "{count, plural, one {# leçon} other {# leçons}}",
+    "materialsCount": "{count, plural, one {# fichier de formation} other {# fichiers de formation}}",
+    "draftNotice": "Cette formation est en mode brouillon et ne sera visible par les stagiaires qu'après sa publication.",
+    "aboutTitle": "À propos de cette formation",
+    "contentTitle": "Contenu de la formation",
+    "contentPending": "Le contenu est en cours d'ajout.",
+    "lessonsPendingInSection": "Aucune leçon dans cette section pour le moment.",
+    "noVideoOrPoster": "Aucune vidéo de présentation ni image de couverture téléchargée pour le moment",
+    "loginToEnroll": "Connectez-vous pour vous inscrire",
+    "manageFromDashboard": "Gérer la formation depuis le tableau de bord",
+    "enrollNow": "S'inscrire maintenant",
+    "enrolling": "Inscription en cours...",
+    "enrolled": "Inscrit ✓",
+    "enrolledMessage": "Vous avez été inscrit avec succès. Vous pouvez suivre la formation depuis votre tableau de bord.",
+    "perks": {
+      "fullAccess": "Accès complet à tous les supports de la formation",
+      "materials": "Livres PDF, vidéos et diapositives",
+      "updates": "Mises à jour continues du contenu"
+    }
+  },
+  "trainers": {
+    "pageTitle": "Formateurs",
+    "pageSubtitle": "Découvrez l'équipe de formateurs qui dispense les formations à l'académie.",
+    "defaultTitle": "Formateur certifié",
+    "coursesCount": "{count, plural, one {# formation} other {# formations}}",
+    "coursesTitle": "Formations de {name}",
+    "noCourses": "Ce formateur n'a aucune formation publiée pour le moment."
+  },
+  "auth": {
+    "loginTitle": "Connexion",
+    "loginSubtitle": "Connectez-vous pour accéder à votre tableau de bord et à vos formations.",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "passwordHint": "8 caractères minimum.",
+    "loginButton": "Connexion",
+    "loggingIn": "Connexion en cours...",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "registerLink": "Créer un compte stagiaire",
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "registerTitle": "Créer un compte stagiaire",
+    "registerSubtitle": "Créez votre compte pour vous inscrire aux formations et les suivre.",
+    "fullName": "Nom complet",
+    "registerButton": "Créer le compte",
+    "registering": "Création en cours...",
+    "haveAccount": "Vous avez déjà un compte ?"
+  }
+}

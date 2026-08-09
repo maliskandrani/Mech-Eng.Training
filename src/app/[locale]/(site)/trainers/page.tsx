@@ -1,14 +1,14 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { getTrainers } from "@/lib/queries";
-import { arabicCount } from "@/lib/utils";
 
 export default async function TrainersPage() {
-  const trainers = await getTrainers();
+  const [trainers, t] = await Promise.all([getTrainers(), getTranslations("trainers")]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="text-3xl font-extrabold text-foreground">المدربون</h1>
-      <p className="mt-2 text-muted">تعرّف على فريق المدربين الذين يقدمون الدورات في الأكاديمية.</p>
+      <h1 className="text-3xl font-extrabold text-foreground">{t("pageTitle")}</h1>
+      <p className="mt-2 text-muted">{t("pageSubtitle")}</p>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {trainers.map((trainer) => (
@@ -26,9 +26,9 @@ export default async function TrainersPage() {
               )}
             </div>
             <h3 className="mt-4 font-bold text-foreground">{trainer.name}</h3>
-            <p className="mt-1 text-sm text-muted">{trainer.title ?? "مدرب معتمد"}</p>
+            <p className="mt-1 text-sm text-muted">{trainer.title ?? t("defaultTitle")}</p>
             <p className="mt-2 text-xs text-accent-soft">
-              {arabicCount(trainer._count.coursesTaught, "دورة", "دورتان", "دورات")}
+              {t("coursesCount", { count: trainer._count.coursesTaught })}
             </p>
           </Link>
         ))}
