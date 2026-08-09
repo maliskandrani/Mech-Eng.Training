@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
+export const PAGE_SIZE = 8;
+
 export function getPublishedCourses() {
   return prisma.course.findMany({
     where: { published: true },
@@ -8,11 +10,40 @@ export function getPublishedCourses() {
   });
 }
 
-export function getAllCoursesForAdmin() {
-  return prisma.course.findMany({
-    orderBy: { order: "asc" },
-    include: { trainer: true, category: true, _count: { select: { enrollments: true } } },
-  });
+export async function searchPublishedCourses(opts: { q?: string; categorySlug?: string; page?: number }) {
+  const { q, categorySlug, page = 1 } = opts;
+  const where = {
+    published: true,
+    ...(q ? { title: { contains: q } } : {}),
+    ...(categorySlug ? { category: { slug: categorySlug } } : {}),
+  };
+  const [items, total] = await Promise.all([
+    prisma.course.findMany({
+      where,
+      orderBy: { order: "asc" as const },
+      include: { trainer: true, category: true, _count: { select: { enrollments: true } } },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+    prisma.course.count({ where }),
+  ]);
+  return { items, total, totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
+}
+
+export async function searchCoursesForAdmin(opts: { q?: string; page?: number }) {
+  const { q, page = 1 } = opts;
+  const where = q ? { title: { contains: q } } : {};
+  const [items, total] = await Promise.all([
+    prisma.course.findMany({
+      where,
+      orderBy: { order: "asc" as const },
+      include: { trainer: true, category: true, _count: { select: { enrollments: true } } },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+    prisma.course.count({ where }),
+  ]);
+  return { items, total, totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
 }
 
 export function getCoursesForTrainer(trainerId: string) {
@@ -93,18 +124,40 @@ export function getStudentEnrollments(userId: string) {
   });
 }
 
-export function getTrainerUsers() {
-  return prisma.user.findMany({
-    where: { role: "TRAINER" },
-    include: { _count: { select: { coursesTaught: true } } },
-    orderBy: { createdAt: "desc" },
-  });
+export async function searchTrainerUsers(opts: { q?: string; page?: number }) {
+  const { q, page = 1 } = opts;
+  const where = {
+    role: "TRAINER" as const,
+    ...(q ? { name: { contains: q } } : {}),
+  };
+  const [items, total] = await Promise.all([
+    prisma.user.findMany({
+      where,
+      include: { _count: { select: { coursesTaught: true } } },
+      orderBy: { createdAt: "desc" as const },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+    prisma.user.count({ where }),
+  ]);
+  return { items, total, totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
 }
 
-export function getStudentUsers() {
-  return prisma.user.findMany({
-    where: { role: "STUDENT" },
-    include: { _count: { select: { enrollments: true } } },
-    orderBy: { createdAt: "desc" },
-  });
+export async function searchStudentUsers(opts: { q?: string; page?: number }) {
+  const { q, page = 1 } = opts;
+  const where = {
+    role: "STUDENT" as const,
+    ...(q ? { OR: [{ name: { contains: q } }, { email: { contains: q } }] } : {}),
+  };
+  const [items, total] = await Promise.all([
+    prisma.user.findMany({
+      where,
+      include: { _count: { select: { enrollments: true } } },
+      orderBy: { createdAt: "desc" as const },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+    prisma.user.count({ where }),
+  ]);
+  return { items, total, totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
 }

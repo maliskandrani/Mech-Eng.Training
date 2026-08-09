@@ -1,22 +1,36 @@
 import Link from "next/link";
-import { getAllCoursesForAdmin } from "@/lib/queries";
+import { Suspense } from "react";
+import { searchCoursesForAdmin } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 import { setCoursePublished, deleteCourse } from "@/lib/actions/course-actions";
 import { PublishToggle, ConfirmDeleteButton } from "@/components/dashboard/ActionButtons";
+import SearchInput from "@/components/ui/SearchInput";
+import PaginationBar from "@/components/ui/PaginationBar";
 
-export default async function AdminCoursesPage() {
-  const courses = await getAllCoursesForAdmin();
+export default async function AdminCoursesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; page?: string }>;
+}) {
+  const { q, page: pageParam } = await searchParams;
+  const page = Math.max(1, Number(pageParam) || 1);
+  const { items: courses, totalPages } = await searchCoursesForAdmin({ q, page });
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold text-foreground">الدورات</h1>
-        <Link
-          href="/dashboard/admin/courses/new"
-          className="rounded-xl gold-gradient px-4 py-2 text-sm font-bold text-accent-foreground transition hover:opacity-90"
-        >
-          + دورة جديدة
-        </Link>
+        <div className="flex items-center gap-3">
+          <Suspense>
+            <SearchInput placeholder="ابحث بعنوان الدورة..." />
+          </Suspense>
+          <Link
+            href="/dashboard/admin/courses/new"
+            className="whitespace-nowrap rounded-xl gold-gradient px-4 py-2 text-sm font-bold text-accent-foreground transition hover:opacity-90"
+          >
+            + دورة جديدة
+          </Link>
+        </div>
       </div>
 
       <div className="mt-6 overflow-x-auto rounded-2xl border border-border">
@@ -61,9 +75,22 @@ export default async function AdminCoursesPage() {
                 </td>
               </tr>
             ))}
+            {courses.length === 0 && (
+              <tr>
+                <td colSpan={6} className="p-6 text-center text-muted">
+                  لا توجد نتائج مطابقة.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
+
+      <PaginationBar
+        page={page}
+        totalPages={totalPages}
+        buildHref={(p) => `/dashboard/admin/courses?${new URLSearchParams({ ...(q ? { q } : {}), page: String(p) }).toString()}`}
+      />
     </div>
   );
 }

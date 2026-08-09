@@ -42,8 +42,21 @@ async function main() {
     }),
   ]);
 
-  // Course 1: flagship piping & mechanical course, backed by the 10 books,
-  // grouped into 4 logical sections.
+  // Course 1: flagship piping & mechanical course — one section per book (1-10),
+  // each holding a single lesson ready for that book's materials.
+  const BOOKS = [
+    "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات",
+    "الكتاب 2: هندسة المعدات الثابتة (Static Equipment Engineering)",
+    "الكتاب 3: هندسة مكونات الأنابيب (Piping Components Engineering)",
+    "الكتاب 4: هندسة المعدات الدوارة (Rotating Equipment Engineering)",
+    "الكتاب 5: الرسومات الهندسية وتخطيط المصانع (Engineering Drawings & Plant Layout)",
+    "الكتاب 6: الحسابات الهندسية اليدوية وتحليل الإجهادات (Manual Engineering Calculations & Stress Analysis)",
+    "الكتاب 7: التطبيقات البرمجية في تحليل الإجهادات (Software Applications in Stress Analysis)",
+    "الكتاب 8: النمذجة الثلاثية الأبعاد وبرمجيات تصميم المصانع (3D Modeling & Plant Design Software)",
+    "الكتاب 9: هندسة الأنابيب المتقدمة (Advanced Piping Engineering)",
+    "الكتاب 10: هندسة المشاريع وFEED وEPC (Project Engineering, FEED & EPC)",
+  ];
+
   const pipingCourse = await prisma.course.upsert({
     where: { slug: "piping-mechanical-complete" },
     update: {},
@@ -60,50 +73,11 @@ async function main() {
       trainerId: admin.id,
       categoryId: pipingCategory.id,
       sections: {
-        create: [
-          {
-            title: "الجزء الأول: أساسيات المصانع والمعدات الثابتة",
-            order: 1,
-            lessons: {
-              create: [
-                { title: "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات", order: 1 },
-                { title: "الكتاب 2: هندسة المعدات الثابتة (Static Equipment)", order: 2 },
-                { title: "الكتاب 3: هندسة مكونات الأنابيب (Piping Components)", order: 3 },
-              ],
-            },
-          },
-          {
-            title: "الجزء الثاني: المعدات الدوارة والرسومات الهندسية",
-            order: 2,
-            lessons: {
-              create: [
-                { title: "الكتاب 4: هندسة المعدات الدوارة (Rotating Equipment)", order: 1 },
-                { title: "الكتاب 5: الرسومات الهندسية وتخطيط المصانع (Plant Layout)", order: 2 },
-              ],
-            },
-          },
-          {
-            title: "الجزء الثالث: الحسابات والتطبيقات البرمجية",
-            order: 3,
-            lessons: {
-              create: [
-                { title: "الكتاب 6: الحسابات اليدوية وتحليل الإجهادات", order: 1 },
-                { title: "الكتاب 7: التطبيقات البرمجية في تحليل الإجهادات", order: 2 },
-                { title: "الكتاب 8: النمذجة الثلاثية الأبعاد وبرمجيات تصميم المصانع", order: 3 },
-              ],
-            },
-          },
-          {
-            title: "الجزء الرابع: الأنابيب المتقدمة وإدارة المشاريع",
-            order: 4,
-            lessons: {
-              create: [
-                { title: "الكتاب 9: هندسة الأنابيب المتقدمة", order: 1 },
-                { title: "الكتاب 10: هندسة المشاريع وFEED وEPC", order: 2 },
-              ],
-            },
-          },
-        ],
+        create: BOOKS.map((title, i) => ({
+          title,
+          order: i + 1,
+          lessons: { create: [{ title: "محتوى الكتاب", order: 1 }] },
+        })),
       },
     },
   });
