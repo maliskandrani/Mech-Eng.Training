@@ -9,8 +9,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!session?.user) redirect("/login?callbackUrl=/dashboard");
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between border-b border-border bg-background px-4 py-3 sm:px-6">
+    <div className="dash-theme flex min-h-screen flex-col bg-background text-foreground">
+      <header className="flex items-center justify-between border-b border-border bg-background-card px-4 py-3 shadow-sm sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg gold-gradient text-accent-foreground font-bold">
             م
@@ -28,7 +28,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             }}
           >
             <button type="submit" className="rounded-lg border border-border px-3 py-1.5 text-muted transition hover:border-accent hover:text-accent">
-              خروج
+              تسجيل الخروج
             </button>
           </form>
         </div>

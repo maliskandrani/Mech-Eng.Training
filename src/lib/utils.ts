@@ -7,6 +7,13 @@ export function slugify(input: string): string {
     .slice(0, 80);
 }
 
+/** Formats "count noun" with correct Arabic counted-noun agreement (1=singular, 2=dual, 3-10=plural, 11+=singular). */
+export function arabicCount(count: number, singular: string, dual: string, plural: string): string {
+  const n = Math.abs(count);
+  const noun = n === 1 ? singular : n === 2 ? dual : n >= 3 && n <= 10 ? plural : singular;
+  return `${count} ${noun}`;
+}
+
 export function formatPrice(price: number): string {
   if (price <= 0) return "مجانًا";
   return `${price.toLocaleString("ar-EG")} ر.س`;

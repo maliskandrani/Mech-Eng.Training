@@ -27,7 +27,7 @@ export default function ModuleForm({ action }: { action: (formData: FormData) =>
       >
         {pending ? "..." : "+ إضافة"}
       </button>
-      {state && !state.ok && <p className="w-full text-xs text-red-300">{state.error}</p>}
+      {state && !state.ok && <p className="w-full text-xs text-red-700">{state.error}</p>}
     </form>
   );
 }

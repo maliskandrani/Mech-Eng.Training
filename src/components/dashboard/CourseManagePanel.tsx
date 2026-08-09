@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCourseById } from "@/lib/queries";
 import { prisma } from "@/lib/prisma";
-import { formatPrice, MATERIAL_TYPE_LABELS } from "@/lib/utils";
+import { arabicCount, formatPrice, MATERIAL_TYPE_LABELS } from "@/lib/utils";
 import CourseForm from "@/components/dashboard/CourseForm";
 import ModuleForm from "@/components/dashboard/ModuleForm";
 import MaterialUploadForm from "@/components/dashboard/MaterialUploadForm";
@@ -35,7 +35,8 @@ export default async function CourseManagePanel({
         <div>
           <h1 className="text-2xl font-extrabold text-foreground">{course.title}</h1>
           <p className="text-sm text-muted">
-            {course.published ? "منشورة" : "مسودة"} · {formatPrice(course.price)} · {course.enrollments.length} متدرب مسجّل
+            {course.published ? "منشورة" : "مسودة"} · {formatPrice(course.price)} ·{" "}
+            {arabicCount(course.enrollments.length, "متدرب مسجَّل", "متدربان مسجَّلان", "متدربين مسجَّلين")}
           </p>
         </div>
         <Link

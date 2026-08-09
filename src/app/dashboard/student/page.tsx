@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getStudentEnrollments } from "@/lib/queries";
+import { arabicCount } from "@/lib/utils";
 
 export default async function StudentOverviewPage() {
   const session = await auth();
@@ -23,7 +24,8 @@ export default async function StudentOverviewPage() {
                 <h3 className="font-bold text-foreground">{enr.course.title}</h3>
                 <p className="mt-1 text-sm text-muted">{enr.course.trainer.name}</p>
                 <p className="mt-3 text-xs text-accent-soft">
-                  {enr.course.modules.length} وحدة · {totalMaterials} ملف
+                  {arabicCount(enr.course.modules.length, "وحدة", "وحدتان", "وحدات")} ·{" "}
+                  {arabicCount(totalMaterials, "ملف", "ملفان", "ملفات")}
                 </p>
               </Link>
             );

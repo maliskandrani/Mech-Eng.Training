@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getTrainers } from "@/lib/queries";
+import { arabicCount } from "@/lib/utils";
 
 export default async function TrainersPage() {
   const trainers = await getTrainers();
@@ -26,7 +27,9 @@ export default async function TrainersPage() {
             </div>
             <h3 className="mt-4 font-bold text-foreground">{trainer.name}</h3>
             <p className="mt-1 text-sm text-muted">{trainer.title ?? "مدرب معتمد"}</p>
-            <p className="mt-2 text-xs text-accent-soft">{trainer._count.coursesTaught} دورة</p>
+            <p className="mt-2 text-xs text-accent-soft">
+              {arabicCount(trainer._count.coursesTaught, "دورة", "دورتان", "دورات")}
+            </p>
           </Link>
         ))}
       </div>

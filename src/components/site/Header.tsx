@@ -57,7 +57,7 @@ export default async function Header() {
                   type="submit"
                   className="rounded-lg border border-border px-3 py-2 text-sm text-muted transition hover:border-accent hover:text-accent"
                 >
-                  خروج
+                  تسجيل الخروج
                 </button>
               </form>
             </div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getCourseBySlug } from "@/lib/queries";
-import { formatPrice, LEVEL_LABELS, MATERIAL_TYPE_LABELS } from "@/lib/utils";
+import { arabicCount, formatPrice, LEVEL_LABELS, MATERIAL_TYPE_LABELS } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
 import EnrollButton from "@/components/site/EnrollButton";
 
@@ -67,7 +67,8 @@ export default async function CourseDetailPage({
           <div className="mt-10">
             <h2 className="text-xl font-bold text-foreground">محتوى الدورة</h2>
             <p className="mt-1 text-sm text-muted">
-              {course.modules.length} وحدة · {totalMaterials} ملف تدريبي
+              {arabicCount(course.modules.length, "وحدة", "وحدتان", "وحدات")} ·{" "}
+              {arabicCount(totalMaterials, "ملف تدريبي", "ملفان تدريبيان", "ملفات تدريبية")}
             </p>
             <div className="mt-4 divide-y divide-border rounded-2xl border border-border">
               {course.modules.map((mod, i) => (

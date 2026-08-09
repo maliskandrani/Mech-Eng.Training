@@ -151,12 +151,12 @@ export default function CourseForm({
       </div>
 
       {state && !state.ok && (
-        <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-300">
+        <p className="rounded-lg border border-red-300 bg-red-50 px-4 py-2 text-sm text-red-700">
           {state.error}
         </p>
       )}
       {state?.ok && (
-        <p className="rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-2 text-sm text-green-300">
+        <p className="rounded-lg border border-green-300 bg-green-50 px-4 py-2 text-sm text-green-700">
           تم الحفظ بنجاح.
         </p>
       )}

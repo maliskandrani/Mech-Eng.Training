@@ -31,7 +31,7 @@ export default async function TrainerOverviewPage() {
                 <h3 className="font-bold text-foreground">{course.title}</h3>
                 <span
                   className={`rounded-full border px-2 py-0.5 text-xs ${
-                    course.published ? "border-green-500/40 text-green-300" : "border-border text-muted"
+                    course.published ? "border-green-300 text-green-700" : "border-border text-muted"
                   }`}
                 >
                   {course.published ? "منشورة" : "مسودة"}

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavItem = { href: string; label: string; icon: string };
 
@@ -18,23 +21,29 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
 
 export default function Sidebar({ role }: { role: "ADMIN" | "TRAINER" | "STUDENT" }) {
   const items = NAV_BY_ROLE[role] ?? [];
+  const pathname = usePathname();
 
   return (
-    <aside className="w-full shrink-0 border-b border-border bg-background-elevated md:w-64 md:border-b-0 md:border-l md:min-h-[calc(100vh-57px)]">
-      <nav className="flex gap-2 overflow-x-auto p-3 md:flex-col md:overflow-visible">
-        {items.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-background-card hover:text-accent-soft"
-          >
-            <span>{item.icon}</span>
-            <span>{item.label}</span>
-          </Link>
-        ))}
+    <aside className="sidebar-green w-full shrink-0 text-white md:w-64 md:min-h-[calc(100vh-61px)]">
+      <nav className="flex gap-2 overflow-x-auto p-4 md:flex-col md:overflow-visible">
+        {items.map((item) => {
+          const active = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-2.5 text-sm font-semibold transition ${
+                active ? "bg-white/25" : "hover:bg-white/10"
+              }`}
+            >
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
         <Link
           href="/"
-          className="flex items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-background-card hover:text-accent-soft"
+          className="flex items-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-2.5 text-sm font-semibold transition hover:bg-white/10"
         >
           <span>🏠</span>
           <span>الموقع الرئيسي</span>

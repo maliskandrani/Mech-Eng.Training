@@ -11,25 +11,46 @@ export default async function AdminOverviewPage() {
   ]);
 
   const stats = [
-    { label: "الدورات", value: courseCount, href: "/dashboard/admin/courses" },
-    { label: "الدورات المنشورة", value: publishedCount, href: "/dashboard/admin/courses" },
-    { label: "المدربون", value: trainerCount, href: "/dashboard/admin/trainers" },
-    { label: "المتدربون", value: studentCount, href: "/dashboard/admin/students" },
-    { label: "التسجيلات", value: enrollmentCount, href: "/dashboard/admin/students" },
+    {
+      label: "الدورات",
+      value: courseCount,
+      icon: "📚",
+      color: "kpi-pink",
+      href: "/dashboard/admin/courses",
+      sub: [
+        { label: "منشورة", value: publishedCount },
+        { label: "مسودة", value: courseCount - publishedCount },
+      ],
+    },
+    { label: "الدورات المنشورة", value: publishedCount, icon: "✅", color: "kpi-green", href: "/dashboard/admin/courses" },
+    { label: "المدربون", value: trainerCount, icon: "🧑‍🏫", color: "kpi-yellow", href: "/dashboard/admin/trainers" },
+    { label: "المتدربون", value: studentCount, icon: "🎓", color: "kpi-blue", href: "/dashboard/admin/students" },
+    { label: "التسجيلات", value: enrollmentCount, icon: "📝", color: "kpi-purple", href: "/dashboard/admin/students" },
   ];
 
   return (
     <div>
-      <h1 className="text-2xl font-extrabold text-foreground">نظرة عامة</h1>
+      <h1 className="text-2xl font-extrabold text-foreground">نظرة عامة على الأكاديمية</h1>
+      <p className="mt-1 text-sm text-muted">هذه الإحصائيات مرئية للمدير فقط.</p>
+
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((s) => (
-          <Link
-            key={s.label}
-            href={s.href}
-            className="rounded-2xl border border-border bg-background-card p-5 transition hover:border-accent/60"
-          >
-            <p className="text-sm text-muted">{s.label}</p>
-            <p className="mt-2 text-3xl font-extrabold text-accent">{s.value}</p>
+          <Link key={s.label} href={s.href} className={`kpi rounded-2xl p-5 transition hover:opacity-90 ${s.color}`}>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-extrabold">{s.label}</span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/60 text-sm">{s.icon}</span>
+            </div>
+            <p className="mt-3 text-3xl font-extrabold">{s.value}</p>
+            {s.sub && (
+              <div className="mt-3 flex justify-between text-xs">
+                {s.sub.map((item) => (
+                  <div key={item.label}>
+                    {item.label}
+                    <b className="mt-0.5 block text-sm">{item.value}</b>
+                  </div>
+                ))}
+              </div>
+            )}
           </Link>
         ))}
       </div>

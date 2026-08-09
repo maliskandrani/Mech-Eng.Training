@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { getPublishedCourses, getTrainers } from "@/lib/queries";
 import CourseCard from "@/components/site/CourseCard";
+import { arabicCount } from "@/lib/utils";
 
 const FEATURES = [
   { icon: "🎓", title: "محتوى علمي متكامل", desc: "من الأساسيات النظرية إلى التطبيقات العملية والمشاريع الحقيقية." },
   { icon: "🛠️", title: "تطبيقات عملية مبسطة", desc: "حسابات يدوية، برمجيات هندسية، ونمذجة ثلاثية الأبعاد." },
-  { icon: "🎯", title: "يعزز مهاراتك ويؤهلك لسوق العمل", desc: "خبرة ميدانية حقيقية في قطاع النفط والغاز والبتروكيماويات." },
+  { icon: "🎯", title: "مهارات مؤهِّلة لسوق العمل", desc: "خبرة ميدانية حقيقية في قطاع النفط والغاز والبتروكيماويات." },
   { icon: "📈", title: "من المبتدئ إلى الاحترافي", desc: "مسار تدريبي متدرج يواكب تطور مستواك خطوة بخطوة." },
 ];
 
@@ -101,7 +102,9 @@ export default async function HomePage() {
                   <div>
                     <h3 className="font-bold text-foreground">{trainer.name}</h3>
                     <p className="text-sm text-muted">{trainer.title ?? "مدرب معتمد"}</p>
-                    <p className="mt-1 text-xs text-accent-soft">{trainer._count.coursesTaught} دورة</p>
+                    <p className="mt-1 text-xs text-accent-soft">
+                      {arabicCount(trainer._count.coursesTaught, "دورة", "دورتان", "دورات")}
+                    </p>
                   </div>
                 </Link>
               ))}

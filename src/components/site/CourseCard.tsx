@@ -11,7 +11,6 @@ type CourseCardData = {
   level: string;
   trainer: { name: string };
   category: { name: string } | null;
-  _count?: { enrollments: number; modules?: number };
 };
 
 export default function CourseCard({ course }: { course: CourseCardData }) {
@@ -53,11 +52,8 @@ export default function CourseCard({ course }: { course: CourseCardData }) {
           </span>
         </div>
 
-        <div className="flex items-center justify-between border-t border-border pt-3">
+        <div className="border-t border-border pt-3">
           <span className="font-bold text-accent">{formatPrice(course.price)}</span>
-          {typeof course._count?.enrollments === "number" && (
-            <span className="text-xs text-muted">{course._count.enrollments} متدرب</span>
-          )}
         </div>
       </div>
     </Link>
