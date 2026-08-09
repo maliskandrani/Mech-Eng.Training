@@ -156,14 +156,14 @@ export async function deleteCourse(courseId: string): Promise<ActionResult> {
   }
 }
 
-export async function createModule(courseId: string, formData: FormData): Promise<ActionResult> {
+export async function createSection(courseId: string, formData: FormData): Promise<ActionResult> {
   try {
     await requireCourseManager(courseId);
     const title = String(formData.get("title") ?? "").trim();
-    if (title.length < 2) return { ok: false, error: "عنوان الوحدة قصير جدًا" };
+    if (title.length < 2) return { ok: false, error: "عنوان القسم قصير جدًا" };
 
-    const count = await prisma.module.count({ where: { courseId } });
-    await prisma.module.create({ data: { courseId, title, order: count + 1 } });
+    const count = await prisma.section.count({ where: { courseId } });
+    await prisma.section.create({ data: { courseId, title, order: count + 1 } });
     revalidatePath("/dashboard");
     return { ok: true };
   } catch (e) {
@@ -171,12 +171,78 @@ export async function createModule(courseId: string, formData: FormData): Promis
   }
 }
 
-export async function deleteModule(moduleId: string): Promise<ActionResult> {
+export async function deleteSection(sectionId: string): Promise<ActionResult> {
   try {
-    const mod = await prisma.module.findUnique({ where: { id: moduleId }, select: { courseId: true } });
-    if (!mod) return { ok: false, error: "الوحدة غير موجودة" };
-    await requireCourseManager(mod.courseId);
-    await prisma.module.delete({ where: { id: moduleId } });
+    const section = await prisma.section.findUnique({ where: { id: sectionId }, select: { courseId: true } });
+    if (!section) return { ok: false, error: "القسم غير موجود" };
+    await requireCourseManager(section.courseId);
+    await prisma.section.delete({ where: { id: sectionId } });
+    revalidatePath("/dashboard");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
+export async function reorderSections(courseId: string, orderedIds: string[]): Promise<ActionResult> {
+  try {
+    await requireCourseManager(courseId);
+    await prisma.$transaction(
+      orderedIds.map((id, index) =>
+        prisma.section.update({ where: { id }, data: { order: index + 1 } })
+      )
+    );
+    revalidatePath("/dashboard");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
+export async function createLesson(sectionId: string, formData: FormData): Promise<ActionResult> {
+  try {
+    const section = await prisma.section.findUnique({ where: { id: sectionId }, select: { courseId: true } });
+    if (!section) return { ok: false, error: "القسم غير موجود" };
+    await requireCourseManager(section.courseId);
+
+    const title = String(formData.get("title") ?? "").trim();
+    if (title.length < 2) return { ok: false, error: "عنوان الدرس قصير جدًا" };
+
+    const count = await prisma.lesson.count({ where: { sectionId } });
+    await prisma.lesson.create({ data: { sectionId, title, order: count + 1 } });
+    revalidatePath("/dashboard");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
+export async function deleteLesson(lessonId: string): Promise<ActionResult> {
+  try {
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      select: { section: { select: { courseId: true } } },
+    });
+    if (!lesson) return { ok: false, error: "الدرس غير موجود" };
+    await requireCourseManager(lesson.section.courseId);
+    await prisma.lesson.delete({ where: { id: lessonId } });
+    revalidatePath("/dashboard");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
+export async function reorderLessons(sectionId: string, orderedIds: string[]): Promise<ActionResult> {
+  try {
+    const section = await prisma.section.findUnique({ where: { id: sectionId }, select: { courseId: true } });
+    if (!section) return { ok: false, error: "القسم غير موجود" };
+    await requireCourseManager(section.courseId);
+    await prisma.$transaction(
+      orderedIds.map((id, index) =>
+        prisma.lesson.update({ where: { id }, data: { order: index + 1 } })
+      )
+    );
     revalidatePath("/dashboard");
     return { ok: true };
   } catch (e) {

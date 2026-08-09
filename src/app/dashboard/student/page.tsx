@@ -14,7 +14,8 @@ export default async function StudentOverviewPage() {
       {enrollments.length > 0 ? (
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {enrollments.map((enr) => {
-            const totalMaterials = enr.course.modules.reduce((n, m) => n + m.materials.length, 0);
+            const lessons = enr.course.sections.flatMap((s) => s.lessons);
+            const totalMaterials = lessons.reduce((n, l) => n + l.materials.length, 0);
             return (
               <Link
                 key={enr.id}
@@ -24,7 +25,7 @@ export default async function StudentOverviewPage() {
                 <h3 className="font-bold text-foreground">{enr.course.title}</h3>
                 <p className="mt-1 text-sm text-muted">{enr.course.trainer.name}</p>
                 <p className="mt-3 text-xs text-accent-soft">
-                  {arabicCount(enr.course.modules.length, "وحدة", "وحدتان", "وحدات")} ·{" "}
+                  {arabicCount(lessons.length, "درس", "درسان", "دروس")} ·{" "}
                   {arabicCount(totalMaterials, "ملف", "ملفان", "ملفات")}
                 </p>
               </Link>

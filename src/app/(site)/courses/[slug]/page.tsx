@@ -22,7 +22,8 @@ export default async function CourseDetailPage({
   if (!course.published && !canPreviewDraft) notFound();
 
   const isStudent = session?.user?.role === "STUDENT";
-  const totalMaterials = course.modules.reduce((n, m) => n + m.materials.length, 0);
+  const lessons = course.sections.flatMap((s) => s.lessons);
+  const totalMaterials = lessons.reduce((n, l) => n + l.materials.length, 0);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -67,30 +68,45 @@ export default async function CourseDetailPage({
           <div className="mt-10">
             <h2 className="text-xl font-bold text-foreground">محتوى الدورة</h2>
             <p className="mt-1 text-sm text-muted">
-              {arabicCount(course.modules.length, "وحدة", "وحدتان", "وحدات")} ·{" "}
+              {arabicCount(course.sections.length, "قسم", "قسمان", "أقسام")} ·{" "}
+              {arabicCount(lessons.length, "درس", "درسان", "دروس")} ·{" "}
               {arabicCount(totalMaterials, "ملف تدريبي", "ملفان تدريبيان", "ملفات تدريبية")}
             </p>
-            <div className="mt-4 divide-y divide-border rounded-2xl border border-border">
-              {course.modules.map((mod, i) => (
-                <div key={mod.id} className="p-4">
-                  <h3 className="font-semibold text-foreground">
-                    {i + 1}. {mod.title}
-                  </h3>
-                  {mod.materials.length > 0 ? (
-                    <ul className="mt-2 space-y-1.5">
-                      {mod.materials.map((mat) => (
-                        <li key={mat.id} className="flex items-center gap-2 text-sm text-muted">
-                          <span className="text-accent-soft">🔒</span>
-                          <span>{mat.title}</span>
-                          <span className="rounded-full border border-border px-2 py-0.5 text-xs">
-                            {MATERIAL_TYPE_LABELS[mat.type] ?? mat.type}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="mt-2 text-sm text-muted">المحتوى قيد الإضافة.</p>
-                  )}
+            <div className="mt-4 space-y-4">
+              {course.sections.map((section, si) => (
+                <div key={section.id} className="rounded-2xl border border-border">
+                  <div className="border-b border-border bg-background-elevated px-4 py-3">
+                    <h3 className="font-bold text-foreground">
+                      {si + 1}. {section.title}
+                    </h3>
+                  </div>
+                  <div className="divide-y divide-border">
+                    {section.lessons.map((lesson, li) => (
+                      <div key={lesson.id} className="p-4">
+                        <h4 className="font-semibold text-foreground">
+                          {si + 1}.{li + 1} {lesson.title}
+                        </h4>
+                        {lesson.materials.length > 0 ? (
+                          <ul className="mt-2 space-y-1.5">
+                            {lesson.materials.map((mat) => (
+                              <li key={mat.id} className="flex items-center gap-2 text-sm text-muted">
+                                <span className="text-accent-soft">🔒</span>
+                                <span>{mat.title}</span>
+                                <span className="rounded-full border border-border px-2 py-0.5 text-xs">
+                                  {MATERIAL_TYPE_LABELS[mat.type] ?? mat.type}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="mt-2 text-sm text-muted">المحتوى قيد الإضافة.</p>
+                        )}
+                      </div>
+                    ))}
+                    {section.lessons.length === 0 && (
+                      <p className="p-4 text-sm text-muted">لا توجد دروس في هذا القسم بعد.</p>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

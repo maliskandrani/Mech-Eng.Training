@@ -42,7 +42,8 @@ async function main() {
     }),
   ]);
 
-  // Course 1: flagship piping & mechanical course, backed by the 10 books.
+  // Course 1: flagship piping & mechanical course, backed by the 10 books,
+  // grouped into 4 logical sections.
   const pipingCourse = await prisma.course.upsert({
     where: { slug: "piping-mechanical-complete" },
     update: {},
@@ -58,18 +59,50 @@ async function main() {
       order: 1,
       trainerId: admin.id,
       categoryId: pipingCategory.id,
-      modules: {
+      sections: {
         create: [
-          { title: "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات", order: 1 },
-          { title: "الكتاب 2: هندسة المعدات الثابتة (Static Equipment)", order: 2 },
-          { title: "الكتاب 3: هندسة مكونات الأنابيب (Piping Components)", order: 3 },
-          { title: "الكتاب 4: هندسة المعدات الدوارة (Rotating Equipment)", order: 4 },
-          { title: "الكتاب 5: الرسومات الهندسية وتخطيط المصانع (Plant Layout)", order: 5 },
-          { title: "الكتاب 6: الحسابات اليدوية وتحليل الإجهادات", order: 6 },
-          { title: "الكتاب 7: التطبيقات البرمجية في تحليل الإجهادات", order: 7 },
-          { title: "الكتاب 8: النمذجة الثلاثية الأبعاد وبرمجيات تصميم المصانع", order: 8 },
-          { title: "الكتاب 9: هندسة الأنابيب المتقدمة", order: 9 },
-          { title: "الكتاب 10: هندسة المشاريع وFEED وEPC", order: 10 },
+          {
+            title: "الجزء الأول: أساسيات المصانع والمعدات الثابتة",
+            order: 1,
+            lessons: {
+              create: [
+                { title: "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات", order: 1 },
+                { title: "الكتاب 2: هندسة المعدات الثابتة (Static Equipment)", order: 2 },
+                { title: "الكتاب 3: هندسة مكونات الأنابيب (Piping Components)", order: 3 },
+              ],
+            },
+          },
+          {
+            title: "الجزء الثاني: المعدات الدوارة والرسومات الهندسية",
+            order: 2,
+            lessons: {
+              create: [
+                { title: "الكتاب 4: هندسة المعدات الدوارة (Rotating Equipment)", order: 1 },
+                { title: "الكتاب 5: الرسومات الهندسية وتخطيط المصانع (Plant Layout)", order: 2 },
+              ],
+            },
+          },
+          {
+            title: "الجزء الثالث: الحسابات والتطبيقات البرمجية",
+            order: 3,
+            lessons: {
+              create: [
+                { title: "الكتاب 6: الحسابات اليدوية وتحليل الإجهادات", order: 1 },
+                { title: "الكتاب 7: التطبيقات البرمجية في تحليل الإجهادات", order: 2 },
+                { title: "الكتاب 8: النمذجة الثلاثية الأبعاد وبرمجيات تصميم المصانع", order: 3 },
+              ],
+            },
+          },
+          {
+            title: "الجزء الرابع: الأنابيب المتقدمة وإدارة المشاريع",
+            order: 4,
+            lessons: {
+              create: [
+                { title: "الكتاب 9: هندسة الأنابيب المتقدمة", order: 1 },
+                { title: "الكتاب 10: هندسة المشاريع وFEED وEPC", order: 2 },
+              ],
+            },
+          },
         ],
       },
     },
@@ -91,11 +124,19 @@ async function main() {
       order: 2,
       trainerId: admin.id,
       categoryId: hvacCategory.id,
-      modules: {
+      sections: {
         create: [
-          { title: "مكونات وأنواع أنظمة التكييف المركزي", order: 1 },
-          { title: "حساب الأحمال الحرارية (Cooling Load Calculations)", order: 2 },
-          { title: "تصميم شبكات الدكت (Ductwork Design)", order: 3 },
+          {
+            title: "الجزء الأول: أساسيات أنظمة التكييف المركزي",
+            order: 1,
+            lessons: {
+              create: [
+                { title: "مكونات وأنواع أنظمة التكييف المركزي", order: 1 },
+                { title: "حساب الأحمال الحرارية (Cooling Load Calculations)", order: 2 },
+                { title: "تصميم شبكات الدكت (Ductwork Design)", order: 3 },
+              ],
+            },
+          },
         ],
       },
     },
@@ -116,8 +157,14 @@ async function main() {
       order: 3,
       trainerId: admin.id,
       categoryId: softwareCategory.id,
-      modules: {
-        create: [{ title: "أساسيات النمذجة والتجميعات في SolidWorks", order: 1 }],
+      sections: {
+        create: [
+          {
+            title: "الجزء الأول: أساسيات SolidWorks",
+            order: 1,
+            lessons: { create: [{ title: "أساسيات النمذجة والتجميعات في SolidWorks", order: 1 }] },
+          },
+        ],
       },
     },
   });
@@ -137,8 +184,14 @@ async function main() {
       order: 4,
       trainerId: admin.id,
       categoryId: softwareCategory.id,
-      modules: {
-        create: [{ title: "أساسيات قراءة ورسم الأيزومترك في AutoCAD", order: 1 }],
+      sections: {
+        create: [
+          {
+            title: "الجزء الأول: أساسيات الأيزومترك",
+            order: 1,
+            lessons: { create: [{ title: "أساسيات قراءة ورسم الأيزومترك في AutoCAD", order: 1 }] },
+          },
+        ],
       },
     },
   });

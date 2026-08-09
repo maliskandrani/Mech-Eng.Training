@@ -23,11 +23,11 @@ export async function GET(
 
   const material = await prisma.material.findUnique({
     where: { id: materialId },
-    include: { module: { select: { courseId: true } } },
+    include: { lesson: { select: { section: { select: { courseId: true } } } } },
   });
   if (!material) return NextResponse.json({ error: "الملف غير موجود" }, { status: 404 });
 
-  const allowed = await canAccessCourseMaterials(material.module.courseId);
+  const allowed = await canAccessCourseMaterials(material.lesson.section.courseId);
   if (!allowed) return NextResponse.json({ error: "غير مصرح لك بالوصول لهذا الملف" }, { status: 403 });
 
   const filePath = resolveMaterialPath(material.fileUrl);

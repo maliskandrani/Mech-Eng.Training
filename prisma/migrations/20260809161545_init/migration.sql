@@ -42,12 +42,21 @@ CREATE TABLE "courses" (
 );
 
 -- CreateTable
-CREATE TABLE "modules" (
+CREATE TABLE "sections" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
     "order" INTEGER NOT NULL DEFAULT 0,
     "courseId" TEXT NOT NULL,
-    CONSTRAINT "modules_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "courses" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "sections_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "courses" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "lessons" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "sectionId" TEXT NOT NULL,
+    CONSTRAINT "lessons_sectionId_fkey" FOREIGN KEY ("sectionId") REFERENCES "sections" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -59,8 +68,8 @@ CREATE TABLE "materials" (
     "fileSize" INTEGER,
     "order" INTEGER NOT NULL DEFAULT 0,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "moduleId" TEXT NOT NULL,
-    CONSTRAINT "materials_moduleId_fkey" FOREIGN KEY ("moduleId") REFERENCES "modules" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "lessonId" TEXT NOT NULL,
+    CONSTRAINT "materials_lessonId_fkey" FOREIGN KEY ("lessonId") REFERENCES "lessons" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable

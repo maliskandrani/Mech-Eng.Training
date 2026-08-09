@@ -4,7 +4,7 @@ export function getPublishedCourses() {
   return prisma.course.findMany({
     where: { published: true },
     orderBy: { order: "asc" },
-    include: { trainer: true, category: true, _count: { select: { enrollments: true, modules: true } } },
+    include: { trainer: true, category: true, _count: { select: { enrollments: true } } },
   });
 }
 
@@ -23,16 +23,25 @@ export function getCoursesForTrainer(trainerId: string) {
   });
 }
 
+const courseContentInclude = {
+  sections: {
+    orderBy: { order: "asc" as const },
+    include: {
+      lessons: {
+        orderBy: { order: "asc" as const },
+        include: { materials: { orderBy: { order: "asc" as const } } },
+      },
+    },
+  },
+};
+
 export function getCourseBySlug(slug: string) {
   return prisma.course.findUnique({
     where: { slug },
     include: {
       trainer: true,
       category: true,
-      modules: {
-        orderBy: { order: "asc" },
-        include: { materials: { orderBy: { order: "asc" } } },
-      },
+      ...courseContentInclude,
       _count: { select: { enrollments: true } },
     },
   });
@@ -44,10 +53,7 @@ export function getCourseById(id: string) {
     include: {
       trainer: true,
       category: true,
-      modules: {
-        orderBy: { order: "asc" },
-        include: { materials: { orderBy: { order: "asc" } } },
-      },
+      ...courseContentInclude,
       enrollments: { include: { user: true } },
     },
   });
@@ -79,7 +85,7 @@ export function getStudentEnrollments(userId: string) {
       course: {
         include: {
           trainer: true,
-          modules: { orderBy: { order: "asc" }, include: { materials: { orderBy: { order: "asc" } } } },
+          ...courseContentInclude,
         },
       },
     },

@@ -9,14 +9,15 @@ import type { MaterialType } from "@prisma/client";
 
 const VALID_TYPES: MaterialType[] = ["BOOK", "VIDEO", "SLIDE"];
 
-export async function uploadMaterial(moduleId: string, formData: FormData): Promise<ActionResult> {
+export async function uploadMaterial(lessonId: string, formData: FormData): Promise<ActionResult> {
   try {
-    const mod = await prisma.module.findUnique({
-      where: { id: moduleId },
-      select: { courseId: true },
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      select: { section: { select: { courseId: true } } },
     });
-    if (!mod) return { ok: false, error: "الوحدة غير موجودة" };
-    await requireCourseManager(mod.courseId);
+    if (!lesson) return { ok: false, error: "الدرس غير موجود" };
+    const courseId = lesson.section.courseId;
+    await requireCourseManager(courseId);
 
     const title = String(formData.get("title") ?? "").trim();
     const type = String(formData.get("type") ?? "") as MaterialType;
@@ -29,12 +30,12 @@ export async function uploadMaterial(moduleId: string, formData: FormData): Prom
     }
 
     assertValidMaterialFile(file, type);
-    const { relativeKey, size } = await saveMaterialFile(file, mod.courseId);
+    const { relativeKey, size } = await saveMaterialFile(file, courseId);
 
-    const count = await prisma.material.count({ where: { moduleId } });
+    const count = await prisma.material.count({ where: { lessonId } });
     await prisma.material.create({
       data: {
-        moduleId,
+        lessonId,
         title,
         type,
         fileUrl: relativeKey,
@@ -54,10 +55,10 @@ export async function deleteMaterial(materialId: string): Promise<ActionResult> 
   try {
     const material = await prisma.material.findUnique({
       where: { id: materialId },
-      select: { fileUrl: true, module: { select: { courseId: true } } },
+      select: { fileUrl: true, lesson: { select: { section: { select: { courseId: true } } } } },
     });
     if (!material) return { ok: false, error: "الملف غير موجود" };
-    await requireCourseManager(material.module.courseId);
+    await requireCourseManager(material.lesson.section.courseId);
 
     await prisma.material.delete({ where: { id: materialId } });
     await deleteMaterialFile(material.fileUrl);
