@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 const ADMIN_EMAIL = "albarasi37@gmail.com";
-const ADMIN_PASSWORD = "ChangeMe123!";
+const ADMIN_PASSWORD = "MR_2026";
 const STUDENT_EMAIL = "student@example.com";
 const STUDENT_PASSWORD = "Student123!";
 
