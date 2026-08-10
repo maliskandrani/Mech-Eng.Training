@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0e1a;
-  --background-elevated: #101729;
-  --background-card: #131c30;
-  --foreground: #f3efe4;
-  --muted: #94a1bb;
-  --border: #232f48;
+  --background: #f5f7fb;
+  --background-elevated: #ffffff;
+  --background-card: #ffffff;
+  --foreground: #16233f;
+  --muted: #64708c;
+  --border: #e3e7ef;
   --accent: #d4af37;
-  --accent-soft: #f0d78c;
+  --accent-soft: #a3791b;
   --accent-foreground: #1a1305;
+
+  --navy: #142850;
+  --navy-elevated: #1c3468;
+  --navy-soft: #24407e;
+  --navy-foreground: #ffffff;
+  --navy-muted: #aab8d9;
 }
 
 @theme inline {
@@ -22,6 +28,11 @@
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
   --color-accent-foreground: var(--accent-foreground);
+  --color-navy: var(--navy);
+  --color-navy-elevated: var(--navy-elevated);
+  --color-navy-soft: var(--navy-soft);
+  --color-navy-foreground: var(--navy-foreground);
+  --color-navy-muted: var(--navy-muted);
   --font-sans: var(--font-cairo);
 }
 
@@ -41,8 +52,13 @@ body {
   color: transparent;
 }
 
-.section-glow {
-  background: radial-gradient(60% 60% at 50% 0%, rgba(212, 175, 55, 0.12) 0%, rgba(10, 14, 26, 0) 70%);
+.hero-navy {
+  background-color: var(--navy);
+  background-image:
+    radial-gradient(55% 65% at 20% -10%, rgba(212, 175, 55, 0.18) 0%, rgba(20, 40, 80, 0) 60%),
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: auto, 32px 32px, 32px 32px;
 }
 
 ::selection {

@@ -21,6 +21,12 @@
   },
   "home": {
     "badge": "Académie de formation technique spécialisée",
+    "enrollmentOpen": "Les inscriptions sont ouvertes",
+    "stats": {
+      "courses": "Formations disponibles",
+      "lessons": "Leçons de formation",
+      "sections": "Sections / livres"
+    },
     "titleLead": "Franchissez la barrière de l'hésitation,",
     "titleHighlight": "l'expérience vient avec le temps",
     "subtitle": "Formations spécialisées en ingénierie de la tuyauterie et des équipements mécaniques statiques et rotatifs, systèmes CVC centralisés et logiciels de conception technique — dispensées par l'ingénieur Mohamed Rajab fort d'une expérience de terrain réelle dans le secteur pétrolier, gazier et pétrochimique.",
@@ -56,6 +62,8 @@
     "trainerLabel": "Formateur",
     "free": "Gratuit",
     "noPoster": "Pas encore d'image de couverture",
+    "viewDetails": "Détails de la formation",
+    "featured": "Le plus demandé",
     "level": {
       "BEGINNER": "Débutant",
       "INTERMEDIATE": "Intermédiaire",

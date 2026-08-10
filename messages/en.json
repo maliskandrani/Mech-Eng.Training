@@ -21,6 +21,12 @@
   },
   "home": {
     "badge": "Specialized engineering training academy",
+    "enrollmentOpen": "Enrollment is open now",
+    "stats": {
+      "courses": "Courses available",
+      "lessons": "Training lessons",
+      "sections": "Sections / books"
+    },
     "titleLead": "Break through the hesitation barrier,",
     "titleHighlight": "experience comes with time",
     "subtitle": "Specialized training courses in static and rotating piping and mechanical equipment engineering, central HVAC systems, and engineering design software — delivered by Eng. Mohamed Rajab with real hands-on experience in the oil, gas, and petrochemical industry.",
@@ -56,6 +62,8 @@
     "trainerLabel": "Trainer",
     "free": "Free",
     "noPoster": "No cover image yet",
+    "viewDetails": "Course details",
+    "featured": "Most popular",
     "level": {
       "BEGINNER": "Beginner",
       "INTERMEDIATE": "Intermediate",

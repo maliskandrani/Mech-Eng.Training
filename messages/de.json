@@ -21,6 +21,12 @@
   },
   "home": {
     "badge": "Spezialisierte technische Weiterbildungsakademie",
+    "enrollmentOpen": "Anmeldung ist jetzt offen",
+    "stats": {
+      "courses": "Verfügbare Kurse",
+      "lessons": "Schulungslektionen",
+      "sections": "Abschnitte / Bücher"
+    },
     "titleLead": "Durchbrechen Sie die Hürde des Zögerns,",
     "titleHighlight": "Erfahrung kommt mit der Zeit",
     "subtitle": "Spezialisierte Schulungen in der Technik statischer und rotierender Rohrleitungs- und Maschinenbaukomponenten, zentralen Klimaanlagen und technischer Konstruktionssoftware — geleitet von Ing. Mohamed Rajab mit echter Praxiserfahrung in der Öl-, Gas- und Petrochemiebranche.",
@@ -56,6 +62,8 @@
     "trainerLabel": "Trainer",
     "free": "Kostenlos",
     "noPoster": "Noch kein Titelbild vorhanden",
+    "viewDetails": "Kursdetails",
+    "featured": "Am gefragtesten",
     "level": {
       "BEGINNER": "Anfänger",
       "INTERMEDIATE": "Mittelstufe",

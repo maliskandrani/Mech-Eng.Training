@@ -38,8 +38,10 @@ export default async function CoursesPage({
         <div className="flex flex-wrap gap-2">
           <Link
             href={categoryHref(undefined)}
-            className={`rounded-full border px-4 py-1.5 text-sm transition ${
-              !category ? "border-accent bg-accent/10 text-accent-soft" : "border-border text-muted hover:border-accent/60"
+            className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+              !category
+                ? "border-navy bg-navy text-navy-foreground"
+                : "border-border text-muted hover:border-navy/40 hover:text-navy"
             }`}
           >
             {t("all")}
@@ -48,10 +50,10 @@ export default async function CoursesPage({
             <Link
               key={cat.id}
               href={categoryHref(cat.slug)}
-              className={`rounded-full border px-4 py-1.5 text-sm transition ${
+              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
                 category === cat.slug
-                  ? "border-accent bg-accent/10 text-accent-soft"
-                  : "border-border text-muted hover:border-accent/60"
+                  ? "border-navy bg-navy text-navy-foreground"
+                  : "border-border text-muted hover:border-navy/40 hover:text-navy"
               }`}
             >
               {cat.name}

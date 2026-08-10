@@ -6,10 +6,12 @@ import { ROLE_LABELS } from "@/lib/utils";
 import LanguageSwitcher from "@/components/site/LanguageSwitcher";
 
 export default async function Header() {
-  const [session, t, tBrand] = await Promise.all([
+  const [session, t, tBrand, tFooter, tHome] = await Promise.all([
     auth(),
     getTranslations("nav"),
     getTranslations("brand"),
+    getTranslations("footer"),
+    getTranslations("home"),
   ]);
 
   const NAV_LINKS = [
@@ -19,73 +21,87 @@ export default async function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg gold-gradient text-accent-foreground font-bold">
-            م
+    <header className="sticky top-0 z-40 backdrop-blur-md">
+      <div className="bg-navy text-navy-foreground">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 text-xs sm:px-6">
+          <span className="hidden items-center gap-1.5 text-navy-muted sm:flex">
+            <span aria-hidden>✉️</span>
+            <span>{tFooter("contactTitle")}</span>
           </span>
-          <span className="hidden text-sm font-bold text-foreground sm:block sm:text-base">
-            {tBrand("line1")} <span className="text-accent">{tBrand("line2")}</span>
+          <span className="rounded-full border border-accent/30 bg-accent/15 px-3 py-1 font-semibold text-accent">
+            {tHome("enrollmentOpen")}
           </span>
-        </Link>
+        </div>
+      </div>
 
-        <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="transition hover:text-accent">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+      <div className="border-b border-border/80 bg-background/95">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full gold-gradient text-accent-foreground font-bold ring-2 ring-navy/10">
+              م
+            </span>
+            <span className="hidden text-sm font-bold text-foreground sm:block sm:text-base">
+              {tBrand("line1")} <span className="text-accent">{tBrand("line2")}</span>
+            </span>
+          </Link>
 
-        <div className="flex items-center gap-3">
-          <LanguageSwitcher />
+          <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
+            {NAV_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className="transition hover:text-accent">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-          {session?.user ? (
-            <div className="flex items-center gap-3">
-              <NextLink
-                href="/dashboard"
-                className="hidden text-sm text-muted sm:block"
-                title={session.user.email ?? undefined}
-              >
-                {session.user.name} · {ROLE_LABELS[session.user.role]}
-              </NextLink>
-              <NextLink
-                href="/dashboard"
-                className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
-              >
-                {t("dashboard")}
-              </NextLink>
-              <form
-                action={async () => {
-                  "use server";
-                  await signOut({ redirectTo: "/" });
-                }}
-              >
-                <button
-                  type="submit"
-                  className="rounded-lg border border-border px-3 py-2 text-sm text-muted transition hover:border-accent hover:text-accent"
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+
+            {session?.user ? (
+              <div className="flex items-center gap-3">
+                <NextLink
+                  href="/dashboard"
+                  className="hidden text-sm text-muted sm:block"
+                  title={session.user.email ?? undefined}
                 >
-                  {t("logout")}
-                </button>
-              </form>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Link
-                href="/login"
-                className="rounded-lg border border-border px-4 py-2 text-sm text-foreground transition hover:border-accent hover:text-accent"
-              >
-                {t("login")}
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
-              >
-                {t("signup")}
-              </Link>
-            </div>
-          )}
+                  {session.user.name} · {ROLE_LABELS[session.user.role]}
+                </NextLink>
+                <NextLink
+                  href="/dashboard"
+                  className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
+                >
+                  {t("dashboard")}
+                </NextLink>
+                <form
+                  action={async () => {
+                    "use server";
+                    await signOut({ redirectTo: "/" });
+                  }}
+                >
+                  <button
+                    type="submit"
+                    className="rounded-lg border border-border px-3 py-2 text-sm text-muted transition hover:border-accent hover:text-accent"
+                  >
+                    {t("logout")}
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/login"
+                  className="rounded-lg border border-navy/25 px-4 py-2 text-sm font-semibold text-navy transition hover:border-navy hover:bg-navy hover:text-navy-foreground"
+                >
+                  {t("login")}
+                </Link>
+                <Link
+                  href="/register"
+                  className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
+                >
+                  {t("signup")}
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

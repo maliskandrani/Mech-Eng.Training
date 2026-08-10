@@ -21,6 +21,12 @@
   },
   "home": {
     "badge": "Accademia di formazione ingegneristica specializzata",
+    "enrollmentOpen": "Le iscrizioni sono aperte ora",
+    "stats": {
+      "courses": "Corsi disponibili",
+      "lessons": "Lezioni di formazione",
+      "sections": "Sezioni / libri"
+    },
     "titleLead": "Supera la barriera dell'esitazione,",
     "titleHighlight": "l'esperienza arriva con il tempo",
     "subtitle": "Corsi di formazione specializzati in ingegneria delle tubazioni e delle apparecchiature meccaniche statiche e rotanti, sistemi HVAC centralizzati e software di progettazione ingegneristica — tenuti dall'Ing. Mohamed Rajab con esperienza pratica reale nel settore petrolifero, del gas e petrolchimico.",
@@ -56,6 +62,8 @@
     "trainerLabel": "Formatore",
     "free": "Gratuito",
     "noPoster": "Nessuna immagine di copertina ancora",
+    "viewDetails": "Dettagli del corso",
+    "featured": "Più richiesto",
     "level": {
       "BEGINNER": "Principiante",
       "INTERMEDIATE": "Intermedio",

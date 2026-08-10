@@ -11,6 +11,19 @@ export default async function HomePage() {
     getTranslations("trainers"),
   ]);
   const featured = courses.slice(0, 6);
+  const mainTrainer = trainers[0];
+
+  const totalSections = courses.reduce((n, c) => n + c._count.sections, 0);
+  const totalLessons = courses.reduce(
+    (n, c) => n + c.sections.reduce((m, s) => m + s._count.lessons, 0),
+    0
+  );
+
+  const STATS = [
+    { value: courses.length, label: t("stats.courses") },
+    { value: totalLessons, label: t("stats.lessons") },
+    { value: totalSections, label: t("stats.sections") },
+  ];
 
   const FEATURES = [
     { icon: "🎓", key: "content" as const },
@@ -21,16 +34,16 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="section-glow relative overflow-hidden border-b border-border">
+      <section className="hero-navy relative overflow-hidden text-navy-foreground">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-24">
           <div>
-            <span className="inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-4 py-1 text-sm text-accent-soft">
+            <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/15 px-4 py-1 text-sm font-semibold text-accent">
               {t("badge")}
             </span>
-            <h1 className="mt-5 text-3xl font-extrabold leading-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h1 className="mt-5 text-3xl font-extrabold leading-tight text-navy-foreground sm:text-4xl lg:text-5xl">
               {t("titleLead")} <span className="gold-text-gradient">{t("titleHighlight")}</span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-muted">{t("subtitle")}</p>
+            <p className="mt-5 max-w-xl text-lg leading-8 text-navy-muted">{t("subtitle")}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/courses"
@@ -40,19 +53,28 @@ export default async function HomePage() {
               </Link>
               <Link
                 href="/register"
-                className="rounded-xl border border-border px-6 py-3 font-semibold text-foreground transition hover:border-accent hover:text-accent"
+                className="rounded-xl border border-white/25 px-6 py-3 font-semibold text-navy-foreground transition hover:border-white/50"
               >
                 {t("ctaRegister")}
               </Link>
+            </div>
+
+            <div className="mt-10 flex flex-wrap gap-8 border-t border-white/10 pt-6">
+              {STATS.map((s) => (
+                <div key={s.label}>
+                  <div className="text-2xl font-extrabold text-accent">{s.value}</div>
+                  <div className="mt-1 text-xs text-navy-muted">{s.label}</div>
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             {FEATURES.map((f) => (
-              <div key={f.key} className="rounded-2xl border border-border bg-background-card p-5">
+              <div key={f.key} className="rounded-2xl border border-white/10 bg-navy-elevated p-5">
                 <div className="text-2xl">{f.icon}</div>
-                <h3 className="mt-3 font-bold text-foreground">{t(`features.${f.key}.title`)}</h3>
-                <p className="mt-1 text-sm leading-6 text-muted">{t(`features.${f.key}.desc`)}</p>
+                <h3 className="mt-3 font-bold text-navy-foreground">{t(`features.${f.key}.title`)}</h3>
+                <p className="mt-1 text-sm leading-6 text-navy-muted">{t(`features.${f.key}.desc`)}</p>
               </div>
             ))}
           </div>
@@ -65,7 +87,7 @@ export default async function HomePage() {
             <h2 className="text-2xl font-bold text-foreground">{t("coursesTitle")}</h2>
             <p className="mt-1 text-muted">{t("coursesSubtitle")}</p>
           </div>
-          <Link href="/courses" className="text-sm font-semibold text-accent hover:underline">
+          <Link href="/courses" className="text-sm font-semibold text-accent-soft hover:underline">
             {t("viewAll")}
           </Link>
         </div>
@@ -81,35 +103,75 @@ export default async function HomePage() {
         )}
       </section>
 
-      {trainers.length > 0 && (
+      {mainTrainer && (
         <section className="border-t border-border bg-background-elevated">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-            <h2 className="text-2xl font-bold text-foreground">{t("trainersTitle")}</h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {trainers.map((trainer) => (
+            <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+              <div>
+                <span className="text-sm font-semibold text-accent-soft">{tTrainers("pageTitle")}</span>
+                <h2 className="mt-2 text-2xl font-bold text-foreground">{mainTrainer.name}</h2>
+                {mainTrainer.bio && (
+                  <p className="mt-4 leading-7 text-muted">{mainTrainer.bio}</p>
+                )}
+                <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {FEATURES.map((f) => (
+                    <li key={f.key} className="flex items-center gap-2 text-sm text-foreground">
+                      <span className="text-accent-soft">✔</span>
+                      <span>{t(`features.${f.key}.title`)}</span>
+                    </li>
+                  ))}
+                </ul>
                 <Link
-                  key={trainer.id}
-                  href={`/trainers/${trainer.id}`}
-                  className="flex items-center gap-4 rounded-2xl border border-border bg-background-card p-5 transition hover:border-accent/60"
+                  href={`/trainers/${mainTrainer.id}`}
+                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy px-5 py-2.5 text-sm font-semibold text-navy-foreground transition hover:bg-navy-soft"
                 >
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-xl font-bold text-accent-foreground">
-                    {trainer.avatarUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={trainer.avatarUrl} alt={trainer.name} className="h-full w-full object-cover" />
-                    ) : (
-                      trainer.name.charAt(0)
-                    )}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-foreground">{trainer.name}</h3>
-                    <p className="text-sm text-muted">{trainer.title ?? tTrainers("defaultTitle")}</p>
-                    <p className="mt-1 text-xs text-accent-soft">
-                      {tTrainers("coursesCount", { count: trainer._count.coursesTaught })}
-                    </p>
-                  </div>
+                  {tTrainers("pageTitle")} <span aria-hidden>←</span>
                 </Link>
-              ))}
+              </div>
+
+              <div className="flex h-56 items-center justify-center overflow-hidden rounded-2xl bg-navy sm:h-72">
+                {mainTrainer.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={mainTrainer.avatarUrl}
+                    alt={mainTrainer.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span className="text-6xl font-extrabold text-navy-foreground/80">
+                    {mainTrainer.name.charAt(0)}
+                  </span>
+                )}
+              </div>
             </div>
+
+            {trainers.length > 1 && (
+              <div className="mt-14 grid gap-6 border-t border-border pt-10 sm:grid-cols-2 lg:grid-cols-3">
+                {trainers.slice(1).map((trainer) => (
+                  <Link
+                    key={trainer.id}
+                    href={`/trainers/${trainer.id}`}
+                    className="flex items-center gap-4 rounded-2xl border border-border bg-background-card p-5 transition hover:border-accent/60"
+                  >
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-xl font-bold text-accent-foreground">
+                      {trainer.avatarUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={trainer.avatarUrl} alt={trainer.name} className="h-full w-full object-cover" />
+                      ) : (
+                        trainer.name.charAt(0)
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-foreground">{trainer.name}</h3>
+                      <p className="text-sm text-muted">{trainer.title ?? tTrainers("defaultTitle")}</p>
+                      <p className="mt-1 text-xs text-accent-soft">
+                        {tTrainers("coursesCount", { count: trainer._count.coursesTaught })}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}

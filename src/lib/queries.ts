@@ -2,11 +2,18 @@ import { prisma } from "@/lib/prisma";
 
 export const PAGE_SIZE = 8;
 
+const courseCardInclude = {
+  trainer: true,
+  category: true,
+  _count: { select: { enrollments: true, sections: true } },
+  sections: { select: { _count: { select: { lessons: true } } } },
+};
+
 export function getPublishedCourses() {
   return prisma.course.findMany({
     where: { published: true },
     orderBy: { order: "asc" },
-    include: { trainer: true, category: true, _count: { select: { enrollments: true } } },
+    include: courseCardInclude,
   });
 }
 
@@ -21,7 +28,7 @@ export async function searchPublishedCourses(opts: { q?: string; categorySlug?: 
     prisma.course.findMany({
       where,
       orderBy: { order: "asc" as const },
-      include: { trainer: true, category: true, _count: { select: { enrollments: true } } },
+      include: courseCardInclude,
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
     }),
@@ -101,7 +108,16 @@ export function getTrainers() {
 export function getTrainerById(id: string) {
   return prisma.user.findUnique({
     where: { id },
-    include: { coursesTaught: { where: { published: true }, include: { category: true } } },
+    include: {
+      coursesTaught: {
+        where: { published: true },
+        include: {
+          category: true,
+          _count: { select: { sections: true } },
+          sections: { select: { _count: { select: { lessons: true } } } },
+        },
+      },
+    },
   });
 }
 

@@ -21,6 +21,12 @@
   },
   "home": {
     "badge": "Uzmanlaşmış mühendislik eğitim akademisi",
+    "enrollmentOpen": "Kayıtlar şimdi açık",
+    "stats": {
+      "courses": "Mevcut kurs",
+      "lessons": "Eğitim dersi",
+      "sections": "Bölüm / kitap"
+    },
     "titleLead": "Tereddüt engelini aş,",
     "titleHighlight": "deneyim zamanla gelir",
     "subtitle": "Sabit ve döner boru ve mekanik ekipman mühendisliği, merkezi HVAC sistemleri ve mühendislik tasarım yazılımlarında uzmanlaşmış eğitim kursları — Müh. Mohamed Rajab tarafından petrol, gaz ve petrokimya sektöründeki gerçek saha deneyimiyle sunulmaktadır.",
@@ -56,6 +62,8 @@
     "trainerLabel": "Eğitmen",
     "free": "Ücretsiz",
     "noPoster": "Henüz kapak görseli yok",
+    "viewDetails": "Kurs detayları",
+    "featured": "En popüler",
     "level": {
       "BEGINNER": "Başlangıç",
       "INTERMEDIATE": "Orta",
