@@ -54,6 +54,7 @@ export default function CreateUserForm({
               accept="image/*"
               className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-accent"
             />
+            <span>تُعرض داخل إطار دائري — يفضّل صورة مربعة والوجه في المنتصف أو الأعلى.</span>
           </label>
         </>
       )}

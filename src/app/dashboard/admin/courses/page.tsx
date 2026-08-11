@@ -51,9 +51,9 @@ export default async function AdminCoursesPage({
               <tr key={course.id} className="bg-background-card">
                 <td className="p-3">
                   <div className="flex items-center gap-3">
-                    <div className="relative h-11 w-14 shrink-0 overflow-hidden rounded-lg bg-background-elevated">
+                    <div className="relative aspect-video h-11 shrink-0 overflow-hidden rounded-lg bg-background-elevated">
                       {course.posterUrl ? (
-                        <Image src={course.posterUrl} alt={course.title} fill className="object-cover" />
+                        <Image src={course.posterUrl} alt={course.title} fill className="object-cover object-center" />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-lg">📚</div>
                       )}

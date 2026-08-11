@@ -49,7 +49,7 @@ export default async function AdminTrainersPage({
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-sm font-bold text-accent-foreground">
                       {t.avatarUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={t.avatarUrl} alt={t.name} className="h-full w-full object-cover" />
+                        <img src={t.avatarUrl} alt={t.name} className="h-full w-full object-cover object-top" />
                       ) : (
                         t.name.charAt(0)
                       )}

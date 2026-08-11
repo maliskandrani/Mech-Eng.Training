@@ -18,7 +18,7 @@ export default async function TrainerProfilePage({
         <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-4xl font-bold text-accent-foreground">
           {trainer.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={trainer.avatarUrl} alt={trainer.name} className="h-full w-full object-cover" />
+            <img src={trainer.avatarUrl} alt={trainer.name} className="h-full w-full object-cover object-top" />
           ) : (
             trainer.name.charAt(0)
           )}

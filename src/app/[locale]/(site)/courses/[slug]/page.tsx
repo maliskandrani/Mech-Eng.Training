@@ -161,7 +161,7 @@ export default async function CourseDetailPage({
             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-lg font-bold text-accent-foreground">
               {course.trainer.avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={course.trainer.avatarUrl} alt={course.trainer.name} className="h-full w-full object-cover" />
+                <img src={course.trainer.avatarUrl} alt={course.trainer.name} className="h-full w-full object-cover object-top" />
               ) : (
                 course.trainer.name.charAt(0)
               )}

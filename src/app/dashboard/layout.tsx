@@ -35,7 +35,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-sm font-bold text-accent-foreground">
                 {session.user.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={session.user.image} alt={session.user.name ?? ""} className="h-full w-full object-cover" />
+                  <img src={session.user.image} alt={session.user.name ?? ""} className="h-full w-full object-cover object-top" />
                 ) : (
                   session.user.name?.charAt(0) ?? "؟"
                 )}

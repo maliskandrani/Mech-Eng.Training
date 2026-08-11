@@ -135,7 +135,7 @@ export default async function HomePage() {
                   <img
                     src={mainTrainer.avatarUrl}
                     alt={mainTrainer.name}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover object-top"
                   />
                 ) : (
                   <span className="text-6xl font-extrabold text-navy-foreground/80">
@@ -156,7 +156,7 @@ export default async function HomePage() {
                     <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-xl font-bold text-accent-foreground">
                       {trainer.avatarUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={trainer.avatarUrl} alt={trainer.name} className="h-full w-full object-cover" />
+                        <img src={trainer.avatarUrl} alt={trainer.name} className="h-full w-full object-cover object-top" />
                       ) : (
                         trainer.name.charAt(0)
                       )}

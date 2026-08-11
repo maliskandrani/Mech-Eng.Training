@@ -63,6 +63,10 @@ export default function ProfileForm({
           accept="image/png,image/jpeg,image/webp"
           className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
         />
+        <p className="mt-1.5 text-xs text-muted">
+          تُعرض الصورة تلقائيًا داخل إطار دائري — يفضّل رفع صورة مربعة والوجه في المنتصف أو
+          الجزء العلوي منها ليبقى واضحًا بعد القص.
+        </p>
       </div>
 
       {state && !state.ok && (
