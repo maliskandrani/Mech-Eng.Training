@@ -34,6 +34,7 @@ export default async function AdminTrainersPage({
         <table className="w-full text-sm">
           <thead className="bg-background-elevated text-muted">
             <tr>
+              <th className="p-3 text-right"></th>
               <th className="p-3 text-right">الاسم</th>
               <th className="p-3 text-right">البريد الإلكتروني</th>
               <th className="p-3 text-right">اللقب</th>
@@ -44,6 +45,16 @@ export default async function AdminTrainersPage({
           <tbody className="divide-y divide-border">
             {trainers.map((t) => (
               <tr key={t.id} className="bg-background-card">
+                <td className="p-3">
+                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full gold-gradient text-sm font-bold text-accent-foreground">
+                    {t.avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={t.avatarUrl} alt={t.name} className="h-full w-full object-cover" />
+                    ) : (
+                      t.name.charAt(0)
+                    )}
+                  </div>
+                </td>
                 <td className="p-3 font-medium text-foreground">{t.name}</td>
                 <td className="p-3 text-muted">{t.email}</td>
                 <td className="p-3 text-muted">{t.title ?? "—"}</td>
@@ -55,7 +66,7 @@ export default async function AdminTrainersPage({
             ))}
             {trainers.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-6 text-center text-muted">
+                <td colSpan={6} className="p-6 text-center text-muted">
                   لا توجد نتائج مطابقة.
                 </td>
               </tr>

@@ -40,11 +40,22 @@ export default function CreateUserForm({
         className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
       />
       {role === "TRAINER" && (
-        <input
-          name="title"
-          placeholder="اللقب الوظيفي (اختياري)"
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
-        />
+        <>
+          <input
+            name="title"
+            placeholder="اللقب الوظيفي (اختياري)"
+            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+          />
+          <label className="flex flex-col gap-1 text-xs text-muted sm:col-span-2">
+            صورة البروفايل (اختياري)
+            <input
+              name="avatar"
+              type="file"
+              accept="image/*"
+              className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-accent"
+            />
+          </label>
+        </>
       )}
       <button
         type="submit"

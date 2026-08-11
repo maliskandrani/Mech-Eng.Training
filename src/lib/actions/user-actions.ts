@@ -34,9 +34,16 @@ export async function createUser(formData: FormData): Promise<ActionResult> {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return { ok: false, error: "هذا البريد الإلكتروني مستخدم مسبقًا." };
 
+    let avatarUrl: string | undefined;
+    const avatar = formData.get("avatar");
+    if (avatar instanceof File && avatar.size > 0) {
+      assertValidPoster(avatar);
+      avatarUrl = await savePublicImage(avatar, "avatars");
+    }
+
     const passwordHash = await bcrypt.hash(password, 10);
     await prisma.user.create({
-      data: { name, email, passwordHash, role, title: title || null },
+      data: { name, email, passwordHash, role, title: title || null, avatarUrl },
     });
 
     revalidatePath("/dashboard/admin/trainers");
@@ -155,6 +162,7 @@ export async function updateOwnProfile(formData: FormData): Promise<ActionResult
     });
 
     revalidatePath("/dashboard");
+    revalidatePath("/");
     revalidatePath("/trainers");
     return { ok: true };
   } catch (e) {
