@@ -27,7 +27,7 @@ export function PublishToggle({
       }
       className={`rounded-lg border px-3 py-1.5 text-xs font-medium transition disabled:opacity-60 ${
         published
-          ? "border-green-300 text-green-700 hover:bg-green-50"
+          ? "border-green-400/30 text-green-300 hover:bg-green-400/10"
           : "border-border text-muted hover:border-accent hover:text-accent"
       }`}
     >
@@ -58,7 +58,7 @@ export function ConfirmDeleteButton({
           router.refresh();
         });
       }}
-      className="rounded-lg border border-red-300 px-3 py-1.5 text-xs font-medium text-red-700 transition hover:bg-red-50 disabled:opacity-60"
+      className="rounded-lg border border-red-400/30 px-3 py-1.5 text-xs font-medium text-red-300 transition hover:bg-red-400/10 disabled:opacity-60"
     >
       {pending ? "..." : label}
     </button>

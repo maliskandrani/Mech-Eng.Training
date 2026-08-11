@@ -26,6 +26,16 @@ export default function Sidebar({ role }: { role: "ADMIN" | "TRAINER" | "STUDENT
 
   return (
     <aside className="sidebar-green w-full shrink-0 text-navy-foreground md:w-64 md:min-h-[calc(100vh-61px)]">
+      <div className="hidden items-center gap-3 border-b border-white/10 px-5 py-6 md:flex">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full gold-gradient text-lg font-bold text-accent-foreground ring-2 ring-accent/30">
+          م
+        </span>
+        <div className="text-xs leading-5">
+          <p className="font-extrabold tracking-wide text-navy-foreground">أكاديمية الهندسة الميكانيكية</p>
+          <p className="text-navy-muted">وهندسة الأنابيب</p>
+        </div>
+      </div>
+
       <nav className="flex gap-2 overflow-x-auto p-4 md:flex-col md:overflow-visible">
         {items.map((item) => {
           const active = pathname === item.href;

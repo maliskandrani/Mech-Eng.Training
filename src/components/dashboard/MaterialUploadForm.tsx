@@ -38,7 +38,7 @@ export default function MaterialUploadForm({ action }: { action: (formData: Form
       >
         {pending ? "جاري الرفع..." : "رفع الملف"}
       </button>
-      {state && !state.ok && <p className="text-xs text-red-700 sm:col-span-4">{state.error}</p>}
+      {state && !state.ok && <p className="text-xs text-red-300 sm:col-span-4">{state.error}</p>}
     </form>
   );
 }

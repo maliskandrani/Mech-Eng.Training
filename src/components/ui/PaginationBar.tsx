@@ -33,8 +33,10 @@ export default function PaginationBar({
         <Link
           key={p}
           href={buildHref(p)}
-          className={`rounded-lg border px-3 py-1.5 text-sm transition ${
-            p === page ? "border-accent bg-accent/10 text-accent-soft" : "border-border text-muted hover:border-accent/60"
+          className={`rounded-lg border px-3 py-1.5 text-sm font-semibold transition ${
+            p === page
+              ? "gold-gradient border-transparent text-accent-foreground"
+              : "border-border text-muted hover:border-accent/60"
           }`}
         >
           {p}

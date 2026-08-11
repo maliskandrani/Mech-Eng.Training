@@ -64,8 +64,8 @@ export default function CreateUserForm({
       >
         {pending ? "جاري الإضافة..." : role === "TRAINER" ? "+ إضافة مدرب" : "+ إضافة متدرب"}
       </button>
-      {state && !state.ok && <p className="text-sm text-red-700 sm:col-span-2">{state.error}</p>}
-      {state?.ok && <p className="text-sm text-green-700 sm:col-span-2">تمت الإضافة بنجاح.</p>}
+      {state && !state.ok && <p className="text-sm text-red-300 sm:col-span-2">{state.error}</p>}
+      {state?.ok && <p className="text-sm text-green-300 sm:col-span-2">تمت الإضافة بنجاح.</p>}
     </form>
   );
 }

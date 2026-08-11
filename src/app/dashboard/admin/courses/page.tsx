@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Suspense } from "react";
 import { searchCoursesForAdmin } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
@@ -48,7 +49,25 @@ export default async function AdminCoursesPage({
           <tbody className="divide-y divide-border">
             {courses.map((course) => (
               <tr key={course.id} className="bg-background-card">
-                <td className="p-3 font-medium text-foreground">{course.title}</td>
+                <td className="p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="relative h-11 w-14 shrink-0 overflow-hidden rounded-lg bg-background-elevated">
+                      {course.posterUrl ? (
+                        <Image src={course.posterUrl} alt={course.title} fill className="object-cover" />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-lg">📚</div>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">{course.title}</p>
+                      {course.category && (
+                        <span className="mt-1 inline-block rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs font-normal text-accent-soft">
+                          {course.category.name}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </td>
                 <td className="p-3 text-muted">{course.trainer.name}</td>
                 <td className="p-3 text-muted">{formatPrice(course.price)}</td>
                 <td className="p-3 text-muted">{course._count.enrollments}</td>

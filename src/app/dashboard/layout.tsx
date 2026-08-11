@@ -25,15 +25,20 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <body className="min-h-full">
         <div className="dash-theme flex min-h-screen flex-col bg-background text-foreground">
           <header className="flex items-center justify-between border-b border-border bg-background-card px-4 py-3 shadow-sm sm:px-6">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg gold-gradient text-accent-foreground font-bold">
-                م
-              </span>
-              <span className="text-sm font-bold text-foreground">لوحة التحكم</span>
+            <Link href="/" className="text-sm font-bold text-foreground">
+              لوحة التحكم
             </Link>
             <div className="flex items-center gap-3 text-sm">
-              <span className="text-muted">
+              <span className="hidden text-muted sm:inline">
                 {session.user.name} · {ROLE_LABELS[session.user.role]}
+              </span>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-sm font-bold text-accent-foreground">
+                {session.user.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={session.user.image} alt={session.user.name ?? ""} className="h-full w-full object-cover" />
+                ) : (
+                  session.user.name?.charAt(0) ?? "؟"
+                )}
               </span>
               <form
                 action={async () => {
