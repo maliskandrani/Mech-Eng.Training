@@ -1,8 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getSiteSettings } from "@/lib/queries";
+import Logo from "@/components/site/Logo";
 
 export default async function Footer() {
-  const [t, tNav, tBrand] = await Promise.all([
+  const [settings, t, tNav, tBrand] = await Promise.all([
+    getSiteSettings(),
     getTranslations("footer"),
     getTranslations("nav"),
     getTranslations("brand"),
@@ -14,9 +17,7 @@ export default async function Footer() {
         <div className="grid gap-8 sm:grid-cols-3">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full gold-gradient text-accent-foreground font-bold">
-                م
-              </span>
+              <Logo logoUrl={settings?.logoUrl} size={32} />
               <span className="font-bold text-navy-foreground">{tBrand("line1")} {tBrand("line2")}</span>
             </div>
             <p className="mt-3 text-sm leading-6 text-navy-muted">{t("description")}</p>

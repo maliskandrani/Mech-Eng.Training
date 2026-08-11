@@ -6,7 +6,7 @@ const courseCardInclude = {
   trainer: true,
   category: true,
   _count: { select: { enrollments: true, sections: true } },
-  sections: { select: { _count: { select: { lessons: true } } } },
+  sections: { select: { title: true, _count: { select: { lessons: true } } } },
 };
 
 export function getPublishedCourses() {
@@ -157,6 +157,38 @@ export async function searchTrainerUsers(opts: { q?: string; page?: number }) {
     prisma.user.count({ where }),
   ]);
   return { items, total, totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
+}
+
+export async function getSiteSettings() {
+  return prisma.siteSettings.findUnique({ where: { id: "main" } });
+}
+
+export function getStoryImages() {
+  return prisma.storyImage.findMany({ orderBy: { order: "asc" } });
+}
+
+/** Simple homepage load counter (not unique-visitor analytics). Safe to show publicly. */
+export async function incrementHomeViews(): Promise<number> {
+  const row = await prisma.siteSettings.upsert({
+    where: { id: "main" },
+    update: { homeViews: { increment: 1 } },
+    create: { id: "main", homeViews: 1 },
+  });
+  return row.homeViews;
+}
+
+/** Revenue estimate per published course (price × enrollments) — admin-only figure. */
+export async function getRevenueByCourse() {
+  const courses = await prisma.course.findMany({
+    where: { published: true },
+    select: { title: true, price: true, _count: { select: { enrollments: true } } },
+    orderBy: { order: "asc" },
+  });
+  return courses.map((c) => ({
+    title: c.title,
+    enrollments: c._count.enrollments,
+    revenue: c.price * c._count.enrollments,
+  }));
 }
 
 export async function searchStudentUsers(opts: { q?: string; page?: number }) {

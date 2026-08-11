@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "@/components/site/Logo";
 
 type NavItem = { href: string; label: string; icon: string };
 
@@ -12,6 +13,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { href: "/dashboard/admin/trainers", label: "المدربون", icon: "🧑‍🏫" },
     { href: "/dashboard/admin/students", label: "المتدربون", icon: "🎓" },
     { href: "/dashboard/admin/profile", label: "الملف الشخصي", icon: "🧑‍💼" },
+    { href: "/dashboard/admin/settings", label: "إعدادات الموقع", icon: "⚙️" },
   ],
   TRAINER: [
     { href: "/dashboard/trainer", label: "دوراتي", icon: "📚" },
@@ -20,19 +22,23 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   STUDENT: [{ href: "/dashboard/student", label: "دوراتي", icon: "🎓" }],
 };
 
-export default function Sidebar({ role }: { role: "ADMIN" | "TRAINER" | "STUDENT" }) {
+export default function Sidebar({
+  role,
+  logoUrl,
+}: {
+  role: "ADMIN" | "TRAINER" | "STUDENT";
+  logoUrl?: string | null;
+}) {
   const items = NAV_BY_ROLE[role] ?? [];
   const pathname = usePathname();
 
   return (
     <aside className="sidebar-green w-full shrink-0 text-navy-foreground md:w-64 md:min-h-[calc(100vh-61px)]">
       <div className="hidden items-center gap-3 border-b border-white/10 px-5 py-6 md:flex">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full gold-gradient text-lg font-bold text-accent-foreground ring-2 ring-accent/30">
-          م
-        </span>
+        <Logo logoUrl={logoUrl} size={44} />
         <div className="text-xs leading-5">
-          <p className="font-extrabold tracking-wide text-navy-foreground">أكاديمية الهندسة الميكانيكية</p>
-          <p className="text-navy-muted">وهندسة الأنابيب</p>
+          <p className="font-extrabold tracking-wide text-navy-foreground">SkillStream</p>
+          <p className="text-navy-muted">Academy</p>
         </div>
       </div>
 

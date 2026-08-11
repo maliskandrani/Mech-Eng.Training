@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getTrainerById } from "@/lib/queries";
+import { getTrainerById, getSiteSettings } from "@/lib/queries";
 import CourseCard from "@/components/site/CourseCard";
 
 export default async function TrainerProfilePage({
@@ -9,8 +9,13 @@ export default async function TrainerProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [trainer, t] = await Promise.all([getTrainerById(id), getTranslations("trainers")]);
+  const [trainer, settings, t] = await Promise.all([
+    getTrainerById(id),
+    getSiteSettings(),
+    getTranslations("trainers"),
+  ]);
   if (!trainer) notFound();
+  const currency = settings?.currency ?? "LYD";
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -35,7 +40,11 @@ export default async function TrainerProfilePage({
         {trainer.coursesTaught.length > 0 ? (
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {trainer.coursesTaught.map((course) => (
-              <CourseCard key={course.id} course={{ ...course, trainer: { name: trainer.name } }} />
+              <CourseCard
+                key={course.id}
+                course={{ ...course, trainer: { name: trainer.name } }}
+                currency={currency}
+              />
             ))}
           </div>
         ) : (

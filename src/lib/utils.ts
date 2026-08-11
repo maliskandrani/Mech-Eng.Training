@@ -14,9 +14,16 @@ export function arabicCount(count: number, singular: string, dual: string, plura
   return `${count} ${noun}`;
 }
 
-export function formatPrice(price: number): string {
+export const CURRENCY_SYMBOLS: Record<string, string> = {
+  LYD: "د.ل",
+  EGP: "ج.م",
+  USD: "$",
+};
+
+export function formatPrice(price: number, currency: string = "LYD"): string {
   if (price <= 0) return "مجانًا";
-  return `${price.toLocaleString("ar-EG")} ر.س`;
+  const symbol = CURRENCY_SYMBOLS[currency] ?? currency;
+  return `${price.toLocaleString("ar-EG")} ${symbol}`;
 }
 
 export const LEVEL_LABELS: Record<string, string> = {

@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { getCoursesForTrainer } from "@/lib/queries";
+import { getCoursesForTrainer, getSiteSettings } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 
 export default async function TrainerOverviewPage() {
-  const session = await auth();
+  const [session, settings] = await Promise.all([auth(), getSiteSettings()]);
   const courses = await getCoursesForTrainer(session!.user.id);
+  const currency = settings?.currency ?? "LYD";
 
   return (
     <div>
@@ -39,7 +40,7 @@ export default async function TrainerOverviewPage() {
               </div>
               <p className="mt-2 text-sm text-muted">{course.category?.name ?? "بدون تصنيف"}</p>
               <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="font-semibold text-accent">{formatPrice(course.price)}</span>
+                <span className="font-semibold text-accent">{formatPrice(course.price, currency)}</span>
                 <span className="text-muted">{course._count.enrollments} متدرب</span>
               </div>
             </Link>

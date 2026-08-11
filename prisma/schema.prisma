@@ -133,3 +133,24 @@ model Enrollment {
   @@unique([userId, courseId])
   @@map("enrollments")
 }
+
+// Singleton row (id = "main") holding site-wide branding assets.
+model SiteSettings {
+  id        String  @id @default("main")
+  logoUrl   String?
+  currency  String  @default("LYD") // ISO 4217 code: LYD, EGP, or USD
+  homeViews Int     @default(0) // simple homepage load counter, not unique-visitor analytics
+
+  @@map("site_settings")
+}
+
+// Small image gallery telling the academy's story on the homepage.
+model StoryImage {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("story_images")
+}

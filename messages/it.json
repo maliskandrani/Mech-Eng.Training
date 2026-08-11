@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Accademia Completa di Ingegneria Meccanica e delle Tubazioni",
+    "title": "SkillStream Academy — Progettazione Impianti e Ingegneria",
     "description": "Corsi di formazione specializzati in ingegneria delle tubazioni e delle apparecchiature meccaniche, sistemi HVAC centralizzati e software di progettazione ingegneristica."
   },
   "nav": {
@@ -13,8 +13,8 @@
     "signup": "Registrati"
   },
   "brand": {
-    "line1": "Accademia Completa di Ingegneria",
-    "line2": "Meccanica e delle Tubazioni"
+    "line1": "SkillStream",
+    "line2": "Academy"
   },
   "language": {
     "label": "Lingua"
@@ -25,8 +25,12 @@
     "stats": {
       "courses": "Corsi disponibili",
       "lessons": "Lezioni di formazione",
-      "sections": "Sezioni / libri"
+      "sections": "Sezioni / libri",
+      "views": "Visite alla homepage"
     },
+    "insightsTitle": "L'accademia in numeri",
+    "categoryChartTitle": "Corsi per specializzazione",
+    "contentChartTitle": "Contenuto del corso in evidenza",
     "titleLead": "Supera la barriera dell'esitazione,",
     "titleHighlight": "l'esperienza arriva con il tempo",
     "subtitle": "Corsi di formazione specializzati in ingegneria delle tubazioni e delle apparecchiature meccaniche statiche e rotanti, sistemi HVAC centralizzati e software di progettazione ingegneristica — tenuti dall'Ing. Mohamed Rajab con esperienza pratica reale nel settore petrolifero, del gas e petrolchimico.",
@@ -49,7 +53,7 @@
     "quickLinks": "Link Rapidi",
     "contactTitle": "Contattaci",
     "contactText": "Per domande su corsi e iscrizioni, contattaci tramite l'email dell'accademia.",
-    "copyright": "© {year} Accademia Completa di Ingegneria Meccanica e delle Tubazioni. Tutti i diritti riservati."
+    "copyright": "© {year} SkillStream Academy. Tutti i diritti riservati."
   },
   "courses": {
     "pageTitle": "Corsi di Formazione",

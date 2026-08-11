@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Akademie für Maschinenbau- und Rohrleitungstechnik",
+    "title": "SkillStream Academy — Anlagenplanung und Technik",
     "description": "Spezialisierte Schulungen in Rohrleitungs- und Maschinenbautechnik, zentralen Klimaanlagen und technischer Konstruktionssoftware."
   },
   "nav": {
@@ -13,8 +13,8 @@
     "signup": "Registrieren"
   },
   "brand": {
-    "line1": "Akademie für Maschinenbau-",
-    "line2": "und Rohrleitungstechnik"
+    "line1": "SkillStream",
+    "line2": "Academy"
   },
   "language": {
     "label": "Sprache"
@@ -25,8 +25,12 @@
     "stats": {
       "courses": "Verfügbare Kurse",
       "lessons": "Schulungslektionen",
-      "sections": "Abschnitte / Bücher"
+      "sections": "Abschnitte / Bücher",
+      "views": "Aufrufe der Startseite"
     },
+    "insightsTitle": "Die Akademie in Zahlen",
+    "categoryChartTitle": "Kurse nach Fachgebiet",
+    "contentChartTitle": "Inhalt des Vorzeigekurses",
     "titleLead": "Durchbrechen Sie die Hürde des Zögerns,",
     "titleHighlight": "Erfahrung kommt mit der Zeit",
     "subtitle": "Spezialisierte Schulungen in der Technik statischer und rotierender Rohrleitungs- und Maschinenbaukomponenten, zentralen Klimaanlagen und technischer Konstruktionssoftware — geleitet von Ing. Mohamed Rajab mit echter Praxiserfahrung in der Öl-, Gas- und Petrochemiebranche.",
@@ -49,7 +53,7 @@
     "quickLinks": "Schnelllinks",
     "contactTitle": "Kontaktieren Sie uns",
     "contactText": "Bei Fragen zu Kursen und Anmeldung wenden Sie sich bitte an die E-Mail-Adresse der Akademie.",
-    "copyright": "© {year} Akademie für Maschinenbau- und Rohrleitungstechnik. Alle Rechte vorbehalten."
+    "copyright": "© {year} SkillStream Academy. Alle Rechte vorbehalten."
   },
   "courses": {
     "pageTitle": "Schulungskurse",

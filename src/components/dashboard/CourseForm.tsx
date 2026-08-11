@@ -17,17 +17,25 @@ type InitialCourse = {
   introVideoUrl: string | null;
 };
 
+const CURRENCY_LABELS: Record<string, string> = {
+  LYD: "د.ل",
+  EGP: "ج.م",
+  USD: "$",
+};
+
 export default function CourseForm({
   action,
   trainers,
   categories,
   initial,
   showTrainerSelect,
+  currency = "LYD",
 }: {
   action: (formData: FormData) => Promise<ActionResult>;
   trainers: Trainer[];
   categories: Category[];
   initial?: InitialCourse;
+  currency?: string;
   showTrainerSelect: boolean;
 }) {
   const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
@@ -68,7 +76,9 @@ export default function CourseForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-muted">السعر (ر.س)</label>
+          <label className="mb-1.5 block text-sm font-medium text-muted">
+            السعر ({CURRENCY_LABELS[currency] ?? currency})
+          </label>
           <input
             name="price"
             type="number"

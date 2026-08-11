@@ -20,7 +20,7 @@ async function main() {
       passwordHash: adminHash,
       role: "ADMIN",
       title: "مهندس ميكانيكي - خبير هندسة الأنابيب والمعدات الثابتة والدوارة",
-      bio: "مهندس ميكانيكي متخصص في هندسة الأنابيب والمعدات الميكانيكية بقطاع النفط والغاز والبتروكيماويات، له خبرة تمتد لسنوات طويلة في التصميم والتنفيذ والاستشارات الهندسية، ومؤسس أكاديمية الهندسة الميكانيكية وهندسة الأنابيب المتكاملة.",
+      bio: "مهندس ميكانيكي متخصص في هندسة الأنابيب والمعدات الميكانيكية بقطاع النفط والغاز والبتروكيماويات، له خبرة تمتد لسنوات طويلة في التصميم والتنفيذ والاستشارات الهندسية، ومؤسس أكاديمية تيار المهارات (SkillStream Academy).",
     },
   });
 
@@ -187,6 +187,17 @@ async function main() {
     update: {},
     create: { userId: student.id, courseId: pipingCourse.id },
   });
+
+  const STORY_SLIDES = [
+    { imageUrl: "/defaults/story/slide-1.svg", caption: "من الأساسيات النظرية وقراءة المخططات الهندسية" },
+    { imageUrl: "/defaults/story/slide-2.svg", caption: "إلى التطبيق العملي على المعدات والمشاريع الحقيقية" },
+    { imageUrl: "/defaults/story/slide-3.svg", caption: "وصولًا إلى الاحترافية والجاهزية لسوق العمل" },
+  ];
+  if ((await prisma.storyImage.count()) === 0) {
+    await prisma.storyImage.createMany({
+      data: STORY_SLIDES.map((s, i) => ({ ...s, order: i + 1 })),
+    });
+  }
 
   console.log("Seed complete.");
   console.log(`Admin login   -> ${ADMIN_EMAIL} / ${ADMIN_PASSWORD}`);

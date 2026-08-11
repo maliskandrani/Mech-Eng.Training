@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
-import { searchPublishedCourses, getCategories } from "@/lib/queries";
+import { searchPublishedCourses, getCategories, getSiteSettings } from "@/lib/queries";
 import CourseCard from "@/components/site/CourseCard";
 import SearchInput from "@/components/ui/SearchInput";
 import PaginationBar from "@/components/ui/PaginationBar";
@@ -14,12 +14,14 @@ export default async function CoursesPage({
 }) {
   const { category, q, page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
-  const [{ items: courses, totalPages }, categories, locale, t] = await Promise.all([
+  const [{ items: courses, totalPages }, categories, settings, locale, t] = await Promise.all([
     searchPublishedCourses({ q, categorySlug: category, page }),
     getCategories(),
+    getSiteSettings(),
     getLocale(),
     getTranslations("courses"),
   ]);
+  const currency = settings?.currency ?? "LYD";
 
   function categoryHref(slug?: string) {
     const params = new URLSearchParams();
@@ -69,7 +71,7 @@ export default async function CoursesPage({
       {courses.length > 0 ? (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
+            <CourseCard key={course.id} course={course} currency={currency} />
           ))}
         </div>
       ) : (

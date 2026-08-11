@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCourseById } from "@/lib/queries";
+import { getCourseById, getSiteSettings } from "@/lib/queries";
 import { prisma } from "@/lib/prisma";
 import { arabicCount, formatPrice } from "@/lib/utils";
 import CourseForm from "@/components/dashboard/CourseForm";
@@ -27,8 +27,9 @@ export default async function CourseManagePanel({
   courseId: string;
   isAdmin: boolean;
 }) {
-  const course = await getCourseById(courseId);
+  const [course, settings] = await Promise.all([getCourseById(courseId), getSiteSettings()]);
   if (!course) notFound();
+  const currency = settings?.currency ?? "LYD";
 
   const categories = isAdmin ? await prisma.category.findMany({ select: { id: true, name: true } }) : [];
   const trainers = isAdmin
@@ -47,7 +48,7 @@ export default async function CourseManagePanel({
         <div>
           <h1 className="text-2xl font-extrabold text-foreground">{course.title}</h1>
           <p className="text-sm text-muted">
-            {course.published ? "منشورة" : "مسودة"} · {formatPrice(course.price)} ·{" "}
+            {course.published ? "منشورة" : "مسودة"} · {formatPrice(course.price, currency)} ·{" "}
             {arabicCount(course.enrollments.length, "متدرب مسجَّل", "متدربان مسجَّلان", "متدربين مسجَّلين")}
           </p>
         </div>
@@ -132,6 +133,7 @@ export default async function CourseManagePanel({
                   action={updateCourse.bind(null, course.id)}
                   trainers={trainers}
                   categories={categories}
+                  currency={currency}
                   showTrainerSelect={isAdmin}
                   initial={{
                     title: course.title,

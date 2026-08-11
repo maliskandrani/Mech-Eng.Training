@@ -2,16 +2,18 @@ import NextLink from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { auth, signOut } from "@/lib/auth";
+import { getSiteSettings } from "@/lib/queries";
 import { ROLE_LABELS } from "@/lib/utils";
 import LanguageSwitcher from "@/components/site/LanguageSwitcher";
+import Logo from "@/components/site/Logo";
 
 export default async function Header() {
-  const [session, t, tBrand, tFooter, tHome] = await Promise.all([
+  const [session, settings, t, tBrand, tFooter] = await Promise.all([
     auth(),
+    getSiteSettings(),
     getTranslations("nav"),
     getTranslations("brand"),
     getTranslations("footer"),
-    getTranslations("home"),
   ]);
 
   const NAV_LINKS = [
@@ -22,24 +24,20 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md">
-      <div className="bg-navy text-navy-foreground">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 text-xs sm:px-6">
+      <div className="border-b border-white/10 bg-navy text-navy-foreground">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-1.5 text-xs sm:px-6">
           <span className="hidden items-center gap-1.5 text-navy-muted sm:flex">
             <span aria-hidden>✉️</span>
             <span>{tFooter("contactTitle")}</span>
           </span>
-          <span className="rounded-full border border-accent/30 bg-accent/15 px-3 py-1 font-semibold text-accent">
-            {tHome("enrollmentOpen")}
-          </span>
+          <LanguageSwitcher />
         </div>
       </div>
 
       <div className="border-b border-border/80 bg-background/95">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full gold-gradient text-accent-foreground font-bold ring-2 ring-navy/10">
-              م
-            </span>
+            <Logo logoUrl={settings?.logoUrl} />
             <span className="hidden text-sm font-bold text-foreground sm:block sm:text-base">
               {tBrand("line1")} <span className="text-accent">{tBrand("line2")}</span>
             </span>
@@ -54,8 +52,6 @@ export default async function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-
             {session?.user ? (
               <div className="flex items-center gap-3">
                 <NextLink

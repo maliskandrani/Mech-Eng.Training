@@ -16,7 +16,13 @@ type CourseCardData = {
   sections: { _count: { lessons: number } }[];
 };
 
-export default function CourseCard({ course }: { course: CourseCardData }) {
+export default function CourseCard({
+  course,
+  currency = "LYD",
+}: {
+  course: CourseCardData;
+  currency?: string;
+}) {
   const t = useTranslations("courses");
   const format = useFormatter();
   const lessonsCount = course.sections.reduce((n, s) => n + s._count.lessons, 0);
@@ -66,7 +72,7 @@ export default function CourseCard({ course }: { course: CourseCardData }) {
 
         <div className="mt-auto flex items-center justify-between border-t border-border pt-4">
           <span className="font-bold text-accent">
-            {course.price > 0 ? format.number(course.price, { style: "currency", currency: "SAR" }) : t("free")}
+            {course.price > 0 ? format.number(course.price, { style: "currency", currency }) : t("free")}
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-navy-foreground transition group-hover:bg-navy-soft">
             {t("viewDetails")}

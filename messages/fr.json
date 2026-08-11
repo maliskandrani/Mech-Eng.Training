@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Académie Complète d'Ingénierie Mécanique et de Tuyauterie",
+    "title": "SkillStream Academy — Conception d'Installations et Ingénierie",
     "description": "Formations spécialisées en ingénierie de la tuyauterie et des équipements mécaniques, systèmes CVC centralisés et logiciels de conception technique."
   },
   "nav": {
@@ -13,8 +13,8 @@
     "signup": "S'inscrire"
   },
   "brand": {
-    "line1": "Académie Complète d'Ingénierie",
-    "line2": "Mécanique et de Tuyauterie"
+    "line1": "SkillStream",
+    "line2": "Academy"
   },
   "language": {
     "label": "Langue"
@@ -25,8 +25,12 @@
     "stats": {
       "courses": "Formations disponibles",
       "lessons": "Leçons de formation",
-      "sections": "Sections / livres"
+      "sections": "Sections / livres",
+      "views": "Visites de la page d'accueil"
     },
+    "insightsTitle": "L'académie en chiffres",
+    "categoryChartTitle": "Formations par spécialité",
+    "contentChartTitle": "Contenu de la formation phare",
     "titleLead": "Franchissez la barrière de l'hésitation,",
     "titleHighlight": "l'expérience vient avec le temps",
     "subtitle": "Formations spécialisées en ingénierie de la tuyauterie et des équipements mécaniques statiques et rotatifs, systèmes CVC centralisés et logiciels de conception technique — dispensées par l'ingénieur Mohamed Rajab fort d'une expérience de terrain réelle dans le secteur pétrolier, gazier et pétrochimique.",
@@ -49,7 +53,7 @@
     "quickLinks": "Liens Rapides",
     "contactTitle": "Contactez-nous",
     "contactText": "Pour toute question sur les formations et les inscriptions, veuillez nous contacter via l'e-mail de l'académie.",
-    "copyright": "© {year} Académie Complète d'Ingénierie Mécanique et de Tuyauterie. Tous droits réservés."
+    "copyright": "© {year} SkillStream Academy. Tous droits réservés."
   },
   "courses": {
     "pageTitle": "Formations",

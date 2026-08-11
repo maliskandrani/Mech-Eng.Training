@@ -1,14 +1,23 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getSiteSettings, getRevenueByCourse } from "@/lib/queries";
+import { formatPrice } from "@/lib/utils";
+import BarChart from "@/components/site/BarChart";
 
 export default async function AdminOverviewPage() {
-  const [courseCount, publishedCount, trainerCount, studentCount, enrollmentCount] = await Promise.all([
-    prisma.course.count(),
-    prisma.course.count({ where: { published: true } }),
-    prisma.user.count({ where: { role: { in: ["ADMIN", "TRAINER"] } } }),
-    prisma.user.count({ where: { role: "STUDENT" } }),
-    prisma.enrollment.count(),
-  ]);
+  const [courseCount, publishedCount, trainerCount, studentCount, enrollmentCount, settings, revenueByCourse] =
+    await Promise.all([
+      prisma.course.count(),
+      prisma.course.count({ where: { published: true } }),
+      prisma.user.count({ where: { role: { in: ["ADMIN", "TRAINER"] } } }),
+      prisma.user.count({ where: { role: "STUDENT" } }),
+      prisma.enrollment.count(),
+      getSiteSettings(),
+      getRevenueByCourse(),
+    ]);
+  const currency = settings?.currency ?? "LYD";
+  const totalRevenue = revenueByCourse.reduce((n, c) => n + c.revenue, 0);
+  const revenueChartData = revenueByCourse.map((c) => ({ label: c.title, value: c.revenue }));
 
   const stats = [
     {
@@ -78,6 +87,21 @@ export default async function AdminOverviewPage() {
           )
         )}
       </div>
+
+      {revenueChartData.length > 0 && (
+        <div className="mt-8 rounded-2xl border border-border bg-background-card p-6">
+          <div className="flex items-center justify-between">
+            <h2 className="font-bold text-foreground">الإيرادات المقدَّرة حسب الدورة</h2>
+            <span className="text-lg font-extrabold text-accent">{formatPrice(totalRevenue, currency)}</span>
+          </div>
+          <p className="mt-1 text-xs text-muted">
+            تقدير مبني على (سعر الدورة × عدد المتدربين المسجَّلين) — مرئي للمدير فقط.
+          </p>
+          <div className="mt-5">
+            <BarChart data={revenueChartData} valueFormatter={(v) => formatPrice(v, currency)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

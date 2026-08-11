@@ -5,7 +5,7 @@ import { getLocale, getTranslations, getFormatter } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
-import { getCourseBySlug } from "@/lib/queries";
+import { getCourseBySlug, getSiteSettings } from "@/lib/queries";
 import VideoEmbed from "@/components/site/VideoEmbed";
 import EnrollButton from "@/components/site/EnrollButton";
 
@@ -15,14 +15,16 @@ export default async function CourseDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [course, session, locale, t, tTrainers, format] = await Promise.all([
+  const [course, settings, session, locale, t, tTrainers, format] = await Promise.all([
     getCourseBySlug(slug),
+    getSiteSettings(),
     auth(),
     getLocale(),
     getTranslations("courses"),
     getTranslations("trainers"),
     getFormatter(),
   ]);
+  const currency = settings?.currency ?? "LYD";
 
   if (!course) notFound();
 
@@ -126,7 +128,7 @@ export default async function CourseDetailPage({
         <aside className="space-y-6">
           <div className="rounded-2xl border border-border bg-background-card p-6">
             <div className="text-3xl font-extrabold text-accent">
-              {course.price > 0 ? format.number(course.price, { style: "currency", currency: "SAR" }) : t("free")}
+              {course.price > 0 ? format.number(course.price, { style: "currency", currency }) : t("free")}
             </div>
 
             {!session?.user && (

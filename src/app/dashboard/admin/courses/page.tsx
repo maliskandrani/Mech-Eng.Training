@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
-import { searchCoursesForAdmin } from "@/lib/queries";
+import { searchCoursesForAdmin, getSiteSettings } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 import { setCoursePublished, deleteCourse } from "@/lib/actions/course-actions";
 import { PublishToggle, ConfirmDeleteButton } from "@/components/dashboard/ActionButtons";
@@ -15,7 +15,11 @@ export default async function AdminCoursesPage({
 }) {
   const { q, page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
-  const { items: courses, totalPages } = await searchCoursesForAdmin({ q, page });
+  const [{ items: courses, totalPages }, settings] = await Promise.all([
+    searchCoursesForAdmin({ q, page }),
+    getSiteSettings(),
+  ]);
+  const currency = settings?.currency ?? "LYD";
 
   return (
     <div>
@@ -69,7 +73,7 @@ export default async function AdminCoursesPage({
                   </div>
                 </td>
                 <td className="p-3 text-muted">{course.trainer.name}</td>
-                <td className="p-3 text-muted">{formatPrice(course.price)}</td>
+                <td className="p-3 text-muted">{formatPrice(course.price, currency)}</td>
                 <td className="p-3 text-muted">{course._count.enrollments}</td>
                 <td className="p-3">
                   <PublishToggle courseId={course.id} published={course.published} action={setCoursePublished} />

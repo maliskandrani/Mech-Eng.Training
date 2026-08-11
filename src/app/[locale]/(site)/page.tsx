@@ -1,17 +1,32 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { getPublishedCourses, getTrainers } from "@/lib/queries";
+import {
+  getPublishedCourses,
+  getTrainers,
+  getStoryImages,
+  getSiteSettings,
+  incrementHomeViews,
+} from "@/lib/queries";
 import CourseCard from "@/components/site/CourseCard";
+import StoryCarousel from "@/components/site/StoryCarousel";
+import BarChart from "@/components/site/BarChart";
+import PieChart from "@/components/site/PieChart";
+
+const CHART_PALETTE = ["#d4af37", "#24407e", "#5c9e7a", "#b0567a", "#8fa5d6"];
 
 export default async function HomePage() {
-  const [courses, trainers, t, tTrainers] = await Promise.all([
+  const [courses, trainers, storySlides, settings, homeViews, t, tTrainers] = await Promise.all([
     getPublishedCourses(),
     getTrainers(),
+    getStoryImages(),
+    getSiteSettings(),
+    incrementHomeViews(),
     getTranslations("home"),
     getTranslations("trainers"),
   ]);
   const featured = courses.slice(0, 6);
   const mainTrainer = trainers[0];
+  const currency = settings?.currency ?? "LYD";
 
   const totalSections = courses.reduce((n, c) => n + c._count.sections, 0);
   const totalLessons = courses.reduce(
@@ -23,7 +38,23 @@ export default async function HomePage() {
     { value: courses.length, label: t("stats.courses") },
     { value: totalLessons, label: t("stats.lessons") },
     { value: totalSections, label: t("stats.sections") },
+    { value: homeViews, label: t("stats.views") },
   ];
+
+  const categoryCounts = new Map<string, number>();
+  for (const c of courses) {
+    const name = c.category?.name ?? "—";
+    categoryCounts.set(name, (categoryCounts.get(name) ?? 0) + 1);
+  }
+  const categoryData = Array.from(categoryCounts.entries()).map(([label, value], i) => ({
+    label,
+    value,
+    color: CHART_PALETTE[i % CHART_PALETTE.length],
+  }));
+
+  const flagship = courses[0];
+  const contentData =
+    flagship?.sections.map((s) => ({ label: s.title, value: s._count.lessons })) ?? [];
 
   const FEATURES = [
     { icon: "🎓", key: "content" as const },
@@ -43,7 +74,6 @@ export default async function HomePage() {
             <h1 className="mt-5 text-3xl font-extrabold leading-tight text-navy-foreground sm:text-4xl lg:text-5xl">
               {t("titleLead")} <span className="gold-text-gradient">{t("titleHighlight")}</span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-navy-muted">{t("subtitle")}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/courses"
@@ -69,19 +99,23 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {FEATURES.map((f) => (
-              <div key={f.key} className="rounded-2xl border border-white/10 bg-navy-elevated p-5">
-                <div className="text-2xl">{f.icon}</div>
-                <h3 className="mt-3 font-bold text-navy-foreground">{t(`features.${f.key}.title`)}</h3>
-                <p className="mt-1 text-sm leading-6 text-navy-muted">{t(`features.${f.key}.desc`)}</p>
-              </div>
-            ))}
-          </div>
+          <StoryCarousel slides={storySlides} />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURES.map((f) => (
+            <div key={f.key} className="rounded-2xl border border-border bg-background-card p-5">
+              <div className="text-2xl">{f.icon}</div>
+              <h3 className="mt-3 font-bold text-foreground">{t(`features.${f.key}.title`)}</h3>
+              <p className="mt-1 text-sm leading-6 text-muted">{t(`features.${f.key}.desc`)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-foreground">{t("coursesTitle")}</h2>
@@ -95,13 +129,39 @@ export default async function HomePage() {
         {featured.length > 0 ? (
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((course) => (
-              <CourseCard key={course.id} course={course} />
+              <CourseCard key={course.id} course={course} currency={currency} />
             ))}
           </div>
         ) : (
           <p className="mt-8 text-muted">{t("noCourses")}</p>
         )}
       </section>
+
+      {(categoryData.length > 0 || contentData.length > 0) && (
+        <section className="border-t border-border bg-background-elevated">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+            <h2 className="text-2xl font-bold text-foreground">{t("insightsTitle")}</h2>
+            <div className="mt-8 grid gap-6 lg:grid-cols-2">
+              {categoryData.length > 0 && (
+                <div className="rounded-2xl border border-border bg-background-card p-6">
+                  <h3 className="font-bold text-foreground">{t("categoryChartTitle")}</h3>
+                  <div className="mt-5">
+                    <PieChart data={categoryData} />
+                  </div>
+                </div>
+              )}
+              {contentData.length > 0 && (
+                <div className="rounded-2xl border border-border bg-background-card p-6">
+                  <h3 className="font-bold text-foreground">{t("contentChartTitle")}</h3>
+                  <div className="mt-5">
+                    <BarChart data={contentData} />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {mainTrainer && (
         <section className="border-t border-border bg-background-elevated">

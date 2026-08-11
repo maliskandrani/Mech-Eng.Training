@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Complete Mechanical & Piping Engineering Academy",
+    "title": "SkillStream Academy — Plant Design & Engineering",
     "description": "Specialized training courses in piping and mechanical equipment engineering, central HVAC systems, and engineering design software."
   },
   "nav": {
@@ -13,8 +13,8 @@
     "signup": "Sign up"
   },
   "brand": {
-    "line1": "Complete Mechanical &",
-    "line2": "Piping Engineering Academy"
+    "line1": "SkillStream",
+    "line2": "Academy"
   },
   "language": {
     "label": "Language"
@@ -25,8 +25,12 @@
     "stats": {
       "courses": "Courses available",
       "lessons": "Training lessons",
-      "sections": "Sections / books"
+      "sections": "Sections / books",
+      "views": "Homepage views"
     },
+    "insightsTitle": "The academy in numbers",
+    "categoryChartTitle": "Courses by specialty",
+    "contentChartTitle": "Featured course content",
     "titleLead": "Break through the hesitation barrier,",
     "titleHighlight": "experience comes with time",
     "subtitle": "Specialized training courses in static and rotating piping and mechanical equipment engineering, central HVAC systems, and engineering design software — delivered by Eng. Mohamed Rajab with real hands-on experience in the oil, gas, and petrochemical industry.",
@@ -49,7 +53,7 @@
     "quickLinks": "Quick Links",
     "contactTitle": "Contact Us",
     "contactText": "For questions about courses and enrollment, please reach out via the academy's email.",
-    "copyright": "© {year} Complete Mechanical & Piping Engineering Academy. All rights reserved."
+    "copyright": "© {year} SkillStream Academy. All rights reserved."
   },
   "courses": {
     "pageTitle": "Training Courses",

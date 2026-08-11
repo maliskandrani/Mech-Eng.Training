@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import type { ActionResult } from "@/lib/actions/auth-actions";
+import PasswordInput from "@/components/ui/PasswordInput";
 
 export default function CreateUserForm({
   action,
@@ -31,9 +32,8 @@ export default function CreateUserForm({
         placeholder="البريد الإلكتروني"
         className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
       />
-      <input
+      <PasswordInput
         name="password"
-        type="password"
         required
         minLength={8}
         placeholder="كلمة المرور (8 أحرف على الأقل)"

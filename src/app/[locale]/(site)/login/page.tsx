@@ -1,17 +1,36 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import { getSiteSettings } from "@/lib/queries";
+import Logo from "@/components/site/Logo";
 import LoginForm from "./LoginForm";
 
 export default async function LoginPage() {
-  const t = await getTranslations("auth");
-  return (
-    <div className="mx-auto flex max-w-md flex-col justify-center px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-extrabold text-foreground">{t("loginTitle")}</h1>
-      <p className="mt-2 text-muted">{t("loginSubtitle")}</p>
+  const [t, tBrand, settings] = await Promise.all([
+    getTranslations("auth"),
+    getTranslations("brand"),
+    getSiteSettings(),
+  ]);
 
-      <Suspense>
-        <LoginForm />
-      </Suspense>
+  return (
+    <div className="grid min-h-[calc(100vh-61px)] lg:grid-cols-2">
+      <div className="hero-navy hidden flex-col items-start justify-center px-12 py-16 text-navy-foreground lg:flex">
+        <Logo logoUrl={settings?.logoUrl} size={56} />
+        <h2 className="mt-6 text-2xl font-extrabold">
+          {tBrand("line1")} <span className="text-accent">{tBrand("line2")}</span>
+        </h2>
+        <p className="mt-3 max-w-sm leading-7 text-navy-muted">{t("loginSubtitle")}</p>
+      </div>
+
+      <div className="flex flex-col justify-center px-4 py-16 sm:px-6 lg:px-16">
+        <div className="mx-auto w-full max-w-md">
+          <h1 className="text-2xl font-extrabold text-foreground">{t("loginTitle")}</h1>
+          <p className="mt-2 text-muted">{t("loginSubtitle")}</p>
+
+          <Suspense>
+            <LoginForm />
+          </Suspense>
+        </div>
+      </div>
     </div>
   );
 }

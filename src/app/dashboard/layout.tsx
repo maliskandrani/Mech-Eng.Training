@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Cairo } from "next/font/google";
 import { auth, signOut } from "@/lib/auth";
+import { getSiteSettings } from "@/lib/queries";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { ROLE_LABELS } from "@/lib/utils";
 import "../globals.css";
@@ -13,11 +14,11 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "لوحة التحكم | أكاديمية الهندسة الميكانيكية وهندسة الأنابيب",
+  title: "لوحة التحكم | SkillStream Academy",
 };
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
+  const [session, settings] = await Promise.all([auth(), getSiteSettings()]);
   if (!session?.user) redirect("/login?callbackUrl=/dashboard");
 
   return (
@@ -54,7 +55,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </header>
 
           <div className="flex flex-1 flex-col md:flex-row">
-            <Sidebar role={session.user.role} />
+            <Sidebar role={session.user.role} logoUrl={settings?.logoUrl} />
             <main className="flex-1 bg-background p-4 sm:p-6">{children}</main>
           </div>
         </div>
