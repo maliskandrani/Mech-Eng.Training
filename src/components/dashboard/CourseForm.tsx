@@ -149,8 +149,7 @@ export default function CourseForm({
           className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
         />
         <p className="mt-1.5 text-xs text-muted">
-          تُعرض الصورة تلقائيًا بنسبة عرض إلى ارتفاع 16:9 في كل الصفحات — يفضّل رفع صورة بهذه
-          النسبة (مثلاً 1280×720) حتى لا يُقتَصّ أي جزء مهم منها.
+          تُعرض الصورة كاملة دون أي قص في كل الصفحات، بحجم مصغّر ومناسب لكل مكان تلقائيًا.
         </p>
       </div>
 

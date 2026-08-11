@@ -53,7 +53,7 @@ export default async function AdminCoursesPage({
                   <div className="flex items-center gap-3">
                     <div className="relative aspect-video h-11 shrink-0 overflow-hidden rounded-lg bg-background-elevated">
                       {course.posterUrl ? (
-                        <Image src={course.posterUrl} alt={course.title} fill className="object-cover object-center" />
+                        <Image src={course.posterUrl} alt={course.title} fill className="object-contain p-1" />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-lg">📚</div>
                       )}

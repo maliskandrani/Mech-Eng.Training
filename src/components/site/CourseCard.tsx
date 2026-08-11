@@ -27,13 +27,13 @@ export default function CourseCard({ course }: { course: CourseCardData }) {
       href={`/courses/${course.slug}`}
       className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background-card shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-background-elevated">
+      <div className="relative h-36 w-full overflow-hidden bg-background-elevated">
         {course.posterUrl ? (
           <Image
             src={course.posterUrl}
             alt={course.title}
             fill
-            className="object-cover object-center transition duration-300 group-hover:scale-105"
+            className="object-contain p-2 transition duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-muted">

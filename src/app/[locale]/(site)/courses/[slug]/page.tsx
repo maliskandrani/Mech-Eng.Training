@@ -61,7 +61,7 @@ export default async function CourseDetailPage({
               <VideoEmbed url={course.introVideoUrl} />
             ) : course.posterUrl ? (
               <div className="relative h-full w-full">
-                <Image src={course.posterUrl} alt={course.title} fill className="object-cover" />
+                <Image src={course.posterUrl} alt={course.title} fill className="object-contain p-3" />
               </div>
             ) : (
               <div className="flex h-full items-center justify-center text-muted">{t("noVideoOrPoster")}</div>
