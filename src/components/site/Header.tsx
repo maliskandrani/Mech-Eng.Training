@@ -33,12 +33,12 @@ export default async function Header() {
         </div>
       </div>
 
-      <div className="border-b border-border/80 bg-background/95">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link href="/" className="shrink-0">
+      <div className="h-20 border-b border-border/80 bg-background/95">
+        <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+          <Link href="/" className="flex h-full shrink-0 items-center">
             <BrandLockup
               logoUrl={settings?.logoUrl}
-              size={120}
+              size={64}
               nameClassName="text-foreground text-sm sm:text-base"
               translatedClassName="text-muted"
             />
