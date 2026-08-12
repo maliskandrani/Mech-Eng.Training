@@ -38,7 +38,7 @@ export default function Sidebar({
   return (
     <aside className="sidebar-green w-full shrink-0 text-navy-foreground md:w-64 md:min-h-[calc(100vh-61px)]">
       <div className="hidden items-center gap-3 border-b border-white/10 px-5 py-6 md:flex">
-        <Logo logoUrl={logoUrl} size={52} />
+        <Logo logoUrl={logoUrl} size={64} />
         <div className="text-xs leading-5">
           <p className="font-extrabold tracking-wide text-navy-foreground">SkillStream</p>
           <p className="text-navy-muted">Academy</p>
