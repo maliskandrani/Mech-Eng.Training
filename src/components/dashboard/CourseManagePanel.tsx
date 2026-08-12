@@ -17,7 +17,7 @@ import {
   deleteLesson,
   reorderLessons,
 } from "@/lib/actions/course-actions";
-import { uploadMaterial, deleteMaterial } from "@/lib/actions/material-actions";
+import { deleteMaterial } from "@/lib/actions/material-actions";
 import { enrollStudent, unenrollStudent } from "@/lib/actions/user-actions";
 
 export default async function CourseManagePanel({
@@ -96,7 +96,6 @@ export default async function CourseManagePanel({
                   createLesson={createLesson}
                   deleteLesson={deleteLesson}
                   reorderLessons={reorderLessons}
-                  uploadMaterial={uploadMaterial}
                   deleteMaterial={deleteMaterial}
                 />
               ),

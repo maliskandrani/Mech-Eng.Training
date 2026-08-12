@@ -35,7 +35,6 @@ export default function CourseContentEditor({
   createLesson,
   deleteLesson,
   reorderLessons,
-  uploadMaterial,
   deleteMaterial,
 }: {
   sections: Section[];
@@ -45,7 +44,6 @@ export default function CourseContentEditor({
   createLesson: (sectionId: string, formData: FormData) => Promise<ActionResult>;
   deleteLesson: (lessonId: string) => Promise<ActionResult>;
   reorderLessons: (sectionId: string, orderedIds: string[]) => Promise<ActionResult>;
-  uploadMaterial: (lessonId: string, formData: FormData) => Promise<ActionResult>;
   deleteMaterial: (materialId: string) => Promise<ActionResult>;
 }) {
   const router = useRouter();
@@ -137,7 +135,7 @@ export default function CourseContentEditor({
                       </ul>
                     )}
 
-                    <MaterialUploadForm action={uploadMaterial.bind(null, lesson.id)} />
+                    <MaterialUploadForm lessonId={lesson.id} />
                   </div>
                 )}
               />

@@ -26,7 +26,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
       <body className="min-h-full">
         <div className="dash-theme flex min-h-screen flex-col bg-background text-foreground">
-          <header className="flex items-center justify-between border-b border-border bg-background-card px-4 py-3 shadow-sm sm:px-6">
+          <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background-card px-4 py-3 shadow-sm sm:px-6">
             <Link href="/" className="text-sm font-bold text-foreground">
               لوحة التحكم
             </Link>

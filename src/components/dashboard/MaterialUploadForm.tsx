@@ -1,16 +1,41 @@
 "use client";
 
-import { useActionState } from "react";
-import type { ActionResult } from "@/lib/actions/auth-actions";
+import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
-export default function MaterialUploadForm({ action }: { action: (formData: FormData) => Promise<ActionResult> }) {
-  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
-    async (_prev, formData) => action(formData),
-    null
-  );
+export default function MaterialUploadForm({ lessonId }: { lessonId: string }) {
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    formData.set("lessonId", lessonId);
+    setError(null);
+    startTransition(async () => {
+      try {
+        const res = await fetch("/api/materials/upload", { method: "POST", body: formData });
+        const result: { ok: boolean; error?: string } = await res.json();
+        if (!result.ok) {
+          setError(result.error ?? "حدث خطأ غير متوقع أثناء الرفع");
+          return;
+        }
+        formRef.current?.reset();
+        router.refresh();
+      } catch {
+        setError("تعذر الاتصال بالخادم. حاول مرة أخرى.");
+      }
+    });
+  }
 
   return (
-    <form action={formAction} className="mt-3 grid gap-2 rounded-lg border border-dashed border-border p-3 sm:grid-cols-4">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className="mt-3 grid gap-2 rounded-lg border border-dashed border-border p-3 sm:grid-cols-4"
+    >
       <input
         name="title"
         required
@@ -38,7 +63,7 @@ export default function MaterialUploadForm({ action }: { action: (formData: Form
       >
         {pending ? "جاري الرفع..." : "رفع الملف"}
       </button>
-      {state && !state.ok && <p className="text-xs text-red-300 sm:col-span-4">{state.error}</p>}
+      {error && <p className="text-xs text-red-300 sm:col-span-4">{error}</p>}
     </form>
   );
 }
