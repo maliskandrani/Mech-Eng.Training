@@ -17,7 +17,7 @@ export default async function Footer() {
           <div>
             <BrandLockup
               logoUrl={settings?.logoUrl}
-              size={48}
+              size={100}
               nameClassName="text-navy-foreground"
               translatedClassName="text-navy-muted"
             />

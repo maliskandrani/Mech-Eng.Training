@@ -38,7 +38,7 @@ export default async function Header() {
           <Link href="/" className="shrink-0">
             <BrandLockup
               logoUrl={settings?.logoUrl}
-              size={56}
+              size={120}
               nameClassName="text-foreground text-sm sm:text-base"
               translatedClassName="text-muted"
             />

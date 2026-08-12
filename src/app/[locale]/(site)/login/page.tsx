@@ -12,7 +12,7 @@ export default async function LoginPage() {
       <div className="hero-navy hidden flex-col items-start justify-center px-12 py-16 text-navy-foreground lg:flex">
         <BrandLockup
           logoUrl={settings?.logoUrl}
-          size={72}
+          size={150}
           nameClassName="text-2xl text-navy-foreground"
           translatedClassName="text-navy-muted text-sm"
         />
