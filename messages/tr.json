@@ -13,8 +13,7 @@
     "signup": "Kayıt ol"
   },
   "brand": {
-    "line1": "SkillStream",
-    "line2": "Academy"
+    "translatedName": "SkillStream Akademisi"
   },
   "language": {
     "label": "Dil"
@@ -106,6 +105,23 @@
     "coursesCount": "{count, plural, other {# kurs}}",
     "coursesTitle": "{name} kursları",
     "noCourses": "Bu eğitmenin şu anda yayınlanmış kursu yok."
+  },
+  "contact": {
+    "pageTitle": "Bize Ulaşın",
+    "pageSubtitle": "Sorularınızı, önerilerinizi veya şikayetlerinizi almaktan mutluluk duyarız — size en kısa sürede geri döneceğiz.",
+    "phonesTitle": "Telefon Numaraları",
+    "emailTitle": "E-posta",
+    "whatsappNote": "WhatsApp'ta mevcut",
+    "formName": "Ad",
+    "formContact": "E-posta veya telefon numarası",
+    "formType": "Mesaj türü",
+    "typeInquiry": "Soru",
+    "typeSuggestion": "Öneri",
+    "typeComplaint": "Şikayet",
+    "formMessage": "Mesaj",
+    "submit": "Mesajı gönder",
+    "submitting": "Gönderiliyor...",
+    "successMessage": "Mesajınız gönderildi. Yakında size geri döneceğiz."
   },
   "auth": {
     "loginTitle": "Giriş yap",

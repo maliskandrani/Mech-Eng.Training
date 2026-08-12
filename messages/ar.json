@@ -13,8 +13,7 @@
     "signup": "إنشاء حساب"
   },
   "brand": {
-    "line1": "أكاديمية",
-    "line2": "تيار المهارات"
+    "translatedName": "أكاديمية تيار المهارات"
   },
   "language": {
     "label": "اللغة"
@@ -106,6 +105,23 @@
     "coursesCount": "{count, plural, one {# دورة} two {# دورتان} few {# دورات} other {# دورات}}",
     "coursesTitle": "دورات {name}",
     "noCourses": "لا توجد دورات منشورة لهذا المدرب حاليًا."
+  },
+  "contact": {
+    "pageTitle": "تواصل معنا",
+    "pageSubtitle": "يسعدنا استقبال استفساراتك واقتراحاتك وشكاواك — سنرد عليك في أقرب وقت.",
+    "phonesTitle": "أرقام التواصل",
+    "emailTitle": "البريد الإلكتروني",
+    "whatsappNote": "متاح على واتساب",
+    "formName": "الاسم",
+    "formContact": "البريد الإلكتروني أو رقم الهاتف",
+    "formType": "نوع الرسالة",
+    "typeInquiry": "استفسار",
+    "typeSuggestion": "اقتراح",
+    "typeComplaint": "شكوى",
+    "formMessage": "الرسالة",
+    "submit": "إرسال الرسالة",
+    "submitting": "جاري الإرسال...",
+    "successMessage": "تم إرسال رسالتك بنجاح، سنتواصل معك قريبًا."
   },
   "auth": {
     "loginTitle": "تسجيل الدخول",

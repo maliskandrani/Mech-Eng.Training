@@ -5,14 +5,13 @@ import { auth, signOut } from "@/lib/auth";
 import { getSiteSettings } from "@/lib/queries";
 import { ROLE_LABELS } from "@/lib/utils";
 import LanguageSwitcher from "@/components/site/LanguageSwitcher";
-import Logo from "@/components/site/Logo";
+import BrandLockup from "@/components/site/BrandLockup";
 
 export default async function Header() {
-  const [session, settings, t, tBrand, tFooter] = await Promise.all([
+  const [session, settings, t, tFooter] = await Promise.all([
     auth(),
     getSiteSettings(),
     getTranslations("nav"),
-    getTranslations("brand"),
     getTranslations("footer"),
   ]);
 
@@ -26,21 +25,23 @@ export default async function Header() {
     <header className="sticky top-0 z-40 backdrop-blur-md">
       <div className="border-b border-white/10 bg-navy text-navy-foreground">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-1.5 text-xs sm:px-6">
-          <span className="hidden items-center gap-1.5 text-navy-muted sm:flex">
+          <Link href="/contact" className="flex items-center gap-1.5 text-navy-muted transition hover:text-accent">
             <span aria-hidden>✉️</span>
             <span>{tFooter("contactTitle")}</span>
-          </span>
+          </Link>
           <LanguageSwitcher />
         </div>
       </div>
 
       <div className="border-b border-border/80 bg-background/95">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <Logo logoUrl={settings?.logoUrl} />
-            <span className="hidden text-sm font-bold text-foreground sm:block sm:text-base">
-              {tBrand("line1")} <span className="text-accent">{tBrand("line2")}</span>
-            </span>
+          <Link href="/" className="shrink-0">
+            <BrandLockup
+              logoUrl={settings?.logoUrl}
+              size={44}
+              nameClassName="text-foreground text-sm sm:text-base"
+              translatedClassName="text-muted"
+            />
           </Link>
 
           <nav className="hidden items-center gap-6 text-sm text-muted md:flex">

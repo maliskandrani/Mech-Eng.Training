@@ -154,3 +154,22 @@ model StoryImage {
 
   @@map("story_images")
 }
+
+enum ContactMessageType {
+  COMPLAINT
+  SUGGESTION
+  INQUIRY
+}
+
+// Messages submitted through the public /contact page.
+model ContactMessage {
+  id          String             @id @default(cuid())
+  name        String
+  contactInfo String // email or phone the sender provided
+  type        ContactMessageType @default(INQUIRY)
+  message     String
+  read        Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+
+  @@map("contact_messages")
+}

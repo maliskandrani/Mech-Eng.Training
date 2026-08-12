@@ -13,8 +13,7 @@
     "signup": "Registrieren"
   },
   "brand": {
-    "line1": "SkillStream",
-    "line2": "Academy"
+    "translatedName": "SkillStream Akademie"
   },
   "language": {
     "label": "Sprache"
@@ -106,6 +105,23 @@
     "coursesCount": "{count, plural, one {# Kurs} other {# Kurse}}",
     "coursesTitle": "Kurse von {name}",
     "noCourses": "Dieser Trainer hat derzeit keine veröffentlichten Kurse."
+  },
+  "contact": {
+    "pageTitle": "Kontaktieren Sie uns",
+    "pageSubtitle": "Wir freuen uns über Ihre Fragen, Vorschläge oder Beschwerden — wir melden uns bald bei Ihnen.",
+    "phonesTitle": "Telefonnummern",
+    "emailTitle": "E-Mail",
+    "whatsappNote": "Auf WhatsApp verfügbar",
+    "formName": "Name",
+    "formContact": "E-Mail oder Telefonnummer",
+    "formType": "Nachrichtentyp",
+    "typeInquiry": "Anfrage",
+    "typeSuggestion": "Vorschlag",
+    "typeComplaint": "Beschwerde",
+    "formMessage": "Nachricht",
+    "submit": "Nachricht senden",
+    "submitting": "Wird gesendet...",
+    "successMessage": "Ihre Nachricht wurde gesendet. Wir melden uns bald bei Ihnen."
   },
   "auth": {
     "loginTitle": "Anmelden",

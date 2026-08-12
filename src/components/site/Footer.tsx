@@ -1,14 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getSiteSettings } from "@/lib/queries";
-import Logo from "@/components/site/Logo";
+import BrandLockup from "@/components/site/BrandLockup";
 
 export default async function Footer() {
-  const [settings, t, tNav, tBrand] = await Promise.all([
+  const [settings, t, tNav] = await Promise.all([
     getSiteSettings(),
     getTranslations("footer"),
     getTranslations("nav"),
-    getTranslations("brand"),
   ]);
 
   return (
@@ -16,10 +15,12 @@ export default async function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="grid gap-8 sm:grid-cols-3">
           <div>
-            <div className="flex items-center gap-2">
-              <Logo logoUrl={settings?.logoUrl} size={32} />
-              <span className="font-bold text-navy-foreground">{tBrand("line1")} {tBrand("line2")}</span>
-            </div>
+            <BrandLockup
+              logoUrl={settings?.logoUrl}
+              size={40}
+              nameClassName="text-navy-foreground"
+              translatedClassName="text-navy-muted"
+            />
             <p className="mt-3 text-sm leading-6 text-navy-muted">{t("description")}</p>
           </div>
 
@@ -34,8 +35,22 @@ export default async function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-navy-foreground">{t("contactTitle")}</h4>
-            <p className="mt-3 text-sm text-navy-muted">{t("contactText")}</p>
+            <h4 className="font-semibold text-navy-foreground">
+              <Link href="/contact" className="hover:text-accent">{t("contactTitle")}</Link>
+            </h4>
+            <ul className="mt-3 space-y-2 text-sm text-navy-muted" dir="ltr">
+              <li className="text-end">
+                <a href="tel:+201115248882" className="hover:text-accent">+20 111 524 8882</a>
+              </li>
+              <li className="text-end">
+                <a href="https://wa.me/218916290814" target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+                  +218 91 629 0814 (WhatsApp)
+                </a>
+              </li>
+              <li className="text-end">
+                <a href="mailto:albarasi37@gmail.com" className="hover:text-accent">albarasi37@gmail.com</a>
+              </li>
+            </ul>
           </div>
         </div>
 

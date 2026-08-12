@@ -192,6 +192,11 @@ async function main() {
     { imageUrl: "/defaults/story/slide-1.svg", caption: "من الأساسيات النظرية وقراءة المخططات الهندسية" },
     { imageUrl: "/defaults/story/slide-2.svg", caption: "إلى التطبيق العملي على المعدات والمشاريع الحقيقية" },
     { imageUrl: "/defaults/story/slide-3.svg", caption: "وصولًا إلى الاحترافية والجاهزية لسوق العمل" },
+    { imageUrl: "/defaults/story/slide-4.svg", caption: "الحسابات الهندسية اليدوية وتحليل الإجهادات" },
+    { imageUrl: "/defaults/story/slide-5.svg", caption: "النمذجة الثلاثية الأبعاد وبرمجيات التصميم" },
+    { imageUrl: "/defaults/story/slide-6.svg", caption: "أنظمة التكييف المركزي والمعدات الدوارة" },
+    { imageUrl: "/defaults/story/slide-7.svg", caption: "مشاريع حقيقية في الموقع والمكتب" },
+    { imageUrl: "/defaults/story/slide-8.svg", caption: "انضم إلى مجتمع المتخصصين في الأكاديمية" },
   ];
   if ((await prisma.storyImage.count()) === 0) {
     await prisma.storyImage.createMany({

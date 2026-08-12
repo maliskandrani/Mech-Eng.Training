@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="g6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#142850"/>
+      <stop offset="1" stop-color="#1c3468"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g6)"/>
+  <g opacity="0.12" stroke="#ffffff" stroke-width="1">
+    <path d="M0 62.5H800M0 125H800M0 187.5H800M0 250H800M0 312.5H800M0 375H800M0 437.5H800"/>
+    <path d="M66.6 0V500M133.3 0V500M200 0V500M266.6 0V500M333.3 0V500M400 0V500M466.6 0V500M533.3 0V500M600 0V500M666.6 0V500M733.3 0V500"/>
+  </g>
+  <rect x="220" y="150" width="360" height="90" rx="10" fill="#8fa5d6" stroke="#1c3468" stroke-width="3"/>
+  <g fill="none" stroke="#d4af37" stroke-width="6" stroke-linecap="round">
+    <path d="M280 240 V320 H360"/>
+    <path d="M400 240 V360"/>
+    <path d="M520 240 V320 H440"/>
+  </g>
+  <g fill="#0f1c3d" stroke="#d4af37" stroke-width="2">
+    <rect x="330" y="320" width="60" height="30" rx="4"/>
+    <rect x="370" y="360" width="60" height="30" rx="4"/>
+  </g>
+  <path d="M405 150 q15 -20 30 0 q15 -20 30 0" fill="none" stroke="#f0d78c" stroke-width="4" stroke-linecap="round"/>
+  <rect x="90" y="60" width="260" height="46" rx="6" fill="#0f1c3d" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="220" y="89" font-size="20" text-anchor="middle" fill="#f0d78c" font-family="Arial, sans-serif" font-weight="bold">أنظمة التكييف المركزي</text>
+</svg>

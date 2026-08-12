@@ -12,6 +12,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { href: "/dashboard/admin/courses", label: "الدورات", icon: "📚" },
     { href: "/dashboard/admin/trainers", label: "المدربون", icon: "🧑‍🏫" },
     { href: "/dashboard/admin/students", label: "المتدربون", icon: "🎓" },
+    { href: "/dashboard/admin/messages", label: "الرسائل", icon: "✉️" },
     { href: "/dashboard/admin/profile", label: "الملف الشخصي", icon: "🧑‍💼" },
     { href: "/dashboard/admin/settings", label: "إعدادات الموقع", icon: "⚙️" },
   ],
@@ -25,9 +26,11 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
 export default function Sidebar({
   role,
   logoUrl,
+  unreadMessages = 0,
 }: {
   role: "ADMIN" | "TRAINER" | "STUDENT";
   logoUrl?: string | null;
+  unreadMessages?: number;
 }) {
   const items = NAV_BY_ROLE[role] ?? [];
   const pathname = usePathname();
@@ -35,7 +38,7 @@ export default function Sidebar({
   return (
     <aside className="sidebar-green w-full shrink-0 text-navy-foreground md:w-64 md:min-h-[calc(100vh-61px)]">
       <div className="hidden items-center gap-3 border-b border-white/10 px-5 py-6 md:flex">
-        <Logo logoUrl={logoUrl} size={44} />
+        <Logo logoUrl={logoUrl} size={52} />
         <div className="text-xs leading-5">
           <p className="font-extrabold tracking-wide text-navy-foreground">SkillStream</p>
           <p className="text-navy-muted">Academy</p>
@@ -45,6 +48,7 @@ export default function Sidebar({
       <nav className="flex gap-2 overflow-x-auto p-4 md:flex-col md:overflow-visible">
         {items.map((item) => {
           const active = pathname === item.href;
+          const badge = item.href === "/dashboard/admin/messages" ? unreadMessages : 0;
           return (
             <Link
               key={item.href}
@@ -57,6 +61,11 @@ export default function Sidebar({
             >
               <span>{item.icon}</span>
               <span>{item.label}</span>
+              {badge > 0 && (
+                <span className="me-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-xs font-bold text-accent-foreground">
+                  {badge}
+                </span>
+              )}
             </Link>
           );
         })}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#142850"/>
+      <stop offset="1" stop-color="#1c3468"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g5)"/>
+  <g opacity="0.12" stroke="#ffffff" stroke-width="1">
+    <path d="M0 62.5H800M0 125H800M0 187.5H800M0 250H800M0 312.5H800M0 375H800M0 437.5H800"/>
+    <path d="M66.6 0V500M133.3 0V500M200 0V500M266.6 0V500M333.3 0V500M400 0V500M466.6 0V500M533.3 0V500M600 0V500M666.6 0V500M733.3 0V500"/>
+  </g>
+  <g fill="none" stroke="#d4af37" stroke-width="4" stroke-linejoin="round">
+    <path d="M400 140 L520 200 V320 L400 380 L280 320 V200 Z"/>
+    <path d="M400 140 V260"/>
+    <path d="M280 200 L400 260 L520 200"/>
+    <path d="M400 260 V380"/>
+  </g>
+  <g fill="#8fa5d6" opacity="0.85">
+    <circle cx="400" cy="140" r="7"/>
+    <circle cx="520" cy="200" r="7"/>
+    <circle cx="520" cy="320" r="7"/>
+    <circle cx="400" cy="380" r="7"/>
+    <circle cx="280" cy="320" r="7"/>
+    <circle cx="280" cy="200" r="7"/>
+  </g>
+  <rect x="90" y="60" width="260" height="46" rx="6" fill="#0f1c3d" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="220" y="89" font-size="20" text-anchor="middle" fill="#f0d78c" font-family="Arial, sans-serif" font-weight="bold">النمذجة الثلاثية الأبعاد</text>
+</svg>

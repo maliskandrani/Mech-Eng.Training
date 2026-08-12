@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="g7" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#142850"/>
+      <stop offset="1" stop-color="#1c3468"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g7)"/>
+  <g opacity="0.12" stroke="#ffffff" stroke-width="1">
+    <path d="M0 62.5H800M0 125H800M0 187.5H800M0 250H800M0 312.5H800M0 375H800M0 437.5H800"/>
+    <path d="M66.6 0V500M133.3 0V500M200 0V500M266.6 0V500M333.3 0V500M400 0V500M466.6 0V500M533.3 0V500M600 0V500M666.6 0V500M733.3 0V500"/>
+  </g>
+  <g fill="#8fa5d6">
+    <rect x="180" y="260" width="70" height="140" />
+    <rect x="270" y="220" width="70" height="180" />
+    <rect x="360" y="280" width="70" height="120" />
+    <rect x="450" y="200" width="70" height="200" />
+    <rect x="540" y="250" width="70" height="150" />
+  </g>
+  <g fill="none" stroke="#d4af37" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M400 170 V90 H520"/>
+    <path d="M520 90 V150"/>
+  </g>
+  <circle cx="400" cy="170" r="10" fill="#f0d78c"/>
+  <rect x="90" y="60" width="260" height="46" rx="6" fill="#0f1c3d" stroke="#d4af37" stroke-width="1.5"/>
+  <text x="220" y="89" font-size="20" text-anchor="middle" fill="#f0d78c" font-family="Arial, sans-serif" font-weight="bold">مشاريع حقيقية في الموقع</text>
+</svg>

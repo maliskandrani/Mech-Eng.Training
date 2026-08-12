@@ -167,6 +167,14 @@ export function getStoryImages() {
   return prisma.storyImage.findMany({ orderBy: { order: "asc" } });
 }
 
+export function getContactMessages() {
+  return prisma.contactMessage.findMany({ orderBy: { createdAt: "desc" } });
+}
+
+export function getUnreadMessageCount() {
+  return prisma.contactMessage.count({ where: { read: false } });
+}
+
 /** Simple homepage load counter (not unique-visitor analytics). Safe to show publicly. */
 export async function incrementHomeViews(): Promise<number> {
   const row = await prisma.siteSettings.upsert({

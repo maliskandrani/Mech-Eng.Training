@@ -66,15 +66,12 @@ export default async function HomePage() {
   return (
     <div>
       <section className="hero-navy relative overflow-hidden text-navy-foreground">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-24">
-          <div>
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/15 px-4 py-1 text-sm font-semibold text-accent">
               {t("badge")}
             </span>
-            <h1 className="mt-5 text-3xl font-extrabold leading-tight text-navy-foreground sm:text-4xl lg:text-5xl">
-              {t("titleLead")} <span className="gold-text-gradient">{t("titleHighlight")}</span>
-            </h1>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3">
               <Link
                 href="/courses"
                 className="rounded-xl gold-gradient px-6 py-3 font-bold text-accent-foreground transition hover:opacity-90"
@@ -88,18 +85,20 @@ export default async function HomePage() {
                 {t("ctaRegister")}
               </Link>
             </div>
-
-            <div className="mt-10 flex flex-wrap gap-8 border-t border-white/10 pt-6">
-              {STATS.map((s) => (
-                <div key={s.label}>
-                  <div className="text-2xl font-extrabold text-accent">{s.value}</div>
-                  <div className="mt-1 text-xs text-navy-muted">{s.label}</div>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <StoryCarousel slides={storySlides} />
+          <div className="mt-8">
+            <StoryCarousel slides={storySlides} />
+          </div>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-white/10 pt-6">
+            {STATS.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-2xl font-extrabold text-accent">{s.value}</div>
+                <div className="mt-1 text-xs text-navy-muted">{s.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

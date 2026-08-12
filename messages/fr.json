@@ -13,8 +13,7 @@
     "signup": "S'inscrire"
   },
   "brand": {
-    "line1": "SkillStream",
-    "line2": "Academy"
+    "translatedName": "Académie SkillStream"
   },
   "language": {
     "label": "Langue"
@@ -106,6 +105,23 @@
     "coursesCount": "{count, plural, one {# formation} other {# formations}}",
     "coursesTitle": "Formations de {name}",
     "noCourses": "Ce formateur n'a aucune formation publiée pour le moment."
+  },
+  "contact": {
+    "pageTitle": "Contactez-nous",
+    "pageSubtitle": "Nous serions ravis de recevoir vos questions, suggestions ou réclamations — nous vous répondrons rapidement.",
+    "phonesTitle": "Numéros de téléphone",
+    "emailTitle": "E-mail",
+    "whatsappNote": "Disponible sur WhatsApp",
+    "formName": "Nom",
+    "formContact": "E-mail ou numéro de téléphone",
+    "formType": "Type de message",
+    "typeInquiry": "Demande",
+    "typeSuggestion": "Suggestion",
+    "typeComplaint": "Réclamation",
+    "formMessage": "Message",
+    "submit": "Envoyer le message",
+    "submitting": "Envoi en cours...",
+    "successMessage": "Votre message a été envoyé. Nous vous répondrons bientôt."
   },
   "auth": {
     "loginTitle": "Connexion",
