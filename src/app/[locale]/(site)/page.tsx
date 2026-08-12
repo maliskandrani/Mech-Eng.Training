@@ -66,32 +66,10 @@ export default async function HomePage() {
   return (
     <div>
       <section className="hero-navy relative overflow-hidden text-navy-foreground">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <span className="inline-flex items-center rounded-full border border-accent/40 bg-accent/15 px-4 py-1 text-sm font-semibold text-accent">
-              {t("badge")}
-            </span>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/courses"
-                className="rounded-xl gold-gradient px-6 py-3 font-bold text-accent-foreground transition hover:opacity-90"
-              >
-                {t("ctaExplore")}
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-xl border border-white/25 px-6 py-3 font-semibold text-navy-foreground transition hover:border-white/50"
-              >
-                {t("ctaRegister")}
-              </Link>
-            </div>
-          </div>
+        <div className="mx-auto max-w-6xl px-4 pb-10 pt-4 sm:px-6">
+          <StoryCarousel slides={storySlides} />
 
-          <div className="mt-8">
-            <StoryCarousel slides={storySlides} />
-          </div>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-white/10 pt-6">
+          <div className="mt-6 flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-white/10 pt-6">
             {STATS.map((s) => (
               <div key={s.label} className="text-center">
                 <div className="text-2xl font-extrabold text-accent">{s.value}</div>
