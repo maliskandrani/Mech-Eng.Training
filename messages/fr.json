@@ -92,6 +92,11 @@
     "enrolling": "Inscription en cours...",
     "enrolled": "Inscrit ✓",
     "enrolledMessage": "Vous avez été inscrit avec succès. Vous pouvez suivre la formation depuis votre tableau de bord.",
+    "watch": "Regarder",
+    "openOrDownload": "Ouvrir / télécharger",
+    "freePreview": "Aperçu gratuit",
+    "freePreviewNote": "La première leçon est gratuite pour tous ; le reste du contenu se débloque après inscription.",
+    "contactToEnroll": "Contactez-nous pour vous inscrire",
     "perks": {
       "fullAccess": "Accès complet à tous les supports de la formation",
       "materials": "Livres PDF, vidéos et diapositives",

@@ -45,7 +45,7 @@ async function main() {
   // Course 1: flagship piping & mechanical course — one section per book (1-10),
   // each holding a single lesson ready for that book's materials.
   const BOOKS = [
-    "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات",
+    "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات (Introduction to Oil, Gas & Petrochemical Plants)",
     "الكتاب 2: هندسة المعدات الثابتة (Static Equipment Engineering)",
     "الكتاب 3: هندسة مكونات الأنابيب (Piping Components Engineering)",
     "الكتاب 4: هندسة المعدات الدوارة (Rotating Equipment Engineering)",
@@ -76,7 +76,7 @@ async function main() {
         create: BOOKS.map((title, i) => ({
           title,
           order: i + 1,
-          lessons: { create: [{ title: "محتوى الكتاب", order: 1 }] },
+          lessons: { create: [{ title: "المحاضرة", order: 1 }] },
         })),
       },
     },

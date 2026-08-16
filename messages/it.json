@@ -92,6 +92,11 @@
     "enrolling": "Iscrizione in corso...",
     "enrolled": "Iscritto ✓",
     "enrolledMessage": "Iscrizione al corso avvenuta con successo. Puoi seguirlo dal tuo pannello di controllo.",
+    "watch": "Guarda",
+    "openOrDownload": "Apri / scarica",
+    "freePreview": "Anteprima gratuita",
+    "freePreviewNote": "La prima lezione è gratuita per tutti; il resto dei contenuti si sblocca con l'iscrizione.",
+    "contactToEnroll": "Contattaci per iscriverti",
     "perks": {
       "fullAccess": "Accesso completo a tutti i materiali del corso",
       "materials": "Libri PDF, video e diapositive",

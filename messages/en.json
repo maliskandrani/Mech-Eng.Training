@@ -92,6 +92,11 @@
     "enrolling": "Enrolling...",
     "enrolled": "Enrolled ✓",
     "enrolledMessage": "You've been enrolled successfully. You can follow along from your dashboard.",
+    "watch": "Watch",
+    "openOrDownload": "Open / download",
+    "freePreview": "Free preview",
+    "freePreviewNote": "The first lecture is free for everyone; the rest of the content unlocks once you enroll.",
+    "contactToEnroll": "Contact us to enroll",
     "perks": {
       "fullAccess": "Full access to all course materials",
       "materials": "PDF books, videos, and slides",

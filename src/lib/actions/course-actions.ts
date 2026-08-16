@@ -171,6 +171,24 @@ export async function createSection(courseId: string, formData: FormData): Promi
   }
 }
 
+export async function updateSectionTitle(sectionId: string, formData: FormData): Promise<ActionResult> {
+  try {
+    const section = await prisma.section.findUnique({ where: { id: sectionId }, select: { courseId: true } });
+    if (!section) return { ok: false, error: "القسم غير موجود" };
+    await requireCourseManager(section.courseId);
+
+    const title = String(formData.get("title") ?? "").trim();
+    if (title.length < 2) return { ok: false, error: "عنوان القسم قصير جدًا" };
+
+    await prisma.section.update({ where: { id: sectionId }, data: { title } });
+    revalidatePath("/dashboard");
+    revalidatePath("/courses");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
 export async function deleteSection(sectionId: string): Promise<ActionResult> {
   try {
     const section = await prisma.section.findUnique({ where: { id: sectionId }, select: { courseId: true } });
@@ -178,6 +196,28 @@ export async function deleteSection(sectionId: string): Promise<ActionResult> {
     await requireCourseManager(section.courseId);
     await prisma.section.delete({ where: { id: sectionId } });
     revalidatePath("/dashboard");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
+export async function updateSectionCover(sectionId: string, formData: FormData): Promise<ActionResult> {
+  try {
+    await requireRole(["ADMIN"]);
+    const section = await prisma.section.findUnique({ where: { id: sectionId }, select: { id: true } });
+    if (!section) return { ok: false, error: "القسم غير موجود" };
+
+    const cover = formData.get("cover");
+    if (!(cover instanceof File) || cover.size === 0) {
+      return { ok: false, error: "يرجى اختيار صورة الغلاف" };
+    }
+    assertValidPoster(cover);
+    const coverImageUrl = await savePublicImage(cover, "section-covers");
+
+    await prisma.section.update({ where: { id: sectionId }, data: { coverImageUrl } });
+    revalidatePath("/dashboard");
+    revalidatePath("/courses");
     return { ok: true };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
@@ -217,6 +257,27 @@ export async function createLesson(sectionId: string, formData: FormData): Promi
   }
 }
 
+export async function updateLessonTitle(lessonId: string, formData: FormData): Promise<ActionResult> {
+  try {
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      select: { section: { select: { courseId: true } } },
+    });
+    if (!lesson) return { ok: false, error: "الدرس غير موجود" };
+    await requireCourseManager(lesson.section.courseId);
+
+    const title = String(formData.get("title") ?? "").trim();
+    if (title.length < 2) return { ok: false, error: "عنوان الدرس قصير جدًا" };
+
+    await prisma.lesson.update({ where: { id: lessonId }, data: { title } });
+    revalidatePath("/dashboard");
+    revalidatePath("/courses");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
 export async function deleteLesson(lessonId: string): Promise<ActionResult> {
   try {
     const lesson = await prisma.lesson.findUnique({
@@ -227,6 +288,28 @@ export async function deleteLesson(lessonId: string): Promise<ActionResult> {
     await requireCourseManager(lesson.section.courseId);
     await prisma.lesson.delete({ where: { id: lessonId } });
     revalidatePath("/dashboard");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
+export async function updateLessonCover(lessonId: string, formData: FormData): Promise<ActionResult> {
+  try {
+    await requireRole(["ADMIN"]);
+    const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, select: { id: true } });
+    if (!lesson) return { ok: false, error: "الدرس غير موجود" };
+
+    const cover = formData.get("cover");
+    if (!(cover instanceof File) || cover.size === 0) {
+      return { ok: false, error: "يرجى اختيار صورة الغلاف" };
+    }
+    assertValidPoster(cover);
+    const coverImageUrl = await savePublicImage(cover, "lesson-covers");
+
+    await prisma.lesson.update({ where: { id: lessonId }, data: { coverImageUrl } });
+    revalidatePath("/dashboard");
+    revalidatePath("/courses");
     return { ok: true };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };

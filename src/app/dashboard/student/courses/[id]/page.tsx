@@ -47,19 +47,15 @@ export default async function StudentCourseViewPage({
       )}
 
       <div className="mt-8 space-y-4">
-        {course.sections.map((section, si) => (
+        {course.sections.map((section) => (
           <div key={section.id} className="rounded-2xl border border-border bg-background-card">
             <div className="border-b border-border px-4 py-3">
-              <h3 className="font-bold text-foreground">
-                {si + 1}. {section.title}
-              </h3>
+              <h3 className="font-bold text-foreground">{section.title}</h3>
             </div>
             <div className="divide-y divide-border">
-              {section.lessons.map((lesson, li) => (
+              {section.lessons.map((lesson) => (
                 <div key={lesson.id} className="p-4">
-                  <h4 className="font-semibold text-foreground">
-                    {si + 1}.{li + 1} {lesson.title}
-                  </h4>
+                  <h4 className="font-semibold text-foreground">{lesson.title}</h4>
                   {lesson.materials.length > 0 ? (
                     <ul className="mt-3 space-y-2">
                       {lesson.materials.map((mat) => (

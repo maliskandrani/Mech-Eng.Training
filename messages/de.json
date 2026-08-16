@@ -92,6 +92,11 @@
     "enrolling": "Anmeldung läuft...",
     "enrolled": "Angemeldet ✓",
     "enrolledMessage": "Sie wurden erfolgreich für den Kurs angemeldet. Sie können ihn über Ihr Dashboard verfolgen.",
+    "watch": "Ansehen",
+    "openOrDownload": "Öffnen / herunterladen",
+    "freePreview": "Kostenlose Vorschau",
+    "freePreviewNote": "Die erste Lektion ist für alle kostenlos; die restlichen Inhalte werden nach der Anmeldung freigeschaltet.",
+    "contactToEnroll": "Für die Anmeldung kontaktieren",
     "perks": {
       "fullAccess": "Voller Zugriff auf alle Kursmaterialien",
       "materials": "PDF-Bücher, Videos und Folien",

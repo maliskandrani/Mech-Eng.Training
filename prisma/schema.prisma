@@ -82,11 +82,12 @@ model Course {
 }
 
 model Section {
-  id       String @id @default(cuid())
-  title    String
-  order    Int    @default(0)
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  id            String  @id @default(cuid())
+  title         String
+  order         Int     @default(0)
+  coverImageUrl String?
+  courseId      String
+  course        Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   lessons Lesson[]
 
@@ -94,11 +95,12 @@ model Section {
 }
 
 model Lesson {
-  id        String  @id @default(cuid())
-  title     String
-  order     Int     @default(0)
-  sectionId String
-  section   Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  id            String  @id @default(cuid())
+  title         String
+  order         Int     @default(0)
+  coverImageUrl String?
+  sectionId     String
+  section       Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
   materials Material[]
 

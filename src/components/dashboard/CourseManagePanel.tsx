@@ -13,9 +13,13 @@ import {
   createSection,
   deleteSection,
   reorderSections,
+  updateSectionTitle,
   createLesson,
   deleteLesson,
   reorderLessons,
+  updateLessonTitle,
+  updateSectionCover,
+  updateLessonCover,
 } from "@/lib/actions/course-actions";
 import { deleteMaterial } from "@/lib/actions/material-actions";
 import { enrollStudent, unenrollStudent } from "@/lib/actions/user-actions";
@@ -90,13 +94,18 @@ export default async function CourseManagePanel({
               content: (
                 <CourseContentEditor
                   sections={course.sections}
+                  isAdmin={isAdmin}
                   createSection={createSection.bind(null, course.id)}
                   deleteSection={deleteSection}
                   reorderSections={reorderSections.bind(null, course.id)}
+                  updateSectionTitle={updateSectionTitle}
                   createLesson={createLesson}
                   deleteLesson={deleteLesson}
                   reorderLessons={reorderLessons}
+                  updateLessonTitle={updateLessonTitle}
                   deleteMaterial={deleteMaterial}
+                  updateSectionCover={updateSectionCover}
+                  updateLessonCover={updateLessonCover}
                 />
               ),
             },

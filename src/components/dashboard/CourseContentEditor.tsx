@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import SortableList from "@/components/dashboard/SortableList";
 import SimpleAddForm from "@/components/dashboard/SimpleAddForm";
 import MaterialUploadForm from "@/components/dashboard/MaterialUploadForm";
+import CoverImageUpload from "@/components/dashboard/CoverImageUpload";
+import InlineRename from "@/components/dashboard/InlineRename";
 import { ConfirmDeleteButton } from "@/components/dashboard/ActionButtons";
 import { MATERIAL_TYPE_LABELS } from "@/lib/utils";
 import type { ActionResult } from "@/lib/actions/auth-actions";
@@ -18,33 +20,45 @@ type Material = {
 type Lesson = {
   id: string;
   title: string;
+  coverImageUrl: string | null;
   materials: Material[];
 };
 
 type Section = {
   id: string;
   title: string;
+  coverImageUrl: string | null;
   lessons: Lesson[];
 };
 
 export default function CourseContentEditor({
   sections,
+  isAdmin,
   createSection,
   deleteSection,
   reorderSections,
+  updateSectionTitle,
   createLesson,
   deleteLesson,
   reorderLessons,
+  updateLessonTitle,
   deleteMaterial,
+  updateSectionCover,
+  updateLessonCover,
 }: {
   sections: Section[];
+  isAdmin: boolean;
   createSection: (formData: FormData) => Promise<ActionResult>;
   deleteSection: (sectionId: string) => Promise<ActionResult>;
   reorderSections: (orderedIds: string[]) => Promise<ActionResult>;
+  updateSectionTitle: (sectionId: string, formData: FormData) => Promise<ActionResult>;
   createLesson: (sectionId: string, formData: FormData) => Promise<ActionResult>;
   deleteLesson: (lessonId: string) => Promise<ActionResult>;
   reorderLessons: (sectionId: string, orderedIds: string[]) => Promise<ActionResult>;
+  updateLessonTitle: (lessonId: string, formData: FormData) => Promise<ActionResult>;
   deleteMaterial: (materialId: string) => Promise<ActionResult>;
+  updateSectionCover: (sectionId: string, formData: FormData) => Promise<ActionResult>;
+  updateLessonCover: (lessonId: string, formData: FormData) => Promise<ActionResult>;
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -67,22 +81,34 @@ export default function CourseContentEditor({
         onReorder={(ids) => runReorder(() => reorderSections(ids))}
         renderItem={(section, handle) => (
           <div className="rounded-2xl border border-border bg-background-card p-4">
-            <div className="flex items-center gap-2">
-              <button
-                {...handle.attributes}
-                {...handle.listeners}
-                type="button"
-                data-role="section-handle"
-                className="cursor-grab touch-none rounded-lg border border-border px-2 py-1 text-muted active:cursor-grabbing"
-                title="اسحب لإعادة ترتيب الأقسام"
-              >
-                ⠿
-              </button>
-              <h3 className="flex-1 font-bold text-foreground">{section.title}</h3>
-              <ConfirmDeleteButton
-                onConfirm={() => deleteSection(section.id)}
-                confirmText="سيتم حذف القسم وكل دروسه وملفاته. هل أنت متأكد؟"
-              />
+            <div className="flex items-start gap-3">
+              {isAdmin && (
+                <CoverImageUpload
+                  coverImageUrl={section.coverImageUrl}
+                  action={updateSectionCover.bind(null, section.id)}
+                />
+              )}
+              <div className="flex flex-1 items-center gap-2">
+                <button
+                  {...handle.attributes}
+                  {...handle.listeners}
+                  type="button"
+                  data-role="section-handle"
+                  className="cursor-grab touch-none rounded-lg border border-border px-2 py-1 text-muted active:cursor-grabbing"
+                  title="اسحب لإعادة ترتيب الأقسام"
+                >
+                  ⠿
+                </button>
+                <InlineRename
+                  value={section.title}
+                  action={updateSectionTitle.bind(null, section.id)}
+                  textClassName="font-bold text-foreground"
+                />
+                <ConfirmDeleteButton
+                  onConfirm={() => deleteSection(section.id)}
+                  confirmText="سيتم حذف القسم وكل دروسه وملفاته. هل أنت متأكد؟"
+                />
+              </div>
             </div>
 
             <div className="mt-3 space-y-3 border-r-2 border-border pr-4">
@@ -98,22 +124,35 @@ export default function CourseContentEditor({
                 onReorder={(ids) => runReorder(() => reorderLessons(section.id, ids))}
                 renderItem={(lesson, lessonHandle) => (
                   <div className="rounded-xl border border-border bg-background p-3">
-                    <div className="flex items-center gap-2">
-                      <button
-                        {...lessonHandle.attributes}
-                        {...lessonHandle.listeners}
-                        type="button"
-                        data-role="lesson-handle"
-                        className="cursor-grab touch-none rounded-lg border border-border px-1.5 py-0.5 text-xs text-muted active:cursor-grabbing"
-                        title="اسحب لإعادة ترتيب الدروس"
-                      >
-                        ⠿
-                      </button>
-                      <h4 className="flex-1 text-sm font-semibold text-foreground">{lesson.title}</h4>
-                      <ConfirmDeleteButton
-                        onConfirm={() => deleteLesson(lesson.id)}
-                        confirmText="سيتم حذف الدرس وكل ملفاته. هل أنت متأكد؟"
-                      />
+                    <div className="flex items-start gap-2">
+                      {isAdmin && (
+                        <CoverImageUpload
+                          coverImageUrl={lesson.coverImageUrl}
+                          action={updateLessonCover.bind(null, lesson.id)}
+                          size="sm"
+                        />
+                      )}
+                      <div className="flex flex-1 items-center gap-2">
+                        <button
+                          {...lessonHandle.attributes}
+                          {...lessonHandle.listeners}
+                          type="button"
+                          data-role="lesson-handle"
+                          className="cursor-grab touch-none rounded-lg border border-border px-1.5 py-0.5 text-xs text-muted active:cursor-grabbing"
+                          title="اسحب لإعادة ترتيب الدروس"
+                        >
+                          ⠿
+                        </button>
+                        <InlineRename
+                          value={lesson.title}
+                          action={updateLessonTitle.bind(null, lesson.id)}
+                          textClassName="text-sm font-semibold text-foreground"
+                        />
+                        <ConfirmDeleteButton
+                          onConfirm={() => deleteLesson(lesson.id)}
+                          confirmText="سيتم حذف الدرس وكل ملفاته. هل أنت متأكد؟"
+                        />
+                      </div>
                     </div>
 
                     {lesson.materials.length > 0 && (

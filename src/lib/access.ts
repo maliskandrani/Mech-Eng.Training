@@ -31,6 +31,18 @@ export async function requireCourseManager(courseId: string) {
   return user;
 }
 
+/** The first lesson of a course is a free preview, open to everyone. */
+export async function isFreePreviewLesson(courseId: string, lessonId: string): Promise<boolean> {
+  const firstSection = await prisma.section.findFirst({
+    where: { courseId },
+    orderBy: { order: "asc" },
+    select: {
+      lessons: { orderBy: { order: "asc" }, take: 1, select: { id: true } },
+    },
+  });
+  return firstSection?.lessons[0]?.id === lessonId;
+}
+
 /** Admin, the owning trainer, or an enrolled student may view course materials. */
 export async function canAccessCourseMaterials(courseId: string): Promise<boolean> {
   const session = await auth();

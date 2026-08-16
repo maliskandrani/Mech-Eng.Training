@@ -87,34 +87,85 @@ export default async function CourseDetailPage({
             <div className="mt-4 space-y-4">
               {course.sections.map((section, si) => (
                 <div key={section.id} className="rounded-2xl border border-border">
-                  <div className="border-b border-border bg-background-elevated px-4 py-3">
-                    <h3 className="font-bold text-foreground">
-                      {si + 1}. {section.title}
-                    </h3>
+                  <div className="flex items-center gap-3 border-b border-border bg-background-elevated px-4 py-3">
+                    {section.coverImageUrl && (
+                      <div className="h-14 w-10 shrink-0 overflow-hidden rounded-md border border-border">
+                        <Image
+                          src={section.coverImageUrl}
+                          alt=""
+                          width={40}
+                          height={56}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <h3 className="font-bold text-foreground">{section.title}</h3>
                   </div>
                   <div className="divide-y divide-border">
-                    {section.lessons.map((lesson, li) => (
-                      <div key={lesson.id} className="p-4">
-                        <h4 className="font-semibold text-foreground">
-                          {si + 1}.{li + 1} {lesson.title}
-                        </h4>
-                        {lesson.materials.length > 0 ? (
-                          <ul className="mt-2 space-y-1.5">
-                            {lesson.materials.map((mat) => (
-                              <li key={mat.id} className="flex items-center gap-2 text-sm text-muted">
-                                <span className="text-accent-soft">🔒</span>
-                                <span>{mat.title}</span>
-                                <span className="rounded-full border border-border px-2 py-0.5 text-xs">
-                                  {t(`materialType.${mat.type}` as "materialType.BOOK")}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <p className="mt-2 text-sm text-muted">{t("contentPending")}</p>
-                        )}
-                      </div>
-                    ))}
+                    {section.lessons.map((lesson, li) => {
+                      const isFree = si === 0 && li === 0;
+                      return (
+                        <div key={lesson.id} className="p-4">
+                          <div className="flex flex-wrap items-center gap-2">
+                            {lesson.coverImageUrl && (
+                              <div className="h-10 w-8 shrink-0 overflow-hidden rounded border border-border">
+                                <Image
+                                  src={lesson.coverImageUrl}
+                                  alt=""
+                                  width={32}
+                                  height={40}
+                                  className="h-full w-full object-cover"
+                                />
+                              </div>
+                            )}
+                            <h4 className="font-semibold text-foreground">{lesson.title}</h4>
+                            {isFree && (
+                              <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                🎁 {t("freePreview")}
+                              </span>
+                            )}
+                          </div>
+                          {isFree && <p className="mt-1 text-xs text-muted">{t("freePreviewNote")}</p>}
+                          {lesson.materials.length > 0 ? (
+                            <ul className="mt-2 space-y-1.5">
+                              {lesson.materials.map((mat) =>
+                                isFree ? (
+                                  <li
+                                    key={mat.id}
+                                    className="flex items-center justify-between rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm"
+                                  >
+                                    <span className="text-foreground">{mat.title}</span>
+                                    <div className="flex items-center gap-2">
+                                      <span className="rounded-full border border-border px-2 py-0.5 text-xs">
+                                        {t(`materialType.${mat.type}` as "materialType.BOOK")}
+                                      </span>
+                                      <a
+                                        href={`/api/files/${mat.id}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent-soft transition hover:bg-accent/20"
+                                      >
+                                        {mat.type === "VIDEO" ? t("watch") : t("openOrDownload")}
+                                      </a>
+                                    </div>
+                                  </li>
+                                ) : (
+                                  <li key={mat.id} className="flex items-center gap-2 text-sm text-muted">
+                                    <span className="text-accent-soft">🔒</span>
+                                    <span>{mat.title}</span>
+                                    <span className="rounded-full border border-border px-2 py-0.5 text-xs">
+                                      {t(`materialType.${mat.type}` as "materialType.BOOK")}
+                                    </span>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          ) : (
+                            <p className="mt-2 text-sm text-muted">{t("contentPending")}</p>
+                          )}
+                        </div>
+                      );
+                    })}
                     {section.lessons.length === 0 && (
                       <p className="p-4 text-sm text-muted">{t("lessonsPendingInSection")}</p>
                     )}
@@ -139,7 +190,19 @@ export default async function CourseDetailPage({
                 {t("loginToEnroll")}
               </NextLink>
             )}
-            {isStudent && <div className="mt-5"><EnrollButton courseId={course.id} /></div>}
+            {isStudent && course.price === 0 && (
+              <div className="mt-5">
+                <EnrollButton courseId={course.id} />
+              </div>
+            )}
+            {isStudent && course.price > 0 && (
+              <NextLink
+                href="/contact"
+                className="mt-5 block w-full rounded-xl gold-gradient px-6 py-3 text-center font-bold text-accent-foreground transition hover:opacity-90"
+              >
+                {t("contactToEnroll")}
+              </NextLink>
+            )}
             {session?.user && !isStudent && (
               <NextLink
                 href="/dashboard"

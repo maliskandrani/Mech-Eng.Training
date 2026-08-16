@@ -92,6 +92,11 @@
     "enrolling": "Kaydolunuyor...",
     "enrolled": "Kaydolundu ✓",
     "enrolledMessage": "Kursa başarıyla kaydoldunuz. Kontrol panelinizden takip edebilirsiniz.",
+    "watch": "İzle",
+    "openOrDownload": "Aç / indir",
+    "freePreview": "Ücretsiz önizleme",
+    "freePreviewNote": "İlk ders herkes için ücretsizdir; kalan içerik kayıt olunca açılır.",
+    "contactToEnroll": "Kayıt için bize ulaşın",
     "perks": {
       "fullAccess": "Tüm kurs materyallerine tam erişim",
       "materials": "PDF kitaplar, videolar ve slaytlar",

@@ -3,7 +3,7 @@ import { createReadStream, statSync } from "fs";
 import { Readable } from "stream";
 import path from "path";
 import { prisma } from "@/lib/prisma";
-import { canAccessCourseMaterials } from "@/lib/access";
+import { canAccessCourseMaterials, isFreePreviewLesson } from "@/lib/access";
 import { resolveMaterialPath } from "@/lib/storage";
 
 const CONTENT_TYPES: Record<string, string> = {
@@ -23,11 +23,13 @@ export async function GET(
 
   const material = await prisma.material.findUnique({
     where: { id: materialId },
-    include: { lesson: { select: { section: { select: { courseId: true } } } } },
+    include: { lesson: { select: { id: true, section: { select: { courseId: true } } } } },
   });
   if (!material) return NextResponse.json({ error: "الملف غير موجود" }, { status: 404 });
 
-  const allowed = await canAccessCourseMaterials(material.lesson.section.courseId);
+  const courseId = material.lesson.section.courseId;
+  const isFree = await isFreePreviewLesson(courseId, material.lesson.id);
+  const allowed = isFree || (await canAccessCourseMaterials(courseId));
   if (!allowed) return NextResponse.json({ error: "غير مصرح لك بالوصول لهذا الملف" }, { status: 403 });
 
   const filePath = resolveMaterialPath(material.fileUrl);
