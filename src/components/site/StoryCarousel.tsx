@@ -28,7 +28,7 @@ export default function StoryCarousel({ slides }: { slides: Slide[] }) {
               i === index ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Image src={slide.imageUrl} alt={slide.caption ?? ""} fill className="object-cover" />
+            <Image src={slide.imageUrl} alt={slide.caption ?? ""} fill className="object-contain" />
           </div>
         ))}
         {slides[index]?.caption && (
