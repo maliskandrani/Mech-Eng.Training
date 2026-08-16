@@ -87,14 +87,14 @@ export default async function CourseDetailPage({
             <div className="mt-4 space-y-4">
               {course.sections.map((section, si) => (
                 <div key={section.id} className="rounded-2xl border border-border">
-                  <div className="flex items-center gap-3 border-b border-border bg-background-elevated px-4 py-3">
+                  <div className="flex items-center gap-4 border-b border-border bg-background-elevated px-4 py-4">
                     {section.coverImageUrl && (
-                      <div className="h-14 w-10 shrink-0 overflow-hidden rounded-md border border-border">
+                      <div className="h-24 w-16 shrink-0 overflow-hidden rounded-md border border-border shadow-sm">
                         <Image
                           src={section.coverImageUrl}
                           alt=""
-                          width={40}
-                          height={56}
+                          width={64}
+                          height={96}
                           className="h-full w-full object-cover"
                         />
                       </div>
@@ -108,12 +108,12 @@ export default async function CourseDetailPage({
                         <div key={lesson.id} className="p-4">
                           <div className="flex flex-wrap items-center gap-2">
                             {lesson.coverImageUrl && (
-                              <div className="h-10 w-8 shrink-0 overflow-hidden rounded border border-border">
+                              <div className="h-16 w-12 shrink-0 overflow-hidden rounded-md border border-border shadow-sm">
                                 <Image
                                   src={lesson.coverImageUrl}
                                   alt=""
-                                  width={32}
-                                  height={40}
+                                  width={48}
+                                  height={64}
                                   className="h-full w-full object-cover"
                                 />
                               </div>
