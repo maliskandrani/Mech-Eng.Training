@@ -20,7 +20,7 @@ export default function StoryCarousel({ slides }: { slides: Slide[] }) {
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-navy-elevated shadow-lg">
-      <div className="relative aspect-[16/7] w-full">
+      <div className="relative aspect-[16/6] w-full">
         {slides.map((slide, i) => (
           <div
             key={slide.id}
