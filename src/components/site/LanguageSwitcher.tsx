@@ -30,7 +30,7 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-navy-foreground transition hover:border-accent/40 hover:bg-white/10"
+        className="flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted transition hover:border-accent hover:text-accent"
       >
         <span aria-hidden>🌐</span>
         <span>{LOCALE_LABELS[locale as AppLocale]}</span>

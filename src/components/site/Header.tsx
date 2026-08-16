@@ -23,18 +23,8 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md">
-      <div className="border-b border-white/10 bg-navy text-navy-foreground">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-1.5 text-xs sm:px-6">
-          <Link href="/contact" className="flex items-center gap-1.5 text-navy-muted transition hover:text-accent">
-            <span aria-hidden>✉️</span>
-            <span>{tFooter("contactTitle")}</span>
-          </Link>
-          <LanguageSwitcher />
-        </div>
-      </div>
-
-      <div className="h-20 border-b border-border/80 bg-background/95">
-        <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="border border-accent/40 bg-background/95 shadow-sm">
+        <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <Link href="/" className="flex h-full shrink-0 items-center">
             <BrandLockup
               logoUrl={settings?.logoUrl}
@@ -44,7 +34,7 @@ export default async function Header() {
             />
           </Link>
 
-          <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
+          <nav className="hidden items-center gap-6 text-sm text-muted lg:flex">
             {NAV_LINKS.map((link) => (
               <Link key={link.href} href={link.href} className="transition hover:text-accent">
                 {link.label}
@@ -52,19 +42,29 @@ export default async function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              href="/contact"
+              className="hidden items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted transition hover:border-accent hover:text-accent sm:flex"
+            >
+              <span aria-hidden>✉️</span>
+              <span className="hidden lg:inline">{tFooter("contactTitle")}</span>
+            </Link>
+            <LanguageSwitcher />
+            <div className="hidden h-6 w-px bg-border sm:block" aria-hidden />
+
             {session?.user ? (
               <div className="flex items-center gap-3">
                 <NextLink
                   href="/dashboard"
-                  className="hidden text-sm text-muted sm:block"
+                  className="hidden text-sm text-muted lg:block"
                   title={session.user.email ?? undefined}
                 >
                   {session.user.name} · {ROLE_LABELS[session.user.role]}
                 </NextLink>
                 <NextLink
                   href="/dashboard"
-                  className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
+                  className="whitespace-nowrap rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
                 >
                   {t("dashboard")}
                 </NextLink>
@@ -76,7 +76,7 @@ export default async function Header() {
                 >
                   <button
                     type="submit"
-                    className="rounded-lg border border-border px-3 py-2 text-sm text-muted transition hover:border-accent hover:text-accent"
+                    className="hidden rounded-lg border border-border px-3 py-2 text-sm text-muted transition hover:border-accent hover:text-accent sm:block"
                   >
                     {t("logout")}
                   </button>
@@ -86,13 +86,13 @@ export default async function Header() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/login"
-                  className="rounded-lg border border-navy/25 px-4 py-2 text-sm font-semibold text-navy transition hover:border-navy hover:bg-navy hover:text-navy-foreground"
+                  className="whitespace-nowrap rounded-lg border border-navy/25 px-4 py-2 text-sm font-semibold text-navy transition hover:border-navy hover:bg-navy hover:text-navy-foreground"
                 >
                   {t("login")}
                 </Link>
                 <Link
                   href="/register"
-                  className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
+                  className="whitespace-nowrap rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
                 >
                   {t("signup")}
                 </Link>
