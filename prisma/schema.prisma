@@ -62,6 +62,7 @@ model Course {
   title         String
   titleEn       String?
   subtitle      String?
+  subtitleEn    String?
   description   String?
   posterUrl     String?
   introVideoUrl String?

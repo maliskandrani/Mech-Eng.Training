@@ -11,6 +11,7 @@ type InitialCourse = {
   title: string;
   titleEn: string | null;
   subtitle: string | null;
+  subtitleEn: string | null;
   description: string | null;
   price: number;
   totalHours: number | null;
@@ -76,6 +77,17 @@ export default function CourseForm({
         <input
           name="subtitle"
           defaultValue={initial?.subtitle ?? ""}
+          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+        />
+      </div>
+
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-muted">الوصف المختصر بالإنجليزية (اختياري)</label>
+        <input
+          name="subtitleEn"
+          dir="ltr"
+          defaultValue={initial?.subtitleEn ?? ""}
+          placeholder="English subtitle shown to non-Arabic visitors"
           className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
         />
       </div>

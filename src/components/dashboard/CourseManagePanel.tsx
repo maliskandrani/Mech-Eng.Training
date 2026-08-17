@@ -148,6 +148,7 @@ export default async function CourseManagePanel({
                     title: course.title,
                     titleEn: course.titleEn,
                     subtitle: course.subtitle,
+                    subtitleEn: course.subtitleEn,
                     description: course.description,
                     price: course.price,
                     totalHours: course.totalHours,

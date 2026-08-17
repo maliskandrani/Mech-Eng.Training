@@ -9,6 +9,7 @@ type CourseCardData = {
   title: string;
   titleEn: string | null;
   subtitle: string | null;
+  subtitleEn: string | null;
   posterUrl: string | null;
   price: number;
   totalHours: number | null;
@@ -39,6 +40,7 @@ export default function CourseCard({
   );
   const totalHours = course.totalHours ?? computedMinutes / 60;
   const title = localizedTitle(course.title, course.titleEn, locale);
+  const subtitle = course.subtitle ? localizedTitle(course.subtitle, course.subtitleEn, locale) : null;
   const featured = course.order === 1;
   const reviewCount = course.reviews.length;
   const avgRating = reviewCount > 0 ? course.reviews.reduce((n, r) => n + r.rating, 0) / reviewCount : 0;
@@ -78,7 +80,7 @@ export default function CourseCard({
           {t(`level.${course.level}` as "level.BEGINNER")}
         </span>
         <h3 className="text-lg font-bold text-foreground line-clamp-2">{title}</h3>
-        {course.subtitle && <p className="text-sm text-muted line-clamp-2">{course.subtitle}</p>}
+        {subtitle && <p className="text-sm text-muted line-clamp-2">{subtitle}</p>}
         <p className="text-xs text-muted">{course.trainer.name}</p>
 
         {reviewCount > 0 && (

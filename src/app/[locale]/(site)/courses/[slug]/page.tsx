@@ -46,6 +46,7 @@ export default async function CourseDetailPage({
   const totalMinutes = course.totalHours != null ? course.totalHours * 60 : computedMinutes;
   const totalDuration = formatDuration(totalMinutes, locale);
   const title = localizedTitle(course.title, course.titleEn, locale);
+  const subtitle = course.subtitle ? localizedTitle(course.subtitle, course.subtitleEn, locale) : null;
   const loginHref = `${localizedHref(locale, "/login")}?callbackUrl=${encodeURIComponent(
     localizedHref(locale, `/courses/${course.slug}`)
   )}`;
@@ -83,7 +84,7 @@ export default async function CourseDetailPage({
           </div>
 
           <h1 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">{title}</h1>
-          {course.subtitle && <p className="mt-3 text-lg text-muted">{course.subtitle}</p>}
+          {subtitle && <p className="mt-3 text-lg text-muted">{subtitle}</p>}
 
           <div className="mt-6 aspect-video overflow-hidden rounded-2xl border border-border bg-background-card">
             {course.introVideoUrl ? (
