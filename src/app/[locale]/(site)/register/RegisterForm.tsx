@@ -48,6 +48,27 @@ export default function RegisterForm() {
         <p className="mt-1 text-xs text-muted">{t("passwordHint")}</p>
       </div>
 
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-muted">{t("phone")}</label>
+        <input
+          type="tel"
+          name="phone"
+          dir="ltr"
+          className="w-full rounded-lg border border-border bg-background-card px-4 py-2.5 text-foreground outline-none focus:border-accent"
+        />
+      </div>
+
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-muted">{t("socialUrl")}</label>
+        <input
+          type="text"
+          name="socialUrl"
+          dir="ltr"
+          placeholder="facebook.com/username"
+          className="w-full rounded-lg border border-border bg-background-card px-4 py-2.5 text-foreground outline-none focus:border-accent"
+        />
+      </div>
+
       {state?.error && (
         <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-300">
           {state.error}

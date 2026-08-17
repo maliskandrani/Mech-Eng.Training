@@ -40,6 +40,19 @@ export default function CreateUserForm({
         placeholder="كلمة المرور (8 أحرف على الأقل)"
         className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
       />
+      <input
+        name="phone"
+        type="tel"
+        dir="ltr"
+        placeholder="رقم الهاتف (اختياري)"
+        className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+      />
+      <input
+        name="socialUrl"
+        dir="ltr"
+        placeholder="حساب فيسبوك أو رابط تواصل اجتماعي (اختياري)"
+        className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+      />
       {role === "TRAINER" && (
         <>
           <input

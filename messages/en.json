@@ -157,6 +157,8 @@
     "registerTitle": "Create a trainee account",
     "registerSubtitle": "Create your account to enroll in courses and follow along.",
     "fullName": "Full name",
+    "phone": "Phone number (optional)",
+    "socialUrl": "Facebook or other social media link (optional)",
     "registerButton": "Create account",
     "registering": "Creating...",
     "haveAccount": "Already have an account?"

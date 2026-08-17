@@ -13,7 +13,9 @@ const createUserSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(8),
   role: z.enum(["TRAINER", "STUDENT"]),
-  title: z.string().trim().max(200).optional().or(z.literal("")),
+  title: z.string().trim().max(200).nullish(),
+  phone: z.string().trim().max(30).nullish(),
+  socialUrl: z.string().trim().max(300).nullish(),
 });
 
 export async function createUser(formData: FormData): Promise<ActionResult> {
@@ -25,11 +27,13 @@ export async function createUser(formData: FormData): Promise<ActionResult> {
       password: formData.get("password"),
       role: formData.get("role"),
       title: formData.get("title"),
+      phone: formData.get("phone"),
+      socialUrl: formData.get("socialUrl"),
     });
     if (!parsed.success) {
       return { ok: false, error: parsed.error.issues[0]?.message ?? "بيانات غير صحيحة" };
     }
-    const { name, email, password, role, title } = parsed.data;
+    const { name, email, password, role, title, phone, socialUrl } = parsed.data;
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return { ok: false, error: "هذا البريد الإلكتروني مستخدم مسبقًا." };
@@ -43,7 +47,16 @@ export async function createUser(formData: FormData): Promise<ActionResult> {
 
     const passwordHash = await bcrypt.hash(password, 10);
     await prisma.user.create({
-      data: { name, email, passwordHash, role, title: title || null, avatarUrl },
+      data: {
+        name,
+        email,
+        passwordHash,
+        role,
+        title: title || null,
+        phone: phone || null,
+        socialUrl: socialUrl || null,
+        avatarUrl,
+      },
     });
 
     revalidatePath("/dashboard/admin/trainers");
@@ -70,10 +83,21 @@ export async function deleteUser(userId: string): Promise<ActionResult> {
 export async function enrollStudent(courseId: string, formData: FormData): Promise<ActionResult> {
   try {
     await requireCourseManager(courseId);
-    const email = String(formData.get("studentEmail") ?? "").trim().toLowerCase();
-    const student = await prisma.user.findUnique({ where: { email } });
-    if (!student || student.role !== "STUDENT") {
-      return { ok: false, error: "لا يوجد متدرب بهذا البريد الإلكتروني." };
+    const identifier = String(formData.get("studentIdentifier") ?? "").trim();
+    if (!identifier) return { ok: false, error: "أدخل البريد الإلكتروني أو رقم الهاتف أو حساب التواصل الاجتماعي." };
+
+    const student = await prisma.user.findFirst({
+      where: {
+        role: "STUDENT",
+        OR: [
+          { email: identifier.toLowerCase() },
+          { phone: identifier },
+          { socialUrl: { contains: identifier } },
+        ],
+      },
+    });
+    if (!student) {
+      return { ok: false, error: "لا يوجد متدرب مطابق لهذه البيانات." };
     }
     await prisma.enrollment.upsert({
       where: { userId_courseId: { userId: student.id, courseId } },

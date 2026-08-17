@@ -12,12 +12,13 @@ export default function EnrollForm({ action }: { action: (formData: FormData) =>
   return (
     <form action={formAction} className="flex flex-wrap items-end gap-2">
       <div className="flex-1">
-        <label className="mb-1 block text-xs text-muted">تسجيل متدرب بالبريد الإلكتروني</label>
+        <label className="mb-1 block text-xs text-muted">
+          تسجيل متدرب بالبريد الإلكتروني أو رقم الهاتف أو حساب التواصل الاجتماعي
+        </label>
         <input
-          name="studentEmail"
-          type="email"
+          name="studentIdentifier"
           required
-          placeholder="student@example.com"
+          placeholder="student@example.com أو رقم الهاتف أو رابط فيسبوك"
           className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
         />
       </div>
