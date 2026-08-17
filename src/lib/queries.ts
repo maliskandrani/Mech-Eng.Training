@@ -151,6 +151,8 @@ export function getStudentEnrollments(userId: string) {
       course: {
         include: {
           trainer: true,
+          category: true,
+          reviews: { select: { rating: true } },
           ...courseContentInclude,
         },
       },
