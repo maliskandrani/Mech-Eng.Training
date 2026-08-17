@@ -6,7 +6,14 @@ const courseCardInclude = {
   trainer: true,
   category: true,
   _count: { select: { enrollments: true, sections: true } },
-  sections: { select: { title: true, _count: { select: { lessons: true } } } },
+  sections: {
+    select: {
+      title: true,
+      _count: { select: { lessons: true } },
+      lessons: { select: { materials: { select: { durationMinutes: true } } } },
+    },
+  },
+  reviews: { select: { rating: true } },
 };
 
 export function getPublishedCourses() {
@@ -81,6 +88,7 @@ export function getCourseBySlug(slug: string) {
       category: true,
       ...courseContentInclude,
       _count: { select: { enrollments: true } },
+      reviews: { orderBy: { createdAt: "desc" }, include: { user: { select: { name: true } } } },
     },
   });
 }
@@ -95,6 +103,10 @@ export function getCourseById(id: string) {
       enrollments: { include: { user: true } },
     },
   });
+}
+
+export function getMyEnrollment(userId: string, courseId: string) {
+  return prisma.enrollment.findUnique({ where: { userId_courseId: { userId, courseId } } });
 }
 
 export function getTrainers() {
@@ -114,7 +126,13 @@ export function getTrainerById(id: string) {
         include: {
           category: true,
           _count: { select: { sections: true } },
-          sections: { select: { _count: { select: { lessons: true } } } },
+          sections: {
+            select: {
+              _count: { select: { lessons: true } },
+              lessons: { select: { materials: { select: { durationMinutes: true } } } },
+            },
+          },
+          reviews: { select: { rating: true } },
         },
       },
     },
@@ -173,6 +191,15 @@ export function getContactMessages() {
 
 export function getUnreadMessageCount() {
   return prisma.contactMessage.count({ where: { read: false } });
+}
+
+/** Sum of admin/trainer-entered material durations across all published courses, in minutes. */
+export async function getTotalTrainingMinutes(): Promise<number> {
+  const result = await prisma.material.aggregate({
+    _sum: { durationMinutes: true },
+    where: { lesson: { section: { course: { published: true } } } },
+  });
+  return result._sum.durationMinutes ?? 0;
 }
 
 /** Simple homepage load counter (not unique-visitor analytics). Safe to show publicly. */

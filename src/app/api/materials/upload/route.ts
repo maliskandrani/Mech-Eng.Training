@@ -23,6 +23,8 @@ export async function POST(req: Request) {
     const title = String(formData.get("title") ?? "").trim();
     const type = String(formData.get("type") ?? "") as MaterialType;
     const file = formData.get("file");
+    const durationRaw = String(formData.get("durationMinutes") ?? "").trim();
+    const durationMinutes = durationRaw ? Math.max(0, parseInt(durationRaw, 10)) : null;
 
     if (title.length < 2) return NextResponse.json({ ok: false, error: "عنوان الملف قصير جدًا" });
     if (!VALID_TYPES.includes(type)) return NextResponse.json({ ok: false, error: "نوع الملف غير صحيح" });
@@ -41,6 +43,7 @@ export async function POST(req: Request) {
         type,
         fileUrl: relativeKey,
         fileSize: size,
+        durationMinutes: Number.isNaN(durationMinutes) ? null : durationMinutes,
         order: count + 1,
       },
     });

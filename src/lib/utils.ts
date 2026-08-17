@@ -43,3 +43,17 @@ export const MATERIAL_TYPE_LABELS: Record<string, string> = {
   VIDEO: "فيديو",
   SLIDE: "سلايدز",
 };
+
+export const MATERIAL_TYPE_ICONS: Record<string, string> = {
+  BOOK: "📕",
+  VIDEO: "🎥",
+  SLIDE: "📊",
+};
+
+export function formatDuration(minutes: number | null | undefined): string | null {
+  if (!minutes || minutes <= 0) return null;
+  if (minutes < 60) return `${minutes} د`;
+  const hours = Math.floor(minutes / 60);
+  const rest = minutes % 60;
+  return rest > 0 ? `${hours} س ${rest} د` : `${hours} س`;
+}

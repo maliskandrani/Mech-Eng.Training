@@ -42,6 +42,7 @@ model User {
 
   coursesTaught Course[]     @relation("TrainerCourses")
   enrollments   Enrollment[]
+  reviews       Review[]
 
   @@map("users")
 }
@@ -77,8 +78,25 @@ model Course {
 
   sections    Section[]
   enrollments Enrollment[]
+  reviews     Review[]
 
   @@map("courses")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@map("reviews")
 }
 
 model Section {
@@ -108,13 +126,14 @@ model Lesson {
 }
 
 model Material {
-  id        String       @id @default(cuid())
-  title     String
-  type      MaterialType
-  fileUrl   String
-  fileSize  Int?
-  order     Int          @default(0)
-  createdAt DateTime     @default(now())
+  id              String       @id @default(cuid())
+  title           String
+  type            MaterialType
+  fileUrl         String
+  fileSize        Int?
+  durationMinutes Int?
+  order           Int          @default(0)
+  createdAt       DateTime     @default(now())
 
   lessonId String
   lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)

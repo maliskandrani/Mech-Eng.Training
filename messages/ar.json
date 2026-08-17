@@ -25,6 +25,7 @@
       "courses": "دورة متاحة",
       "lessons": "درسًا تدريبيًا",
       "sections": "قسمًا / كتابًا",
+      "hours": "ساعة تدريبية موثّقة",
       "views": "زيارة للصفحة الرئيسية"
     },
     "insightsTitle": "الأكاديمية بالأرقام",
@@ -101,7 +102,21 @@
       "fullAccess": "الوصول الكامل لجميع مواد الدورة",
       "materials": "كتب PDF وفيديوهات وسلايدز",
       "updates": "تحديثات مستمرة على المحتوى"
-    }
+    },
+    "reviewsTitle": "التقييمات والتعليقات",
+    "reviewsCount": "{count, plural, one {# تقييم} two {# تقييمان} few {# تقييمات} other {# تقييمات}}",
+    "noReviews": "لا توجد تقييمات بعد. كن أول من يقيّم هذه الدورة.",
+    "yourRating": "تقييمك",
+    "commentPlaceholder": "اكتب رأيك في الدورة (اختياري)",
+    "submitReview": "إرسال التقييم",
+    "submitting": "جارٍ الإرسال...",
+    "reviewSaved": "تم حفظ تقييمك. شكرًا لمشاركة رأيك!",
+    "loginToReview": "سجّل دخولك لتقييم هذه الدورة",
+    "enrollToReview": "يجب الالتحاق بالدورة لتتمكن من تقييمها",
+    "hoursShort": "ساعة",
+    "expandAll": "توسيع كل الأقسام",
+    "collapseAll": "طي كل الأقسام",
+    "courseRating": "تقييم الدورة"
   },
   "trainers": {
     "pageTitle": "المدربون",

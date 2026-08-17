@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { MATERIAL_TYPE_LABELS } from "@/lib/utils";
+import { MATERIAL_TYPE_LABELS, MATERIAL_TYPE_ICONS, formatDuration } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
 
 export default async function StudentCourseViewPage({
@@ -63,8 +63,13 @@ export default async function StudentCourseViewPage({
                           key={mat.id}
                           className="flex items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-sm"
                         >
-                          <span className="text-foreground">{mat.title}</span>
+                          <span className="text-foreground">
+                            {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
+                          </span>
                           <div className="flex items-center gap-2">
+                            {formatDuration(mat.durationMinutes) && (
+                              <span className="text-xs text-muted">{formatDuration(mat.durationMinutes)}</span>
+                            )}
                             <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">
                               {MATERIAL_TYPE_LABELS[mat.type] ?? mat.type}
                             </span>

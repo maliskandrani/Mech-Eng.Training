@@ -6,6 +6,7 @@ import {
   getStoryImages,
   getSiteSettings,
   incrementHomeViews,
+  getTotalTrainingMinutes,
 } from "@/lib/queries";
 import CourseCard from "@/components/site/CourseCard";
 import StoryCarousel from "@/components/site/StoryCarousel";
@@ -15,12 +16,13 @@ import PieChart from "@/components/site/PieChart";
 const CHART_PALETTE = ["#d4af37", "#24407e", "#5c9e7a", "#b0567a", "#8fa5d6"];
 
 export default async function HomePage() {
-  const [courses, trainers, storySlides, settings, homeViews, t, tTrainers] = await Promise.all([
+  const [courses, trainers, storySlides, settings, homeViews, totalMinutes, t, tTrainers] = await Promise.all([
     getPublishedCourses(),
     getTrainers(),
     getStoryImages(),
     getSiteSettings(),
     incrementHomeViews(),
+    getTotalTrainingMinutes(),
     getTranslations("home"),
     getTranslations("trainers"),
   ]);
@@ -28,16 +30,16 @@ export default async function HomePage() {
   const mainTrainer = trainers[0];
   const currency = settings?.currency ?? "LYD";
 
-  const totalSections = courses.reduce((n, c) => n + c._count.sections, 0);
   const totalLessons = courses.reduce(
     (n, c) => n + c.sections.reduce((m, s) => m + s._count.lessons, 0),
     0
   );
+  const totalHours = totalMinutes / 60;
 
   const STATS = [
     { value: courses.length, label: t("stats.courses") },
     { value: totalLessons, label: t("stats.lessons") },
-    { value: totalSections, label: t("stats.sections") },
+    ...(totalHours > 0 ? [{ value: totalHours.toFixed(1), label: t("stats.hours") }] : []),
     { value: homeViews, label: t("stats.views") },
   ];
 

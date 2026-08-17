@@ -8,13 +8,14 @@ import MaterialUploadForm from "@/components/dashboard/MaterialUploadForm";
 import CoverImageUpload from "@/components/dashboard/CoverImageUpload";
 import InlineRename from "@/components/dashboard/InlineRename";
 import { ConfirmDeleteButton } from "@/components/dashboard/ActionButtons";
-import { MATERIAL_TYPE_LABELS } from "@/lib/utils";
+import { MATERIAL_TYPE_LABELS, MATERIAL_TYPE_ICONS, formatDuration } from "@/lib/utils";
 import type { ActionResult } from "@/lib/actions/auth-actions";
 
 type Material = {
   id: string;
   title: string;
   type: "BOOK" | "VIDEO" | "SLIDE";
+  durationMinutes: number | null;
 };
 
 type Lesson = {
@@ -162,8 +163,13 @@ export default function CourseContentEditor({
                             key={mat.id}
                             className="flex items-center justify-between rounded-lg border border-border bg-background-card px-3 py-1.5 text-sm"
                           >
-                            <span className="text-foreground">{mat.title}</span>
+                            <span className="text-foreground">
+                              {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
+                            </span>
                             <div className="flex items-center gap-2">
+                              {formatDuration(mat.durationMinutes) && (
+                                <span className="text-xs text-muted">{formatDuration(mat.durationMinutes)}</span>
+                              )}
                               <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">
                                 {MATERIAL_TYPE_LABELS[mat.type] ?? mat.type}
                               </span>

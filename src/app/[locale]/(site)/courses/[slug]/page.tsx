@@ -5,9 +5,14 @@ import { getLocale, getTranslations, getFormatter } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
-import { getCourseBySlug, getSiteSettings } from "@/lib/queries";
+import { getCourseBySlug, getSiteSettings, getMyEnrollment } from "@/lib/queries";
+import { submitReview } from "@/lib/actions/review-actions";
+import { MATERIAL_TYPE_ICONS, formatDuration } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
 import EnrollButton from "@/components/site/EnrollButton";
+import StarRating from "@/components/site/StarRating";
+import ReviewForm from "@/components/site/ReviewForm";
+import CourseContentAccordion from "@/components/site/CourseContentAccordion";
 
 export default async function CourseDetailPage({
   params,
@@ -34,10 +39,20 @@ export default async function CourseDetailPage({
 
   const isStudent = session?.user?.role === "STUDENT";
   const lessons = course.sections.flatMap((s) => s.lessons);
-  const totalMaterials = lessons.reduce((n, l) => n + l.materials.length, 0);
+  const totalMinutes = lessons.reduce(
+    (n, l) => n + l.materials.reduce((m, mat) => m + (mat.durationMinutes ?? 0), 0),
+    0
+  );
+  const totalDuration = formatDuration(totalMinutes);
   const loginHref = `${localizedHref(locale, "/login")}?callbackUrl=${encodeURIComponent(
     localizedHref(locale, `/courses/${course.slug}`)
   )}`;
+
+  const reviewCount = course.reviews.length;
+  const avgRating = reviewCount > 0 ? course.reviews.reduce((n, r) => n + r.rating, 0) / reviewCount : 0;
+  const myEnrollment =
+    isStudent && session?.user ? await getMyEnrollment(session.user.id, course.id) : null;
+  const myReview = session?.user ? course.reviews.find((r) => r.userId === session.user!.id) : undefined;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -53,6 +68,16 @@ export default async function CourseDetailPage({
             {course.category && <span className="text-accent-soft">{course.category.name}</span>}
             <span>·</span>
             <span>{t(`level.${course.level}` as "level.BEGINNER")}</span>
+            {reviewCount > 0 && (
+              <>
+                <span>·</span>
+                <span className="flex items-center gap-1.5">
+                  <StarRating rating={avgRating} size="sm" />
+                  <span className="font-semibold text-foreground">{avgRating.toFixed(1)}</span>
+                  <span>({t("reviewsCount", { count: reviewCount })})</span>
+                </span>
+              </>
+            )}
           </div>
 
           <h1 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">{course.title}</h1>
@@ -81,102 +106,79 @@ export default async function CourseDetailPage({
             <h2 className="text-xl font-bold text-foreground">{t("contentTitle")}</h2>
             <p className="mt-1 text-sm text-muted">
               {t("sectionsCount", { count: course.sections.length })} ·{" "}
-              {t("lessonsCount", { count: lessons.length })} ·{" "}
-              {t("materialsCount", { count: totalMaterials })}
+              {t("lessonsCount", { count: lessons.length })}
+              {totalDuration ? ` · ${totalDuration}` : ""}
             </p>
-            <div className="mt-4 space-y-4">
-              {course.sections.map((section, si) => (
-                <div key={section.id} className="rounded-2xl border border-border">
-                  <div className="flex items-center gap-4 border-b border-border bg-background-elevated px-4 py-4">
-                    {section.coverImageUrl && (
-                      <div className="h-24 w-16 shrink-0 overflow-hidden rounded-md border border-border shadow-sm">
-                        <Image
-                          src={section.coverImageUrl}
-                          alt=""
-                          width={64}
-                          height={96}
-                          className="h-full w-full object-cover"
-                        />
+            <div className="mt-4">
+              <CourseContentAccordion sections={course.sections} />
+            </div>
+          </div>
+
+          <div className="mt-10">
+            <h2 className="text-xl font-bold text-foreground">{t("reviewsTitle")}</h2>
+
+            <div className="mt-4">
+              {isStudent && myEnrollment ? (
+                <ReviewForm
+                  action={submitReview.bind(null, course.id)}
+                  initialRating={myReview?.rating ?? 0}
+                  initialComment={myReview?.comment ?? ""}
+                />
+              ) : isStudent ? (
+                <p className="rounded-xl border border-border bg-background-card p-4 text-sm text-muted">
+                  {t("enrollToReview")}
+                </p>
+              ) : !session?.user ? (
+                <NextLink
+                  href={loginHref}
+                  className="block rounded-xl border border-border bg-background-card p-4 text-sm font-semibold text-accent-soft transition hover:border-accent"
+                >
+                  {t("loginToReview")}
+                </NextLink>
+              ) : null}
+            </div>
+
+            {course.reviews.length > 0 && (
+              <div className="mt-6 flex items-center gap-2">
+                <span className="text-xl text-accent" aria-hidden>★</span>
+                <span className="text-xl font-bold text-foreground">{avgRating.toFixed(1)}</span>
+                <span className="text-muted">{t("courseRating")}</span>
+                <span className="text-muted">·</span>
+                <span className="text-muted">{t("reviewsCount", { count: reviewCount })}</span>
+              </div>
+            )}
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {course.reviews.length > 0 ? (
+                course.reviews.map((review) => (
+                  <div key={review.id} className="rounded-xl border border-border bg-background-card p-4">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-sm font-bold text-accent-foreground">
+                        {review.user.name.charAt(0)}
                       </div>
-                    )}
-                    <h3 className="font-bold text-foreground">{section.title}</h3>
-                  </div>
-                  <div className="divide-y divide-border">
-                    {section.lessons.map((lesson, li) => {
-                      const isFree = si === 0 && li === 0;
-                      return (
-                        <div key={lesson.id} className="p-4">
-                          <div className="flex flex-wrap items-center gap-2">
-                            {lesson.coverImageUrl && (
-                              <div className="h-16 w-12 shrink-0 overflow-hidden rounded-md border border-border shadow-sm">
-                                <Image
-                                  src={lesson.coverImageUrl}
-                                  alt=""
-                                  width={48}
-                                  height={64}
-                                  className="h-full w-full object-cover"
-                                />
-                              </div>
-                            )}
-                            <h4 className="font-semibold text-foreground">{lesson.title}</h4>
-                            {isFree && (
-                              <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
-                                🎁 {t("freePreview")}
-                              </span>
-                            )}
-                          </div>
-                          {isFree && <p className="mt-1 text-xs text-muted">{t("freePreviewNote")}</p>}
-                          {lesson.materials.length > 0 ? (
-                            <ul className="mt-2 space-y-1.5">
-                              {lesson.materials.map((mat) =>
-                                isFree ? (
-                                  <li
-                                    key={mat.id}
-                                    className="flex items-center justify-between rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm"
-                                  >
-                                    <span className="text-foreground">{mat.title}</span>
-                                    <div className="flex items-center gap-2">
-                                      <span className="rounded-full border border-border px-2 py-0.5 text-xs">
-                                        {t(`materialType.${mat.type}` as "materialType.BOOK")}
-                                      </span>
-                                      <a
-                                        href={`/api/files/${mat.id}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent-soft transition hover:bg-accent/20"
-                                      >
-                                        {mat.type === "VIDEO" ? t("watch") : t("openOrDownload")}
-                                      </a>
-                                    </div>
-                                  </li>
-                                ) : (
-                                  <li key={mat.id} className="flex items-center gap-2 text-sm text-muted">
-                                    <span className="text-accent-soft">🔒</span>
-                                    <span>{mat.title}</span>
-                                    <span className="rounded-full border border-border px-2 py-0.5 text-xs">
-                                      {t(`materialType.${mat.type}` as "materialType.BOOK")}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          ) : (
-                            <p className="mt-2 text-sm text-muted">{t("contentPending")}</p>
-                          )}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                          <span className="font-semibold text-foreground">{review.user.name}</span>
+                          <span className="text-xs text-muted">
+                            {format.relativeTime(review.createdAt)}
+                          </span>
                         </div>
-                      );
-                    })}
-                    {section.lessons.length === 0 && (
-                      <p className="p-4 text-sm text-muted">{t("lessonsPendingInSection")}</p>
-                    )}
+                        <StarRating rating={review.rating} size="sm" />
+                        {review.comment && (
+                          <p className="mt-2 text-sm leading-6 text-muted">{review.comment}</p>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-sm text-muted">{t("noReviews")}</p>
+              )}
             </div>
           </div>
         </div>
 
-        <aside className="space-y-6">
+        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-2xl border border-border bg-background-card p-6">
             <div className="text-3xl font-extrabold text-accent">
               {course.price > 0 ? format.number(course.price, { style: "currency", currency }) : t("free")}

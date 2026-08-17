@@ -25,6 +25,7 @@
       "courses": "Courses available",
       "lessons": "Training lessons",
       "sections": "Sections / books",
+      "hours": "Documented training hours",
       "views": "Homepage views"
     },
     "insightsTitle": "The academy in numbers",
@@ -101,7 +102,21 @@
       "fullAccess": "Full access to all course materials",
       "materials": "PDF books, videos, and slides",
       "updates": "Continuous content updates"
-    }
+    },
+    "reviewsTitle": "Ratings & reviews",
+    "reviewsCount": "{count, plural, one {# review} other {# reviews}}",
+    "noReviews": "No reviews yet. Be the first to review this course.",
+    "yourRating": "Your rating",
+    "commentPlaceholder": "Share your thoughts on this course (optional)",
+    "submitReview": "Submit review",
+    "submitting": "Submitting...",
+    "reviewSaved": "Your review has been saved. Thanks for sharing your feedback!",
+    "loginToReview": "Log in to review this course",
+    "enrollToReview": "You need to be enrolled to review this course",
+    "hoursShort": "hrs",
+    "expandAll": "Expand all sections",
+    "collapseAll": "Collapse all sections",
+    "courseRating": "course rating"
   },
   "trainers": {
     "pageTitle": "Trainers",
