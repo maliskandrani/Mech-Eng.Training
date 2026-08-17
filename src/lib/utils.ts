@@ -7,6 +7,17 @@ export function slugify(input: string): string {
     .slice(0, 80);
 }
 
+/**
+ * Course/section/lesson titles are entered once in Arabic (optionally with an
+ * "(English Name)" suffix) plus an optional standalone English title. Arabic
+ * locale always shows the Arabic string as-is; every other locale shows the
+ * English title if the admin set one, falling back to the Arabic string.
+ */
+export function localizedTitle(title: string, titleEn: string | null | undefined, locale: string): string {
+  if (locale === "ar") return title;
+  return titleEn?.trim() || title;
+}
+
 /** Formats "count noun" with correct Arabic counted-noun agreement (1=singular, 2=dual, 3-10=plural, 11+=singular). */
 export function arabicCount(count: number, singular: string, dual: string, plural: string): string {
   const n = Math.abs(count);
@@ -50,10 +61,20 @@ export const MATERIAL_TYPE_ICONS: Record<string, string> = {
   SLIDE: "📊",
 };
 
-export function formatDuration(minutes: number | null | undefined): string | null {
+const DURATION_UNITS: Record<string, { hour: string; minute: string }> = {
+  ar: { hour: "س", minute: "د" },
+  en: { hour: "h", minute: "m" },
+  it: { hour: "h", minute: "min" },
+  tr: { hour: "sa", minute: "dk" },
+  fr: { hour: "h", minute: "min" },
+  de: { hour: "Std", minute: "Min" },
+};
+
+export function formatDuration(minutes: number | null | undefined, locale: string = "ar"): string | null {
   if (!minutes || minutes <= 0) return null;
-  if (minutes < 60) return `${minutes} د`;
+  const { hour, minute } = DURATION_UNITS[locale] ?? DURATION_UNITS.en;
+  if (minutes < 60) return `${minutes} ${minute}`;
   const hours = Math.floor(minutes / 60);
   const rest = minutes % 60;
-  return rest > 0 ? `${hours} س ${rest} د` : `${hours} س`;
+  return rest > 0 ? `${hours} ${hour} ${rest} ${minute}` : `${hours} ${hour}`;
 }

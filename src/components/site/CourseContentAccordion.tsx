@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { MATERIAL_TYPE_ICONS, formatDuration } from "@/lib/utils";
+import { MATERIAL_TYPE_ICONS, formatDuration, localizedTitle } from "@/lib/utils";
 
 type Material = {
   id: string;
@@ -15,6 +15,7 @@ type Material = {
 type Lesson = {
   id: string;
   title: string;
+  titleEn: string | null;
   coverImageUrl: string | null;
   materials: Material[];
 };
@@ -22,11 +23,12 @@ type Lesson = {
 type Section = {
   id: string;
   title: string;
+  titleEn: string | null;
   coverImageUrl: string | null;
   lessons: Lesson[];
 };
 
-export default function CourseContentAccordion({ sections }: { sections: Section[] }) {
+export default function CourseContentAccordion({ sections, locale }: { sections: Section[]; locale: string }) {
   const t = useTranslations("courses");
   const [openSet, setOpenSet] = useState<Set<string>>(new Set());
   const allOpen = sections.length > 0 && sections.every((s) => openSet.has(s.id));
@@ -59,7 +61,7 @@ export default function CourseContentAccordion({ sections }: { sections: Section
             (n, l) => n + l.materials.reduce((m, mat) => m + (mat.durationMinutes ?? 0), 0),
             0
           );
-          const duration = formatDuration(minutes);
+          const duration = formatDuration(minutes, locale);
           const isOpen = openSet.has(section.id);
 
           return (
@@ -80,7 +82,9 @@ export default function CourseContentAccordion({ sections }: { sections: Section
                     />
                   </div>
                 )}
-                <span className="flex-1 font-bold text-foreground">{section.title}</span>
+                <span className="flex-1 font-bold text-foreground">
+                  {localizedTitle(section.title, section.titleEn, locale)}
+                </span>
                 <span className="shrink-0 text-xs text-muted">
                   {t("lessonsCount", { count: lessonsCount })}
                   {duration ? ` · ${duration}` : ""}
@@ -111,7 +115,9 @@ export default function CourseContentAccordion({ sections }: { sections: Section
                               />
                             </div>
                           )}
-                          <h4 className="font-semibold text-foreground">{lesson.title}</h4>
+                          <h4 className="font-semibold text-foreground">
+                            {localizedTitle(lesson.title, lesson.titleEn, locale)}
+                          </h4>
                           {isFree && (
                             <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
                               🎁 {t("freePreview")}
@@ -131,9 +137,9 @@ export default function CourseContentAccordion({ sections }: { sections: Section
                                     {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
                                   </span>
                                   <div className="flex items-center gap-2">
-                                    {formatDuration(mat.durationMinutes) && (
+                                    {formatDuration(mat.durationMinutes, locale) && (
                                       <span className="text-xs text-muted">
-                                        {formatDuration(mat.durationMinutes)}
+                                        {formatDuration(mat.durationMinutes, locale)}
                                       </span>
                                     )}
                                     <span className="rounded-full border border-border px-2 py-0.5 text-xs">
@@ -155,8 +161,8 @@ export default function CourseContentAccordion({ sections }: { sections: Section
                                   <span>
                                     {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
                                   </span>
-                                  {formatDuration(mat.durationMinutes) && (
-                                    <span className="text-xs">{formatDuration(mat.durationMinutes)}</span>
+                                  {formatDuration(mat.durationMinutes, locale) && (
+                                    <span className="text-xs">{formatDuration(mat.durationMinutes, locale)}</span>
                                   )}
                                   <span className="rounded-full border border-border px-2 py-0.5 text-xs">
                                     {t(`materialType.${mat.type}` as "materialType.BOOK")}

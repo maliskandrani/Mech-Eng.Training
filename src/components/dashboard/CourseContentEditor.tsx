@@ -21,6 +21,7 @@ type Material = {
 type Lesson = {
   id: string;
   title: string;
+  titleEn: string | null;
   coverImageUrl: string | null;
   materials: Material[];
 };
@@ -28,6 +29,7 @@ type Lesson = {
 type Section = {
   id: string;
   title: string;
+  titleEn: string | null;
   coverImageUrl: string | null;
   lessons: Lesson[];
 };
@@ -102,6 +104,7 @@ export default function CourseContentEditor({
                 </button>
                 <InlineRename
                   value={section.title}
+                  valueEn={section.titleEn}
                   action={updateSectionTitle.bind(null, section.id)}
                   textClassName="font-bold text-foreground"
                 />
@@ -146,6 +149,7 @@ export default function CourseContentEditor({
                         </button>
                         <InlineRename
                           value={lesson.title}
+                          valueEn={lesson.titleEn}
                           action={updateLessonTitle.bind(null, lesson.id)}
                           textClassName="text-sm font-semibold text-foreground"
                         />

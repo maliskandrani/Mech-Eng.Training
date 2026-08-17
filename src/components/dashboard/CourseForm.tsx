@@ -8,9 +8,11 @@ type Category = { id: string; name: string };
 
 type InitialCourse = {
   title: string;
+  titleEn: string | null;
   subtitle: string | null;
   description: string | null;
   price: number;
+  totalHours: number | null;
   level: string;
   categoryId: string | null;
   trainerId: string;
@@ -29,6 +31,7 @@ export default function CourseForm({
   categories,
   initial,
   showTrainerSelect,
+  isAdmin = false,
   currency = "LYD",
 }: {
   action: (formData: FormData) => Promise<ActionResult>;
@@ -37,6 +40,7 @@ export default function CourseForm({
   initial?: InitialCourse;
   currency?: string;
   showTrainerSelect: boolean;
+  isAdmin?: boolean;
 }) {
   const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
     async (_prev, formData) => action(formData),
@@ -51,6 +55,17 @@ export default function CourseForm({
           name="title"
           required
           defaultValue={initial?.title}
+          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+        />
+      </div>
+
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-muted">العنوان بالإنجليزية (اختياري)</label>
+        <input
+          name="titleEn"
+          dir="ltr"
+          defaultValue={initial?.titleEn ?? ""}
+          placeholder="English title shown to non-Arabic visitors"
           className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
         />
       </div>
@@ -101,6 +116,26 @@ export default function CourseForm({
           </select>
         </div>
       </div>
+
+      {isAdmin && (
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-muted">
+            إجمالي ساعات الدورة (اختياري — للإدمن فقط)
+          </label>
+          <input
+            name="totalHours"
+            type="number"
+            min={0}
+            step="0.1"
+            defaultValue={initial?.totalHours ?? ""}
+            placeholder="مثال: 19.5"
+            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+          />
+          <p className="mt-1.5 text-xs text-muted">
+            إن لم تُدخل رقمًا هنا، سيُحسب عدد الساعات تلقائيًا من مدة الفيديوهات المُدخلة عند رفع كل ملف.
+          </p>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>

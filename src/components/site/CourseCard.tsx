@@ -1,14 +1,17 @@
 import Image from "next/image";
-import { useTranslations, useFormatter } from "next-intl";
+import { useTranslations, useFormatter, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { localizedTitle } from "@/lib/utils";
 import StarRating from "@/components/site/StarRating";
 
 type CourseCardData = {
   slug: string;
   title: string;
+  titleEn: string | null;
   subtitle: string | null;
   posterUrl: string | null;
   price: number;
+  totalHours: number | null;
   level: string;
   order: number;
   trainer: { name: string };
@@ -27,13 +30,15 @@ export default function CourseCard({
 }) {
   const t = useTranslations("courses");
   const format = useFormatter();
+  const locale = useLocale();
   const lessonsCount = course.sections.reduce((n, s) => n + s._count.lessons, 0);
-  const totalMinutes = course.sections.reduce(
+  const computedMinutes = course.sections.reduce(
     (n, s) =>
       n + s.lessons.reduce((m, l) => m + l.materials.reduce((k, mat) => k + (mat.durationMinutes ?? 0), 0), 0),
     0
   );
-  const totalHours = totalMinutes / 60;
+  const totalHours = course.totalHours ?? computedMinutes / 60;
+  const title = localizedTitle(course.title, course.titleEn, locale);
   const featured = course.order === 1;
   const reviewCount = course.reviews.length;
   const avgRating = reviewCount > 0 ? course.reviews.reduce((n, r) => n + r.rating, 0) / reviewCount : 0;
@@ -47,7 +52,7 @@ export default function CourseCard({
         {course.posterUrl ? (
           <Image
             src={course.posterUrl}
-            alt={course.title}
+            alt={title}
             fill
             className="object-contain p-2 transition duration-300 group-hover:scale-105"
           />
@@ -72,7 +77,7 @@ export default function CourseCard({
         <span className="text-xs font-semibold text-accent-soft">
           {t(`level.${course.level}` as "level.BEGINNER")}
         </span>
-        <h3 className="text-lg font-bold text-foreground line-clamp-2">{course.title}</h3>
+        <h3 className="text-lg font-bold text-foreground line-clamp-2">{title}</h3>
         {course.subtitle && <p className="text-sm text-muted line-clamp-2">{course.subtitle}</p>}
         <p className="text-xs text-muted">{course.trainer.name}</p>
 

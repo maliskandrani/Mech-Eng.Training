@@ -19,6 +19,7 @@ export default async function NewCoursePage() {
           trainers={trainers}
           categories={categories}
           showTrainerSelect
+          isAdmin
           currency={settings?.currency ?? "LYD"}
         />
       </div>

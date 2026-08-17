@@ -10,6 +10,7 @@ import type { ActionResult } from "@/lib/actions/auth-actions";
 
 const courseSchema = z.object({
   title: z.string().trim().min(3).max(160),
+  titleEn: z.string().trim().max(160).optional().or(z.literal("")),
   subtitle: z.string().trim().max(200).optional().or(z.literal("")),
   description: z.string().trim().max(4000).optional().or(z.literal("")),
   price: z.coerce.number().min(0).max(1_000_000),
@@ -18,6 +19,13 @@ const courseSchema = z.object({
   trainerId: z.string().trim().min(1),
   introVideoUrl: z.string().trim().max(500).optional().or(z.literal("")),
 });
+
+function parseOptionalHours(formData: FormData): number | null {
+  const raw = String(formData.get("totalHours") ?? "").trim();
+  if (!raw) return null;
+  const n = Number(raw);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
 
 async function uniqueSlug(base: string): Promise<string> {
   const root = slugify(base) || "course";
@@ -34,6 +42,7 @@ export async function createCourse(formData: FormData): Promise<ActionResult> {
     const user = await requireRole(["ADMIN", "TRAINER"]);
     const parsed = courseSchema.safeParse({
       title: formData.get("title"),
+      titleEn: formData.get("titleEn"),
       subtitle: formData.get("subtitle"),
       description: formData.get("description"),
       price: formData.get("price") || 0,
@@ -61,9 +70,11 @@ export async function createCourse(formData: FormData): Promise<ActionResult> {
       data: {
         slug,
         title: data.title,
+        titleEn: data.titleEn || null,
         subtitle: data.subtitle || null,
         description: data.description || null,
         price: data.price,
+        totalHours: user.role === "ADMIN" ? parseOptionalHours(formData) : null,
         level: data.level,
         categoryId: data.categoryId || null,
         trainerId: data.trainerId,
@@ -88,6 +99,7 @@ export async function updateCourse(courseId: string, formData: FormData): Promis
       .extend({ trainerId: z.string().trim().optional() })
       .safeParse({
         title: formData.get("title"),
+        titleEn: formData.get("titleEn"),
         subtitle: formData.get("subtitle"),
         description: formData.get("description"),
         price: formData.get("price") || 0,
@@ -113,6 +125,7 @@ export async function updateCourse(courseId: string, formData: FormData): Promis
       where: { id: courseId },
       data: {
         title: data.title,
+        titleEn: data.titleEn || null,
         subtitle: data.subtitle || null,
         description: data.description || null,
         price: data.price,
@@ -121,6 +134,7 @@ export async function updateCourse(courseId: string, formData: FormData): Promis
         introVideoUrl: data.introVideoUrl || null,
         ...(posterUrl ? { posterUrl } : {}),
         ...(user.role === "ADMIN" && data.trainerId ? { trainerId: data.trainerId } : {}),
+        ...(user.role === "ADMIN" ? { totalHours: parseOptionalHours(formData) } : {}),
       },
     });
 
@@ -179,8 +193,9 @@ export async function updateSectionTitle(sectionId: string, formData: FormData):
 
     const title = String(formData.get("title") ?? "").trim();
     if (title.length < 2) return { ok: false, error: "عنوان القسم قصير جدًا" };
+    const titleEn = String(formData.get("titleEn") ?? "").trim();
 
-    await prisma.section.update({ where: { id: sectionId }, data: { title } });
+    await prisma.section.update({ where: { id: sectionId }, data: { title, titleEn: titleEn || null } });
     revalidatePath("/dashboard");
     revalidatePath("/courses");
     return { ok: true };
@@ -268,8 +283,9 @@ export async function updateLessonTitle(lessonId: string, formData: FormData): P
 
     const title = String(formData.get("title") ?? "").trim();
     if (title.length < 2) return { ok: false, error: "عنوان الدرس قصير جدًا" };
+    const titleEn = String(formData.get("titleEn") ?? "").trim();
 
-    await prisma.lesson.update({ where: { id: lessonId }, data: { title } });
+    await prisma.lesson.update({ where: { id: lessonId }, data: { title, titleEn: titleEn || null } });
     revalidatePath("/dashboard");
     revalidatePath("/courses");
     return { ok: true };

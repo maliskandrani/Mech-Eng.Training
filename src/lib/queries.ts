@@ -9,6 +9,7 @@ const courseCardInclude = {
   sections: {
     select: {
       title: true,
+      titleEn: true,
       _count: { select: { lessons: true } },
       lessons: { select: { materials: { select: { durationMinutes: true } } } },
     },
@@ -191,15 +192,6 @@ export function getContactMessages() {
 
 export function getUnreadMessageCount() {
   return prisma.contactMessage.count({ where: { read: false } });
-}
-
-/** Sum of admin/trainer-entered material durations across all published courses, in minutes. */
-export async function getTotalTrainingMinutes(): Promise<number> {
-  const result = await prisma.material.aggregate({
-    _sum: { durationMinutes: true },
-    where: { lesson: { section: { course: { published: true } } } },
-  });
-  return result._sum.durationMinutes ?? 0;
 }
 
 /** Simple homepage load counter (not unique-visitor analytics). Safe to show publicly. */

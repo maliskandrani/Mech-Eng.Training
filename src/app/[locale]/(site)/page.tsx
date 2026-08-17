@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import {
   getPublishedCourses,
@@ -6,8 +6,8 @@ import {
   getStoryImages,
   getSiteSettings,
   incrementHomeViews,
-  getTotalTrainingMinutes,
 } from "@/lib/queries";
+import { localizedTitle } from "@/lib/utils";
 import CourseCard from "@/components/site/CourseCard";
 import StoryCarousel from "@/components/site/StoryCarousel";
 import BarChart from "@/components/site/BarChart";
@@ -16,13 +16,13 @@ import PieChart from "@/components/site/PieChart";
 const CHART_PALETTE = ["#d4af37", "#24407e", "#5c9e7a", "#b0567a", "#8fa5d6"];
 
 export default async function HomePage() {
-  const [courses, trainers, storySlides, settings, homeViews, totalMinutes, t, tTrainers] = await Promise.all([
+  const [courses, trainers, storySlides, settings, homeViews, locale, t, tTrainers] = await Promise.all([
     getPublishedCourses(),
     getTrainers(),
     getStoryImages(),
     getSiteSettings(),
     incrementHomeViews(),
-    getTotalTrainingMinutes(),
+    getLocale(),
     getTranslations("home"),
     getTranslations("trainers"),
   ]);
@@ -34,7 +34,13 @@ export default async function HomePage() {
     (n, c) => n + c.sections.reduce((m, s) => m + s._count.lessons, 0),
     0
   );
-  const totalHours = totalMinutes / 60;
+  const totalHours = courses.reduce((sum, c) => {
+    const computedMinutes = c.sections.reduce(
+      (n, s) => n + s.lessons.reduce((m, l) => m + l.materials.reduce((k, mat) => k + (mat.durationMinutes ?? 0), 0), 0),
+      0
+    );
+    return sum + (c.totalHours ?? computedMinutes / 60);
+  }, 0);
 
   const STATS = [
     { value: courses.length, label: t("stats.courses") },
@@ -56,7 +62,7 @@ export default async function HomePage() {
 
   const flagship = courses[0];
   const contentData =
-    flagship?.sections.map((s) => ({ label: s.title, value: s._count.lessons })) ?? [];
+    flagship?.sections.map((s) => ({ label: localizedTitle(s.title, s.titleEn, locale), value: s._count.lessons })) ?? [];
 
   const FEATURES = [
     { icon: "🎓", key: "content" as const },

@@ -60,10 +60,12 @@ model Course {
   id            String      @id @default(cuid())
   slug          String      @unique
   title         String
+  titleEn       String?
   subtitle      String?
   description   String?
   posterUrl     String?
   introVideoUrl String?
+  totalHours    Float?
   price         Float       @default(0)
   level         CourseLevel @default(BEGINNER)
   published     Boolean     @default(false)
@@ -102,6 +104,7 @@ model Review {
 model Section {
   id            String  @id @default(cuid())
   title         String
+  titleEn       String?
   order         Int     @default(0)
   coverImageUrl String?
   courseId      String
@@ -115,6 +118,7 @@ model Section {
 model Lesson {
   id            String  @id @default(cuid())
   title         String
+  titleEn       String?
   order         Int     @default(0)
   coverImageUrl String?
   sectionId     String

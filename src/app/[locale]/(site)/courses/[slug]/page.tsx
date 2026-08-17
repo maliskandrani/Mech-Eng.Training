@@ -7,7 +7,7 @@ import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
 import { getCourseBySlug, getSiteSettings, getMyEnrollment } from "@/lib/queries";
 import { submitReview } from "@/lib/actions/review-actions";
-import { MATERIAL_TYPE_ICONS, formatDuration } from "@/lib/utils";
+import { formatDuration, localizedTitle } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
 import EnrollButton from "@/components/site/EnrollButton";
 import StarRating from "@/components/site/StarRating";
@@ -39,11 +39,13 @@ export default async function CourseDetailPage({
 
   const isStudent = session?.user?.role === "STUDENT";
   const lessons = course.sections.flatMap((s) => s.lessons);
-  const totalMinutes = lessons.reduce(
+  const computedMinutes = lessons.reduce(
     (n, l) => n + l.materials.reduce((m, mat) => m + (mat.durationMinutes ?? 0), 0),
     0
   );
-  const totalDuration = formatDuration(totalMinutes);
+  const totalMinutes = course.totalHours != null ? course.totalHours * 60 : computedMinutes;
+  const totalDuration = formatDuration(totalMinutes, locale);
+  const title = localizedTitle(course.title, course.titleEn, locale);
   const loginHref = `${localizedHref(locale, "/login")}?callbackUrl=${encodeURIComponent(
     localizedHref(locale, `/courses/${course.slug}`)
   )}`;
@@ -80,7 +82,7 @@ export default async function CourseDetailPage({
             )}
           </div>
 
-          <h1 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">{course.title}</h1>
+          <h1 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">{title}</h1>
           {course.subtitle && <p className="mt-3 text-lg text-muted">{course.subtitle}</p>}
 
           <div className="mt-6 aspect-video overflow-hidden rounded-2xl border border-border bg-background-card">
@@ -88,7 +90,7 @@ export default async function CourseDetailPage({
               <VideoEmbed url={course.introVideoUrl} />
             ) : course.posterUrl ? (
               <div className="relative h-full w-full">
-                <Image src={course.posterUrl} alt={course.title} fill className="object-contain p-3" />
+                <Image src={course.posterUrl} alt={title} fill className="object-contain p-3" />
               </div>
             ) : (
               <div className="flex h-full items-center justify-center text-muted">{t("noVideoOrPoster")}</div>
@@ -110,7 +112,7 @@ export default async function CourseDetailPage({
               {totalDuration ? ` · ${totalDuration}` : ""}
             </p>
             <div className="mt-4">
-              <CourseContentAccordion sections={course.sections} />
+              <CourseContentAccordion sections={course.sections} locale={locale} />
             </div>
           </div>
 

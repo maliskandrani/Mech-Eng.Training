@@ -143,11 +143,14 @@ export default async function CourseManagePanel({
                   categories={categories}
                   currency={currency}
                   showTrainerSelect={isAdmin}
+                  isAdmin={isAdmin}
                   initial={{
                     title: course.title,
+                    titleEn: course.titleEn,
                     subtitle: course.subtitle,
                     description: course.description,
                     price: course.price,
+                    totalHours: course.totalHours,
                     level: course.level,
                     categoryId: course.categoryId,
                     trainerId: course.trainerId,
