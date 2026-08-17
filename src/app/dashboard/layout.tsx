@@ -27,7 +27,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <body className="min-h-full">
         <div className="dash-theme flex min-h-screen flex-col bg-background text-foreground">
           <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background-card px-4 py-3 shadow-sm sm:px-6">
-            <Link href="/" className="text-sm font-bold text-foreground">
+            <Link href="/" className="text-xl font-extrabold text-foreground">
               لوحة التحكم
             </Link>
             <div className="flex items-center gap-3 text-sm">

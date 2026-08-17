@@ -83,7 +83,7 @@ export default async function CourseDetailPage({
             )}
           </div>
 
-          <h1 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">{title}</h1>
+          <h1 className="mt-3 text-2xl font-extrabold text-foreground sm:text-3xl">{title}</h1>
           {subtitle && <p className="mt-3 text-lg text-muted">{subtitle}</p>}
 
           <div className="mt-6 aspect-video overflow-hidden rounded-2xl border border-border bg-background-card">
