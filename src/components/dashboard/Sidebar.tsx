@@ -40,11 +40,11 @@ export default function Sidebar({
       <Link
         href="/"
         title="العودة إلى الموقع الرئيسي"
-        className="hidden items-center gap-3 border-b border-white/10 px-5 py-6 transition hover:bg-white/5 md:flex"
+        className="hidden items-center justify-center gap-3 border-b border-white/10 px-5 py-6 transition hover:bg-white/5 md:flex"
       >
-        <Logo logoUrl={logoUrl} size={130} />
-        <div className="text-xs leading-5">
-          <p className="font-extrabold tracking-wide text-navy-foreground">SkillStream</p>
+        <Logo logoUrl={logoUrl} size={72} />
+        <div className="text-sm leading-5">
+          <p className="text-base font-extrabold tracking-wide text-navy-foreground">SkillStream</p>
           <p className="text-navy-muted">Academy</p>
         </div>
       </Link>

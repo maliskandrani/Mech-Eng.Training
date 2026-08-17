@@ -39,7 +39,7 @@ export default async function AdminOverviewPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-extrabold text-foreground">نظرة عامة على الأكاديمية</h1>
+      <h1 className="text-2xl font-extrabold text-foreground">لوحة التحكم</h1>
       <p className="mt-1 text-sm text-muted">هذه الإحصائيات مرئية للمدير فقط.</p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
