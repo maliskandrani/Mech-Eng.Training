@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import type { ActionResult } from "@/lib/actions/auth-actions";
+import FileUploadField from "@/components/dashboard/FileUploadField";
 
 export default function ProfileForm({
   action,
@@ -57,12 +58,7 @@ export default function ProfileForm({
 
       <div>
         <label className="mb-1.5 block text-sm font-medium text-muted">الصورة الشخصية</label>
-        <input
-          name="avatar"
-          type="file"
-          accept="image/png,image/jpeg,image/webp"
-          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
-        />
+        <FileUploadField name="avatar" accept="image/png,image/jpeg,image/webp" />
         <p className="mt-1.5 text-xs text-muted">
           تُعرض الصورة تلقائيًا داخل إطار دائري — يفضّل رفع صورة مربعة والوجه في المنتصف أو
           الجزء العلوي منها ليبقى واضحًا بعد القص.

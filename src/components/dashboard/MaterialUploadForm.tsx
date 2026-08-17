@@ -2,6 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import FileUploadField from "@/components/dashboard/FileUploadField";
 
 export default function MaterialUploadForm({ lessonId }: { lessonId: string }) {
   const router = useRouter();
@@ -50,12 +51,7 @@ export default function MaterialUploadForm({ lessonId }: { lessonId: string }) {
         <option value="VIDEO">فيديو</option>
         <option value="SLIDE">سلايدز</option>
       </select>
-      <input
-        name="file"
-        type="file"
-        required
-        className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-accent"
-      />
+      <FileUploadField name="file" required />
       <input
         name="durationMinutes"
         type="number"

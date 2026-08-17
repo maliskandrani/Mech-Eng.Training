@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import FileUploadField from "@/components/dashboard/FileUploadField";
 import type { ActionResult } from "@/lib/actions/auth-actions";
 
 type Trainer = { id: string; name: string };
@@ -187,12 +188,7 @@ export default function CourseForm({
 
       <div>
         <label className="mb-1.5 block text-sm font-medium text-muted">صورة الغلاف (Poster)</label>
-        <input
-          name="poster"
-          type="file"
-          accept="image/png,image/jpeg,image/webp"
-          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
-        />
+        <FileUploadField name="poster" accept="image/png,image/jpeg,image/webp" />
         <p className="mt-1.5 text-xs text-muted">
           تُعرض الصورة كاملة دون أي قص في كل الصفحات، بحجم مصغّر ومناسب لكل مكان تلقائيًا.
         </p>

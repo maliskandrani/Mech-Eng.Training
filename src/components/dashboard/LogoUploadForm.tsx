@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import type { ActionResult } from "@/lib/actions/auth-actions";
+import FileUploadField from "@/components/dashboard/FileUploadField";
 
 export default function LogoUploadForm({
   action,
@@ -15,13 +16,7 @@ export default function LogoUploadForm({
 
   return (
     <form action={formAction} className="flex flex-wrap items-end gap-3">
-      <input
-        name="logo"
-        type="file"
-        required
-        accept="image/png,image/jpeg,image/webp"
-        className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
-      />
+      <FileUploadField name="logo" accept="image/png,image/jpeg,image/webp" required className="min-w-64" />
       <button
         type="submit"
         disabled={pending}

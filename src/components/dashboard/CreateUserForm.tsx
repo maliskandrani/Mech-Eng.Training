@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import type { ActionResult } from "@/lib/actions/auth-actions";
 import PasswordInput from "@/components/ui/PasswordInput";
+import FileUploadField from "@/components/dashboard/FileUploadField";
 
 export default function CreateUserForm({
   action,
@@ -46,16 +47,11 @@ export default function CreateUserForm({
             placeholder="اللقب الوظيفي (اختياري)"
             className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
           />
-          <label className="flex flex-col gap-1 text-xs text-muted sm:col-span-2">
-            صورة البروفايل (اختياري)
-            <input
-              name="avatar"
-              type="file"
-              accept="image/*"
-              className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-accent"
-            />
+          <div className="flex flex-col gap-1 text-xs text-muted sm:col-span-2">
+            <span>صورة البروفايل (اختياري)</span>
+            <FileUploadField name="avatar" accept="image/*" />
             <span>تُعرض داخل إطار دائري — يفضّل صورة مربعة والوجه في المنتصف أو الأعلى.</span>
-          </label>
+          </div>
         </>
       )}
       <button

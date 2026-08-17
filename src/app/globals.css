@@ -66,6 +66,43 @@ body {
 }
 
 /* ---------------------------------------------------------------------- */
+/* Site-wide hover feedback: any clickable control lifts slightly and     */
+/* picks up a soft gold glow on hover. Only sets transform/box-shadow/    */
+/* filter, so it layers under any per-component hover classes (those win  */
+/* on the properties they explicitly set, e.g. hover:-translate-y-1).     */
+/* ---------------------------------------------------------------------- */
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    filter 150ms ease;
+}
+
+a:hover,
+button:not(:disabled):hover,
+[role="button"]:hover,
+input[type="submit"]:not(:disabled):hover,
+input[type="button"]:not(:disabled):hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow:
+    0 0 0 3px rgba(212, 175, 55, 0.12),
+    0 4px 12px rgba(212, 175, 55, 0.18);
+}
+
+a:active,
+button:not(:disabled):active,
+[role="button"]:active {
+  transform: translateY(0);
+  filter: brightness(0.97);
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------------------- */
 /* Dashboard theme: dark navy + gold — scoped to /dashboard only.         */
 /* Overriding the same custom properties retints every Tailwind utility   */
 /* built on them (bg-background, text-accent, gold-gradient, …) without   */
