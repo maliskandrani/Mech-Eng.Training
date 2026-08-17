@@ -58,7 +58,7 @@ export default async function CourseDetailPage({
   const myReview = session?.user ? course.reviews.find((r) => r.userId === session.user!.id) : undefined;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 pt-6 pb-10 sm:px-6 sm:pt-8">
       {!course.published && (
         <div className="mb-6 rounded-xl border border-accent/40 bg-accent/10 px-4 py-3 text-sm text-accent-soft">
           {t("draftNotice")}
@@ -83,15 +83,15 @@ export default async function CourseDetailPage({
             )}
           </div>
 
-          <h1 className="mt-3 text-2xl font-extrabold text-foreground sm:text-3xl">{title}</h1>
-          {subtitle && <p className="mt-3 text-lg text-muted">{subtitle}</p>}
+          <h1 className="mt-2 text-2xl font-extrabold text-foreground sm:text-3xl">{title}</h1>
+          {subtitle && <p className="mt-2 text-base text-muted sm:text-lg">{subtitle}</p>}
 
-          <div className="mt-6 aspect-video overflow-hidden rounded-2xl border border-border bg-background-card">
+          <div className="mt-4 aspect-video max-h-[46vh] overflow-hidden rounded-2xl border border-border bg-background-card sm:max-h-[52vh]">
             {course.introVideoUrl ? (
               <VideoEmbed url={course.introVideoUrl} />
             ) : course.posterUrl ? (
               <div className="relative h-full w-full">
-                <Image src={course.posterUrl} alt={title} fill className="object-contain p-3" />
+                <Image src={course.posterUrl} alt={title} fill className="object-contain object-top p-2" />
               </div>
             ) : (
               <div className="flex h-full items-center justify-center text-muted">{t("noVideoOrPoster")}</div>
