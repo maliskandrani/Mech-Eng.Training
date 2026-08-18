@@ -67,7 +67,7 @@ export default async function CourseDetailPage({
 
       <div className="grid gap-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
             {course.category && <span className="text-accent-soft">{course.category.name}</span>}
             <span>·</span>
             <span>{t(`level.${course.level}` as "level.BEGINNER")}</span>
@@ -83,10 +83,10 @@ export default async function CourseDetailPage({
             )}
           </div>
 
-          <h1 className="mt-2 text-2xl font-extrabold text-foreground sm:text-3xl">{title}</h1>
-          {subtitle && <p className="mt-2 text-base text-muted sm:text-lg">{subtitle}</p>}
+          <h1 className="mt-1.5 text-xl font-extrabold text-foreground sm:text-2xl">{title}</h1>
+          {subtitle && <p className="mt-1.5 text-sm text-muted sm:text-base">{subtitle}</p>}
 
-          <div className="mt-4 aspect-video max-h-[46vh] overflow-hidden rounded-2xl border border-border bg-background-card sm:max-h-[52vh]">
+          <div className="mt-3 aspect-video max-h-[56vh] overflow-hidden rounded-2xl border border-border bg-background-card sm:max-h-[64vh]">
             {course.introVideoUrl ? (
               <VideoEmbed url={course.introVideoUrl} />
             ) : course.posterUrl ? (
