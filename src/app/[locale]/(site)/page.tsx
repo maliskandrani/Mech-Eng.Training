@@ -11,7 +11,7 @@ import { localizedTitle } from "@/lib/utils";
 import CourseCard from "@/components/site/CourseCard";
 import StoryCarousel from "@/components/site/StoryCarousel";
 import BarChart from "@/components/site/BarChart";
-import PieChart from "@/components/site/PieChart";
+import CategoryBreakdown from "@/components/site/CategoryBreakdown";
 
 const CHART_PALETTE = ["#d4af37", "#24407e", "#5c9e7a", "#b0567a", "#8fa5d6"];
 
@@ -131,7 +131,7 @@ export default async function HomePage() {
                 <div className="rounded-2xl border border-border bg-background-card p-6">
                   <h3 className="font-bold text-foreground">{t("categoryChartTitle")}</h3>
                   <div className="mt-5">
-                    <PieChart data={categoryData} />
+                    <CategoryBreakdown data={categoryData} />
                   </div>
                 </div>
               )}
