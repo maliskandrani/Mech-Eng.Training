@@ -9,6 +9,7 @@ type Material = {
   title: string;
   type: "BOOK" | "VIDEO" | "SLIDE";
   durationMinutes: number | null;
+  isFree: boolean;
 };
 
 type Lesson = {
@@ -123,6 +124,11 @@ export default function StudentCourseAccordion({ sections }: { sections: Section
                             >
                               <span className="text-foreground">
                                 {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
+                                {mat.isFree && (
+                                  <span className="ms-2 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                    🎁 مجانية
+                                  </span>
+                                )}
                               </span>
                               <div className="flex items-center gap-2">
                                 {formatDuration(mat.durationMinutes) && (

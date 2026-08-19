@@ -16,6 +16,7 @@ type Material = {
   title: string;
   type: "BOOK" | "VIDEO" | "SLIDE";
   durationMinutes: number | null;
+  isFree: boolean;
 };
 
 type Lesson = {
@@ -48,6 +49,7 @@ export default function CourseContentEditor({
   deleteMaterial,
   updateSectionCover,
   updateLessonCover,
+  setMaterialFree,
 }: {
   sections: Section[];
   isAdmin: boolean;
@@ -62,6 +64,7 @@ export default function CourseContentEditor({
   deleteMaterial: (materialId: string) => Promise<ActionResult>;
   updateSectionCover: (sectionId: string, formData: FormData) => Promise<ActionResult>;
   updateLessonCover: (lessonId: string, formData: FormData) => Promise<ActionResult>;
+  setMaterialFree: (materialId: string, isFree: boolean) => Promise<ActionResult>;
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -69,6 +72,13 @@ export default function CourseContentEditor({
   function runReorder(action: () => Promise<ActionResult>) {
     startTransition(async () => {
       await action();
+      router.refresh();
+    });
+  }
+
+  function toggleFree(materialId: string, current: boolean) {
+    startTransition(async () => {
+      await setMaterialFree(materialId, !current);
       router.refresh();
     });
   }
@@ -177,6 +187,26 @@ export default function CourseContentEditor({
                               <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">
                                 {MATERIAL_TYPE_LABELS[mat.type] ?? mat.type}
                               </span>
+                              {isAdmin ? (
+                                <button
+                                  type="button"
+                                  onClick={() => toggleFree(mat.id, mat.isFree)}
+                                  title="متاحة مجانًا لأي مستخدم مسجَّل دخول بدون الحاجة للالتحاق بالدورة"
+                                  className={`rounded-full border px-2 py-0.5 text-xs font-semibold transition ${
+                                    mat.isFree
+                                      ? "border-accent/40 bg-accent/10 text-accent-soft"
+                                      : "border-border text-muted hover:border-accent/40 hover:text-accent-soft"
+                                  }`}
+                                >
+                                  🎁 مجانية
+                                </button>
+                              ) : (
+                                mat.isFree && (
+                                  <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                    🎁 مجانية
+                                  </span>
+                                )
+                              )}
                               <ConfirmDeleteButton onConfirm={deleteMaterial.bind(null, mat.id)} label="حذف" />
                             </div>
                           </li>

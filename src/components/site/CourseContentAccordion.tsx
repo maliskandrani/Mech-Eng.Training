@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import NextLink from "next/link";
 import { useTranslations } from "next-intl";
 import { MATERIAL_TYPE_ICONS, formatDuration, localizedTitle } from "@/lib/utils";
 
@@ -10,6 +11,7 @@ type Material = {
   title: string;
   type: "BOOK" | "VIDEO" | "SLIDE";
   durationMinutes: number | null;
+  isFree: boolean;
 };
 
 type Lesson = {
@@ -28,7 +30,19 @@ type Section = {
   lessons: Lesson[];
 };
 
-export default function CourseContentAccordion({ sections, locale }: { sections: Section[]; locale: string }) {
+export default function CourseContentAccordion({
+  sections,
+  locale,
+  isLoggedIn,
+  hasFullAccess,
+  loginHref,
+}: {
+  sections: Section[];
+  locale: string;
+  isLoggedIn: boolean;
+  hasFullAccess: boolean;
+  loginHref: string;
+}) {
   const t = useTranslations("courses");
   const [openSet, setOpenSet] = useState<Set<string>>(new Set());
   const allOpen = sections.length > 0 && sections.every((s) => openSet.has(s.id));
@@ -55,7 +69,7 @@ export default function CourseContentAccordion({ sections, locale }: { sections:
       </div>
 
       <div className="mt-2 space-y-3">
-        {sections.map((section, si) => {
+        {sections.map((section) => {
           const lessonsCount = section.lessons.length;
           const totalMaterials = section.lessons.reduce((n, l) => n + l.materials.length, 0);
           const hasContent = totalMaterials > 0;
@@ -107,8 +121,7 @@ export default function CourseContentAccordion({ sections, locale }: { sections:
 
               {isOpen && (
                 <div className="divide-y divide-border border-t border-border">
-                  {section.lessons.map((lesson, li) => {
-                    const isFree = si === 0 && li === 0;
+                  {section.lessons.map((lesson) => {
                     return (
                       <div key={lesson.id} className="p-4">
                         <div className="flex flex-wrap items-center gap-2">
@@ -126,44 +139,72 @@ export default function CourseContentAccordion({ sections, locale }: { sections:
                           <h4 className="font-semibold text-foreground">
                             {localizedTitle(lesson.title, lesson.titleEn, locale)}
                           </h4>
-                          {isFree && (
-                            <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
-                              🎁 {t("freePreview")}
-                            </span>
-                          )}
                         </div>
-                        {isFree && <p className="mt-1 text-xs text-muted">{t("freePreviewNote")}</p>}
                         {lesson.materials.length > 0 ? (
                           <ul className="mt-2 space-y-1.5">
-                            {lesson.materials.map((mat) =>
-                              isFree ? (
-                                <li
-                                  key={mat.id}
-                                  className="flex items-center justify-between rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm"
-                                >
-                                  <span className="text-foreground">
-                                    {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
-                                  </span>
-                                  <div className="flex items-center gap-2">
-                                    {formatDuration(mat.durationMinutes, locale) && (
-                                      <span className="text-xs text-muted">
-                                        {formatDuration(mat.durationMinutes, locale)}
-                                      </span>
-                                    )}
-                                    <span className="rounded-full border border-border px-2 py-0.5 text-xs">
-                                      {t(`materialType.${mat.type}` as "materialType.BOOK")}
+                            {lesson.materials.map((mat) => {
+                              const unlocked = hasFullAccess || (mat.isFree && isLoggedIn);
+                              const freeNeedsLogin = mat.isFree && !isLoggedIn && !hasFullAccess;
+
+                              if (unlocked) {
+                                return (
+                                  <li
+                                    key={mat.id}
+                                    className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm"
+                                  >
+                                    <span className="text-foreground">
+                                      {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
+                                      {mat.isFree && (
+                                        <span className="ms-2 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                          🎁 {t("freePreview")}
+                                        </span>
+                                      )}
                                     </span>
-                                    <a
-                                      href={`/api/files/${mat.id}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
+                                    <div className="flex items-center gap-2">
+                                      {formatDuration(mat.durationMinutes, locale) && (
+                                        <span className="text-xs text-muted">
+                                          {formatDuration(mat.durationMinutes, locale)}
+                                        </span>
+                                      )}
+                                      <span className="rounded-full border border-border px-2 py-0.5 text-xs">
+                                        {t(`materialType.${mat.type}` as "materialType.BOOK")}
+                                      </span>
+                                      <a
+                                        href={`/api/files/${mat.id}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent-soft transition hover:bg-accent/20"
+                                      >
+                                        {mat.type === "VIDEO" ? t("watch") : t("openOrDownload")}
+                                      </a>
+                                    </div>
+                                  </li>
+                                );
+                              }
+
+                              if (freeNeedsLogin) {
+                                return (
+                                  <li
+                                    key={mat.id}
+                                    className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm"
+                                  >
+                                    <span className="text-foreground">
+                                      {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
+                                      <span className="ms-2 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                        🎁 {t("freePreview")}
+                                      </span>
+                                    </span>
+                                    <NextLink
+                                      href={loginHref}
                                       className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent-soft transition hover:bg-accent/20"
                                     >
-                                      {mat.type === "VIDEO" ? t("watch") : t("openOrDownload")}
-                                    </a>
-                                  </div>
-                                </li>
-                              ) : (
+                                      {t("freePreviewNote")}
+                                    </NextLink>
+                                  </li>
+                                );
+                              }
+
+                              return (
                                 <li key={mat.id} className="flex items-center gap-2 text-sm text-muted">
                                   <span className="text-accent-soft">🔒</span>
                                   <span>
@@ -176,8 +217,8 @@ export default function CourseContentAccordion({ sections, locale }: { sections:
                                     {t(`materialType.${mat.type}` as "materialType.BOOK")}
                                   </span>
                                 </li>
-                              )
-                            )}
+                              );
+                            })}
                           </ul>
                         ) : (
                           <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">

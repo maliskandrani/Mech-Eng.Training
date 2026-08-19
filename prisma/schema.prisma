@@ -139,6 +139,7 @@ model Material {
   fileSize        Int?
   durationMinutes Int?
   order           Int          @default(0)
+  isFree          Boolean      @default(false)
   createdAt       DateTime     @default(now())
 
   lessonId String

@@ -21,7 +21,7 @@ import {
   updateSectionCover,
   updateLessonCover,
 } from "@/lib/actions/course-actions";
-import { deleteMaterial } from "@/lib/actions/material-actions";
+import { deleteMaterial, setMaterialFree } from "@/lib/actions/material-actions";
 import { enrollStudent, unenrollStudent } from "@/lib/actions/user-actions";
 
 export default async function CourseManagePanel({
@@ -106,6 +106,7 @@ export default async function CourseManagePanel({
                   deleteMaterial={deleteMaterial}
                   updateSectionCover={updateSectionCover}
                   updateLessonCover={updateLessonCover}
+                  setMaterialFree={setMaterialFree}
                 />
               ),
             },

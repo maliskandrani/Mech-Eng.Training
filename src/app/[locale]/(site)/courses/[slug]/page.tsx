@@ -5,6 +5,7 @@ import { getLocale, getTranslations, getFormatter } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
+import { canAccessCourseMaterials } from "@/lib/access";
 import { getCourseBySlug, getSiteSettings, getMyEnrollment } from "@/lib/queries";
 import { submitReview } from "@/lib/actions/review-actions";
 import { formatDuration, localizedTitle } from "@/lib/utils";
@@ -53,6 +54,7 @@ export default async function CourseDetailPage({
 
   const reviewCount = course.reviews.length;
   const avgRating = reviewCount > 0 ? course.reviews.reduce((n, r) => n + r.rating, 0) / reviewCount : 0;
+  const hasFullAccess = await canAccessCourseMaterials(course.id);
   const myEnrollment =
     isStudent && session?.user ? await getMyEnrollment(session.user.id, course.id) : null;
   const myReview = session?.user ? course.reviews.find((r) => r.userId === session.user!.id) : undefined;
@@ -113,7 +115,13 @@ export default async function CourseDetailPage({
               {totalDuration ? ` · ${totalDuration}` : ""}
             </p>
             <div className="mt-4">
-              <CourseContentAccordion sections={course.sections} locale={locale} />
+              <CourseContentAccordion
+                sections={course.sections}
+                locale={locale}
+                isLoggedIn={Boolean(session?.user)}
+                hasFullAccess={hasFullAccess}
+                loginHref={loginHref}
+              />
             </div>
           </div>
 
