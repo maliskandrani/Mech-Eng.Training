@@ -25,9 +25,11 @@ type CourseCardData = {
 export default function CourseCard({
   course,
   currency = "LYD",
+  comingSoon = false,
 }: {
   course: CourseCardData;
   currency?: string;
+  comingSoon?: boolean;
 }) {
   const t = useTranslations("courses");
   const format = useFormatter();
@@ -45,33 +47,45 @@ export default function CourseCard({
   const reviewCount = course.reviews.length;
   const avgRating = reviewCount > 0 ? course.reviews.reduce((n, r) => n + r.rating, 0) / reviewCount : 0;
 
-  return (
-    <Link
-      href={`/courses/${course.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background-card shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-    >
-      <div className="relative h-40 w-full overflow-hidden bg-background-elevated">
+  const cardClassName = `group flex flex-col overflow-hidden rounded-2xl border border-border bg-background-card shadow-sm transition ${
+    comingSoon ? "opacity-80" : "hover:-translate-y-1 hover:shadow-lg"
+  }`;
+
+  const content = (
+    <>
+      {(featured || course.category || comingSoon) && (
+        <div className="flex items-center justify-between gap-2 px-4 pt-4">
+          {comingSoon ? (
+            <span className="flex items-center gap-1 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted">
+              🕒 {t("comingSoon")}
+            </span>
+          ) : featured ? (
+            <span className="rounded-full bg-accent px-3 py-1 text-xs font-bold text-accent-foreground shadow">
+              {t("featured")}
+            </span>
+          ) : (
+            <span />
+          )}
+          {course.category && (
+            <span className="rounded-full bg-navy px-3 py-1 text-xs font-semibold text-navy-foreground">
+              {course.category.name}
+            </span>
+          )}
+        </div>
+      )}
+
+      <div className="relative mt-3 h-48 w-full overflow-hidden bg-background-elevated sm:h-52">
         {course.posterUrl ? (
           <Image
             src={course.posterUrl}
             alt={title}
             fill
-            className="object-contain p-2 transition duration-300 group-hover:scale-105"
+            className={`object-contain p-2 transition duration-300 ${comingSoon ? "grayscale" : "group-hover:scale-105"}`}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-muted">
             <span className="text-sm">{t("noPoster")}</span>
           </div>
-        )}
-        {featured && (
-          <span className="absolute start-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-bold text-accent-foreground shadow">
-            {t("featured")}
-          </span>
-        )}
-        {course.category && (
-          <span className="absolute end-3 top-3 rounded-full bg-navy/90 px-3 py-1 text-xs font-semibold text-navy-foreground backdrop-blur">
-            {course.category.name}
-          </span>
         )}
       </div>
 
@@ -91,23 +105,47 @@ export default function CourseCard({
           </div>
         )}
 
-        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
-          <span className="flex items-center gap-1">📖 {t("lessonsCount", { count: lessonsCount })}</span>
-          {totalHours > 0 && (
-            <span className="flex items-center gap-1">⏱️ {totalHours.toFixed(1)} {t("hoursShort")}</span>
-          )}
-        </div>
+        {!comingSoon && (
+          <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
+            <span className="flex items-center gap-1">📖 {t("lessonsCount", { count: lessonsCount })}</span>
+            {totalHours > 0 && (
+              <span className="flex items-center gap-1">⏱️ {totalHours.toFixed(1)} {t("hoursShort")}</span>
+            )}
+          </div>
+        )}
 
         <div className="mt-auto flex items-center justify-between border-t border-border pt-4">
-          <span className="font-bold text-accent">
-            {course.price > 0 ? format.number(course.price, { style: "currency", currency }) : t("free")}
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-navy-foreground transition group-hover:bg-navy-soft">
-            {t("viewDetails")}
-            <span aria-hidden>←</span>
-          </span>
+          {comingSoon ? (
+            <span className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted">
+              🕒 {t("comingSoon")}
+            </span>
+          ) : (
+            <>
+              <span className="font-bold text-accent">
+                {course.price > 0 ? format.number(course.price, { style: "currency", currency }) : t("free")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-navy-foreground transition group-hover:bg-navy-soft">
+                {t("viewDetails")}
+                <span aria-hidden>←</span>
+              </span>
+            </>
+          )}
         </div>
       </div>
+    </>
+  );
+
+  if (comingSoon) {
+    return (
+      <div className={cardClassName} aria-disabled="true">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Link href={`/courses/${course.slug}`} className={cardClassName}>
+      {content}
     </Link>
   );
 }

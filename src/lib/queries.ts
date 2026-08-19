@@ -45,6 +45,20 @@ export async function searchPublishedCourses(opts: { q?: string; categorySlug?: 
   return { items, total, totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
 }
 
+/** Unpublished courses matching the same search/category filters, shown as "coming soon" cards. */
+export function getComingSoonCourses(opts: { q?: string; categorySlug?: string }) {
+  const { q, categorySlug } = opts;
+  return prisma.course.findMany({
+    where: {
+      published: false,
+      ...(q ? { title: { contains: q } } : {}),
+      ...(categorySlug ? { category: { slug: categorySlug } } : {}),
+    },
+    orderBy: { order: "asc" },
+    include: courseCardInclude,
+  });
+}
+
 export async function searchCoursesForAdmin(opts: { q?: string; page?: number }) {
   const { q, page = 1 } = opts;
   const where = q ? { title: { contains: q } } : {};
