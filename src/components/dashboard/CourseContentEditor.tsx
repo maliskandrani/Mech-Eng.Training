@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import SortableList from "@/components/dashboard/SortableList";
 import SimpleAddForm from "@/components/dashboard/SimpleAddForm";
@@ -8,7 +8,7 @@ import MaterialUploadForm from "@/components/dashboard/MaterialUploadForm";
 import CoverImageUpload from "@/components/dashboard/CoverImageUpload";
 import InlineRename from "@/components/dashboard/InlineRename";
 import { ConfirmDeleteButton } from "@/components/dashboard/ActionButtons";
-import { MATERIAL_TYPE_LABELS, MATERIAL_TYPE_ICONS, formatDuration } from "@/lib/utils";
+import { MATERIAL_TYPE_LABELS, MATERIAL_TYPE_ICONS, formatDuration, formatPrice } from "@/lib/utils";
 import type { ActionResult } from "@/lib/actions/auth-actions";
 
 type Material = {
@@ -16,8 +16,48 @@ type Material = {
   title: string;
   type: "BOOK" | "VIDEO" | "SLIDE";
   durationMinutes: number | null;
-  isFree: boolean;
+  price: number | null;
 };
+
+function MaterialPriceControl({
+  materialId,
+  price,
+  currency,
+  setMaterialPrice,
+}: {
+  materialId: string;
+  price: number | null;
+  currency: string;
+  setMaterialPrice: (materialId: string, price: number | null) => Promise<ActionResult>;
+}) {
+  const router = useRouter();
+  const [value, setValue] = useState(price != null ? String(price) : "");
+  const [, startTransition] = useTransition();
+
+  function save() {
+    const parsed = value.trim() === "" ? null : Number(value);
+    startTransition(async () => {
+      await setMaterialPrice(materialId, parsed);
+      router.refresh();
+    });
+  }
+
+  return (
+    <div className="flex items-center gap-1.5" title="اتركها فارغة لتكون مجانية لأي مستخدم مسجَّل دخول، أو حدّد سعرها">
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={save}
+        placeholder="مجاني"
+        className="w-20 rounded-lg border border-border bg-background px-2 py-1 text-xs text-foreground outline-none focus:border-accent"
+      />
+      <span className="text-xs text-muted">{currency}</span>
+    </div>
+  );
+}
 
 type Lesson = {
   id: string;
@@ -49,7 +89,8 @@ export default function CourseContentEditor({
   deleteMaterial,
   updateSectionCover,
   updateLessonCover,
-  setMaterialFree,
+  setMaterialPrice,
+  currency,
 }: {
   sections: Section[];
   isAdmin: boolean;
@@ -64,7 +105,8 @@ export default function CourseContentEditor({
   deleteMaterial: (materialId: string) => Promise<ActionResult>;
   updateSectionCover: (sectionId: string, formData: FormData) => Promise<ActionResult>;
   updateLessonCover: (lessonId: string, formData: FormData) => Promise<ActionResult>;
-  setMaterialFree: (materialId: string, isFree: boolean) => Promise<ActionResult>;
+  setMaterialPrice: (materialId: string, price: number | null) => Promise<ActionResult>;
+  currency: string;
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -72,13 +114,6 @@ export default function CourseContentEditor({
   function runReorder(action: () => Promise<ActionResult>) {
     startTransition(async () => {
       await action();
-      router.refresh();
-    });
-  }
-
-  function toggleFree(materialId: string, current: boolean) {
-    startTransition(async () => {
-      await setMaterialFree(materialId, !current);
       router.refresh();
     });
   }
@@ -188,24 +223,24 @@ export default function CourseContentEditor({
                                 {MATERIAL_TYPE_LABELS[mat.type] ?? mat.type}
                               </span>
                               {isAdmin ? (
-                                <button
-                                  type="button"
-                                  onClick={() => toggleFree(mat.id, mat.isFree)}
-                                  title="متاحة مجانًا لأي مستخدم مسجَّل دخول بدون الحاجة للالتحاق بالدورة"
-                                  className={`rounded-full border px-2 py-0.5 text-xs font-semibold transition ${
-                                    mat.isFree
+                                <MaterialPriceControl
+                                  materialId={mat.id}
+                                  price={mat.price}
+                                  currency={currency}
+                                  setMaterialPrice={setMaterialPrice}
+                                />
+                              ) : (
+                                <span
+                                  className={`rounded-full border px-2 py-0.5 text-xs font-semibold ${
+                                    mat.price == null || mat.price <= 0
                                       ? "border-accent/40 bg-accent/10 text-accent-soft"
-                                      : "border-border text-muted hover:border-accent/40 hover:text-accent-soft"
+                                      : "border-border text-muted"
                                   }`}
                                 >
-                                  🎁 مجانية
-                                </button>
-                              ) : (
-                                mat.isFree && (
-                                  <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
-                                    🎁 مجانية
-                                  </span>
-                                )
+                                  {mat.price != null && mat.price > 0
+                                    ? formatPrice(mat.price, currency)
+                                    : `🎁 ${formatPrice(0, currency)}`}
+                                </span>
                               )}
                               <ConfirmDeleteButton onConfirm={deleteMaterial.bind(null, mat.id)} label="حذف" />
                             </div>

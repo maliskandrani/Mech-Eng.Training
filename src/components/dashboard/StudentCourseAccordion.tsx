@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MATERIAL_TYPE_ICONS, MATERIAL_TYPE_LABELS, formatDuration, arabicCount } from "@/lib/utils";
+import { MATERIAL_TYPE_ICONS, MATERIAL_TYPE_LABELS, formatDuration, formatPrice, arabicCount } from "@/lib/utils";
 
 type Material = {
   id: string;
   title: string;
   type: "BOOK" | "VIDEO" | "SLIDE";
   durationMinutes: number | null;
-  isFree: boolean;
+  price: number | null;
 };
 
 type Lesson = {
@@ -26,7 +26,7 @@ type Section = {
   lessons: Lesson[];
 };
 
-export default function StudentCourseAccordion({ sections }: { sections: Section[] }) {
+export default function StudentCourseAccordion({ sections, currency }: { sections: Section[]; currency: string }) {
   const [openSet, setOpenSet] = useState<Set<string>>(new Set(sections[0] ? [sections[0].id] : []));
   const allOpen = sections.length > 0 && sections.every((s) => openSet.has(s.id));
 
@@ -124,11 +124,9 @@ export default function StudentCourseAccordion({ sections }: { sections: Section
                             >
                               <span className="text-foreground">
                                 {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
-                                {mat.isFree && (
-                                  <span className="ms-2 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
-                                    🎁 مجانية
-                                  </span>
-                                )}
+                                <span className="ms-2 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                  {mat.price != null && mat.price > 0 ? formatPrice(mat.price, currency) : "🎁 مجانية"}
+                                </span>
                               </span>
                               <div className="flex items-center gap-2">
                                 {formatDuration(mat.durationMinutes) && (

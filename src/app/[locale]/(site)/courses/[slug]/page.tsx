@@ -121,6 +121,7 @@ export default async function CourseDetailPage({
                 isLoggedIn={Boolean(session?.user)}
                 hasFullAccess={hasFullAccess}
                 loginHref={loginHref}
+                currency={currency}
               />
             </div>
           </div>

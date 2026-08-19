@@ -139,7 +139,8 @@ model Material {
   fileSize        Int?
   durationMinutes Int?
   order           Int          @default(0)
-  isFree          Boolean      @default(false)
+  /// Null or 0 = free for any logged-in user; otherwise the price (in the site's currency) shown for this item.
+  price           Float?
   createdAt       DateTime     @default(now())
 
   lessonId String

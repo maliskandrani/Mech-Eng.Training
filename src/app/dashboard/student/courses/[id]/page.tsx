@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getSiteSettings } from "@/lib/queries";
 import { arabicCount, formatDuration, LEVEL_LABELS } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
 import StarRating from "@/components/site/StarRating";
@@ -14,7 +15,8 @@ export default async function StudentCourseViewPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const session = await auth();
+  const [session, settings] = await Promise.all([auth(), getSiteSettings()]);
+  const currency = settings?.currency ?? "LYD";
 
   const enrollment = await prisma.enrollment.findUnique({
     where: { userId_courseId: { userId: session!.user.id, courseId: id } },
@@ -136,7 +138,7 @@ export default async function StudentCourseViewPage({
       <div className="mt-8">
         <h2 className="text-lg font-bold text-foreground">محتوى الدورة</h2>
         <div className="mt-4">
-          <StudentCourseAccordion sections={course.sections} />
+          <StudentCourseAccordion sections={course.sections} currency={currency} />
         </div>
       </div>
     </div>

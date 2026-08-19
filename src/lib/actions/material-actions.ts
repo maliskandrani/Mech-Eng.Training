@@ -25,8 +25,12 @@ export async function deleteMaterial(materialId: string): Promise<ActionResult> 
   }
 }
 
-/** Admin-only: mark a material as a free preview, accessible to any logged-in user without enrollment. */
-export async function setMaterialFree(materialId: string, isFree: boolean): Promise<ActionResult> {
+/**
+ * Admin-only: set a material's price (in the site's currency). Null/0 makes it free —
+ * accessible to any logged-in user without enrollment. A positive price keeps it locked
+ * behind full course access, but the price is shown as an indicator of its value.
+ */
+export async function setMaterialPrice(materialId: string, price: number | null): Promise<ActionResult> {
   try {
     await requireRole(["ADMIN"]);
     const material = await prisma.material.findUnique({
@@ -35,7 +39,10 @@ export async function setMaterialFree(materialId: string, isFree: boolean): Prom
     });
     if (!material) return { ok: false, error: "الملف غير موجود" };
 
-    await prisma.material.update({ where: { id: materialId }, data: { isFree } });
+    await prisma.material.update({
+      where: { id: materialId },
+      data: { price: price != null && price > 0 ? price : null },
+    });
 
     revalidatePath("/dashboard");
     revalidatePath(`/courses/${material.lesson.section.course.slug}`);

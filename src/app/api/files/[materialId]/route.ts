@@ -34,7 +34,8 @@ export async function GET(
   }
 
   const courseId = material.lesson.section.courseId;
-  const allowed = material.isFree || (await canAccessCourseMaterials(courseId));
+  const isFree = material.price == null || material.price <= 0;
+  const allowed = isFree || (await canAccessCourseMaterials(courseId));
   if (!allowed) return NextResponse.json({ error: "غير مصرح لك بالوصول لهذا الملف" }, { status: 403 });
 
   const filePath = resolveMaterialPath(material.fileUrl);

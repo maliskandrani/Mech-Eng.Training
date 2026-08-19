@@ -4,14 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import NextLink from "next/link";
 import { useTranslations } from "next-intl";
-import { MATERIAL_TYPE_ICONS, formatDuration, localizedTitle } from "@/lib/utils";
+import { MATERIAL_TYPE_ICONS, formatDuration, formatPrice, localizedTitle } from "@/lib/utils";
 
 type Material = {
   id: string;
   title: string;
   type: "BOOK" | "VIDEO" | "SLIDE";
   durationMinutes: number | null;
-  isFree: boolean;
+  price: number | null;
 };
 
 type Lesson = {
@@ -36,12 +36,14 @@ export default function CourseContentAccordion({
   isLoggedIn,
   hasFullAccess,
   loginHref,
+  currency,
 }: {
   sections: Section[];
   locale: string;
   isLoggedIn: boolean;
   hasFullAccess: boolean;
   loginHref: string;
+  currency: string;
 }) {
   const t = useTranslations("courses");
   const [openSet, setOpenSet] = useState<Set<string>>(new Set());
@@ -143,8 +145,9 @@ export default function CourseContentAccordion({
                         {lesson.materials.length > 0 ? (
                           <ul className="mt-2 space-y-1.5">
                             {lesson.materials.map((mat) => {
-                              const unlocked = hasFullAccess || (mat.isFree && isLoggedIn);
-                              const freeNeedsLogin = mat.isFree && !isLoggedIn && !hasFullAccess;
+                              const isFree = mat.price == null || mat.price <= 0;
+                              const unlocked = hasFullAccess || (isFree && isLoggedIn);
+                              const freeNeedsLogin = isFree && !isLoggedIn && !hasFullAccess;
 
                               if (unlocked) {
                                 return (
@@ -154,7 +157,7 @@ export default function CourseContentAccordion({
                                   >
                                     <span className="text-foreground">
                                       {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
-                                      {mat.isFree && (
+                                      {isFree && (
                                         <span className="ms-2 rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
                                           🎁 {t("freePreview")}
                                         </span>
@@ -205,7 +208,7 @@ export default function CourseContentAccordion({
                               }
 
                               return (
-                                <li key={mat.id} className="flex items-center gap-2 text-sm text-muted">
+                                <li key={mat.id} className="flex flex-wrap items-center gap-2 text-sm text-muted">
                                   <span className="text-accent-soft">🔒</span>
                                   <span>
                                     {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
@@ -216,6 +219,11 @@ export default function CourseContentAccordion({
                                   <span className="rounded-full border border-border px-2 py-0.5 text-xs">
                                     {t(`materialType.${mat.type}` as "materialType.BOOK")}
                                   </span>
+                                  {mat.price != null && mat.price > 0 && (
+                                    <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                      {formatPrice(mat.price, currency)}
+                                    </span>
+                                  )}
                                 </li>
                               );
                             })}
