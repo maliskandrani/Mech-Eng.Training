@@ -48,12 +48,12 @@ export default async function AdminSettingsPage() {
 
         {storyImages.length > 0 && (
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {storyImages.map((s) => (
+            {storyImages.map((s, i) => (
               <div key={s.id} className="flex items-center gap-3 rounded-lg border border-border p-3">
                 <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded-lg bg-background-elevated">
-                  <Image src={s.imageUrl} alt={s.caption ?? ""} fill className="object-cover" />
+                  <Image src={s.imageUrl} alt="" fill className="object-cover" />
                 </div>
-                <p className="flex-1 text-sm text-muted">{s.caption ?? "—"}</p>
+                <p className="flex-1 text-sm text-muted">صورة {i + 1}</p>
                 <ConfirmDeleteButton onConfirm={deleteStoryImage.bind(null, s.id)} />
               </div>
             ))}

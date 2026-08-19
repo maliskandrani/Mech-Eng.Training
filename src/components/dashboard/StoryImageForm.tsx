@@ -15,13 +15,8 @@ export default function StoryImageForm({
   );
 
   return (
-    <form action={formAction} className="grid gap-2 rounded-lg border border-dashed border-border p-3 sm:grid-cols-3">
+    <form action={formAction} className="grid gap-2 rounded-lg border border-dashed border-border p-3 sm:grid-cols-2">
       <FileUploadField name="image" accept="image/png,image/jpeg,image/webp" required />
-      <input
-        name="caption"
-        placeholder="التعليق (اختياري)"
-        className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
-      />
       <button
         type="submit"
         disabled={pending}
@@ -29,7 +24,7 @@ export default function StoryImageForm({
       >
         {pending ? "جاري الرفع..." : "+ إضافة صورة"}
       </button>
-      {state && !state.ok && <p className="text-xs text-red-300 sm:col-span-3">{state.error}</p>}
+      {state && !state.ok && <p className="text-xs text-red-300 sm:col-span-2">{state.error}</p>}
     </form>
   );
 }

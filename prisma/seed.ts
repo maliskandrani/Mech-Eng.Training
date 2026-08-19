@@ -74,6 +74,8 @@ async function main() {
       title: "الكورس الشامل في الأنابيب والهندسة الميكانيكية",
       titleEn: "The Comprehensive Course for Piping and Mechanical Engineering",
       subtitle: "10 كتب متكاملة تجعل منك مهندس أنابيب ومعدات ميكانيكية ثابتة ودوارة محترف",
+      subtitleEn:
+        "10 comprehensive books that build you into a professional piping and mechanical equipment engineer, covering both static and rotating machinery.",
       description:
         "برنامج تدريبي متكامل يغطي هندسة الأنابيب والمعدات الميكانيكية الثابتة والدوارة في مصانع النفط والغاز والبتروكيماويات، من الأساسيات النظرية إلى الحسابات اليدوية والتطبيقات البرمجية والنمذجة الثلاثية الأبعاد ورسومات الأيزومترك ومشاريع FEED و EPC.",
       price: 0,
@@ -89,7 +91,7 @@ async function main() {
             title,
             titleEn: en ? `Book ${i + 1}: ${en}` : null,
             order: i + 1,
-            lessons: { create: [{ title: "المحاضرة", order: 1 }] },
+            lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           };
         }),
       },

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-type Slide = { id: string; imageUrl: string; caption: string | null };
+type Slide = { id: string; imageUrl: string };
 
 export default function StoryCarousel({ slides }: { slides: Slide[] }) {
   const [index, setIndex] = useState(0);
@@ -28,14 +28,9 @@ export default function StoryCarousel({ slides }: { slides: Slide[] }) {
               i === index ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Image src={slide.imageUrl} alt={slide.caption ?? ""} fill className="object-contain" />
+            <Image src={slide.imageUrl} alt="" fill className="object-contain" />
           </div>
         ))}
-        {slides[index]?.caption && (
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/90 to-transparent p-4 pt-10">
-            <p className="text-sm font-semibold text-navy-foreground">{slides[index].caption}</p>
-          </div>
-        )}
       </div>
 
       {slides.length > 1 && (
