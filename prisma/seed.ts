@@ -8,6 +8,12 @@ const ADMIN_PASSWORD = "MR_2026";
 const STUDENT_EMAIL = "student@example.com";
 const STUDENT_PASSWORD = "Student123!";
 
+/** Pulls a trailing "(English Name)" suffix out of an Arabic title string, if present. */
+function extractTitleEn(title: string): string | null {
+  const match = title.match(/\(([^()]+)\)\s*$/);
+  return match ? match[1].trim() : null;
+}
+
 async function main() {
   const adminHash = await bcrypt.hash(ADMIN_PASSWORD, 10);
 
@@ -43,7 +49,10 @@ async function main() {
   ]);
 
   // Course 1: flagship piping & mechanical course — one section per book (1-10),
-  // each holding a single lesson ready for that book's materials.
+  // each holding a single lesson ready for that book's materials. Keep the
+  // "(English Name)" suffix on every entry — extractTitleEn() below parses it
+  // into each section's titleEn so English-locale pages show a clean English
+  // title instead of the full Arabic string.
   const BOOKS = [
     "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات (Introduction to Oil, Gas & Petrochemical Plants)",
     "الكتاب 2: هندسة المعدات الثابتة (Static Equipment Engineering)",
@@ -63,6 +72,7 @@ async function main() {
     create: {
       slug: "piping-mechanical-complete",
       title: "الكورس الشامل في الأنابيب والهندسة الميكانيكية",
+      titleEn: "The Comprehensive Course for Piping and Mechanical Engineering",
       subtitle: "10 كتب متكاملة تجعل منك مهندس أنابيب ومعدات ميكانيكية ثابتة ودوارة محترف",
       description:
         "برنامج تدريبي متكامل يغطي هندسة الأنابيب والمعدات الميكانيكية الثابتة والدوارة في مصانع النفط والغاز والبتروكيماويات، من الأساسيات النظرية إلى الحسابات اليدوية والتطبيقات البرمجية والنمذجة الثلاثية الأبعاد ورسومات الأيزومترك ومشاريع FEED و EPC.",
@@ -73,11 +83,15 @@ async function main() {
       trainerId: admin.id,
       categoryId: pipingCategory.id,
       sections: {
-        create: BOOKS.map((title, i) => ({
-          title,
-          order: i + 1,
-          lessons: { create: [{ title: "المحاضرة", order: 1 }] },
-        })),
+        create: BOOKS.map((title, i) => {
+          const en = extractTitleEn(title);
+          return {
+            title,
+            titleEn: en ? `Book ${i + 1}: ${en}` : null,
+            order: i + 1,
+            lessons: { create: [{ title: "المحاضرة", order: 1 }] },
+          };
+        }),
       },
     },
   });

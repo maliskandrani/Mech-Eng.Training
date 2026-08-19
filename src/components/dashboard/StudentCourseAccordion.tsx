@@ -53,6 +53,8 @@ export default function StudentCourseAccordion({ sections }: { sections: Section
       <div className="mt-2 space-y-3">
         {sections.map((section) => {
           const lessonsCount = section.lessons.length;
+          const totalMaterials = section.lessons.reduce((n, l) => n + l.materials.length, 0);
+          const hasContent = totalMaterials > 0;
           const minutes = section.lessons.reduce(
             (n, l) => n + l.materials.reduce((m, mat) => m + (mat.durationMinutes ?? 0), 0),
             0
@@ -79,10 +81,16 @@ export default function StudentCourseAccordion({ sections }: { sections: Section
                   </div>
                 )}
                 <span className="flex-1 font-bold text-foreground">{section.title}</span>
-                <span className="shrink-0 text-xs text-muted">
-                  {arabicCount(lessonsCount, "درس", "درسان", "دروس")}
-                  {duration ? ` · ${duration}` : ""}
-                </span>
+                {hasContent ? (
+                  <span className="flex shrink-0 items-center gap-3 text-xs text-muted">
+                    <span className="flex items-center gap-1">📖 {arabicCount(lessonsCount, "درس", "درسان", "دروس")}</span>
+                    {duration && <span className="flex items-center gap-1">⏱️ {duration}</span>}
+                  </span>
+                ) : (
+                  <span className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">
+                    🕒 قريبًا
+                  </span>
+                )}
                 <span className={`shrink-0 text-muted transition-transform ${isOpen ? "rotate-180" : ""}`} aria-hidden>
                   ▾
                 </span>
@@ -136,12 +144,18 @@ export default function StudentCourseAccordion({ sections }: { sections: Section
                           ))}
                         </ul>
                       ) : (
-                        <p className="mt-2 text-sm text-muted">المحتوى قيد الإضافة من قِبل المدرب.</p>
+                        <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">
+                          🕒 قريبًا
+                        </span>
                       )}
                     </div>
                   ))}
                   {section.lessons.length === 0 && (
-                    <p className="p-4 text-sm text-muted">لا توجد دروس في هذا القسم بعد.</p>
+                    <div className="p-4">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">
+                        🕒 قريبًا
+                      </span>
+                    </div>
                   )}
                 </div>
               )}

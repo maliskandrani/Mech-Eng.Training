@@ -84,8 +84,6 @@
     "draftNotice": "This course is in draft mode and won't be visible to trainees until it's published.",
     "aboutTitle": "About this course",
     "contentTitle": "Course content",
-    "contentPending": "Content is being added.",
-    "lessonsPendingInSection": "No lessons in this section yet.",
     "noVideoOrPoster": "No intro video or cover image uploaded yet",
     "loginToEnroll": "Log in to enroll",
     "manageFromDashboard": "Manage this course from the dashboard",
@@ -97,6 +95,7 @@
     "openOrDownload": "Open / download",
     "freePreview": "Free preview",
     "freePreviewNote": "The first lecture is free for everyone; the rest of the content unlocks once you enroll.",
+    "comingSoon": "Coming soon",
     "contactToEnroll": "Contact us to enroll",
     "perks": {
       "fullAccess": "Full access to all course materials",

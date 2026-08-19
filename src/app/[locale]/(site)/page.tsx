@@ -174,7 +174,7 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <div className="flex h-56 items-center justify-center overflow-hidden rounded-2xl bg-navy sm:h-72">
+              <div className="mx-auto flex h-40 w-40 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-background-card bg-navy shadow-lg sm:h-48 sm:w-48">
                 {mainTrainer.avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -183,7 +183,7 @@ export default async function HomePage() {
                     className="h-full w-full object-cover object-top"
                   />
                 ) : (
-                  <span className="text-6xl font-extrabold text-navy-foreground/80">
+                  <span className="text-4xl font-extrabold text-navy-foreground/80">
                     {mainTrainer.name.charAt(0)}
                   </span>
                 )}

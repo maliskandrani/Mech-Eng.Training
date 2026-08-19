@@ -84,8 +84,6 @@
     "draftNotice": "هذه الدورة في وضع المسودة ولا يمكن للمتدربين رؤيتها إلا بعد النشر.",
     "aboutTitle": "عن الدورة",
     "contentTitle": "محتوى الدورة",
-    "contentPending": "المحتوى قيد الإضافة.",
-    "lessonsPendingInSection": "لا توجد دروس في هذا القسم بعد.",
     "noVideoOrPoster": "لم يتم رفع فيديو تقديمي أو صورة غلاف بعد",
     "loginToEnroll": "سجّل دخولك للالتحاق",
     "manageFromDashboard": "إدارة الدورة من لوحة التحكم",
@@ -97,6 +95,7 @@
     "openOrDownload": "فتح / تحميل",
     "freePreview": "معاينة مجانية",
     "freePreviewNote": "المحاضرة الأولى مجانية للجميع، وباقي المحتوى متاح بعد التسجيل في الدورة.",
+    "comingSoon": "قريبًا",
     "contactToEnroll": "تواصل معنا للتسجيل",
     "perks": {
       "fullAccess": "الوصول الكامل لجميع مواد الدورة",

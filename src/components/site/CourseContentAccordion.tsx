@@ -57,6 +57,8 @@ export default function CourseContentAccordion({ sections, locale }: { sections:
       <div className="mt-2 space-y-3">
         {sections.map((section, si) => {
           const lessonsCount = section.lessons.length;
+          const totalMaterials = section.lessons.reduce((n, l) => n + l.materials.length, 0);
+          const hasContent = totalMaterials > 0;
           const minutes = section.lessons.reduce(
             (n, l) => n + l.materials.reduce((m, mat) => m + (mat.durationMinutes ?? 0), 0),
             0
@@ -85,10 +87,16 @@ export default function CourseContentAccordion({ sections, locale }: { sections:
                 <span className="flex-1 font-bold text-foreground">
                   {localizedTitle(section.title, section.titleEn, locale)}
                 </span>
-                <span className="shrink-0 text-xs text-muted">
-                  {t("lessonsCount", { count: lessonsCount })}
-                  {duration ? ` · ${duration}` : ""}
-                </span>
+                {hasContent ? (
+                  <span className="flex shrink-0 items-center gap-3 text-xs text-muted">
+                    <span className="flex items-center gap-1">📖 {t("lessonsCount", { count: lessonsCount })}</span>
+                    {duration && <span className="flex items-center gap-1">⏱️ {duration}</span>}
+                  </span>
+                ) : (
+                  <span className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">
+                    🕒 {t("comingSoon")}
+                  </span>
+                )}
                 <span
                   className={`shrink-0 text-muted transition-transform ${isOpen ? "rotate-180" : ""}`}
                   aria-hidden
@@ -172,13 +180,19 @@ export default function CourseContentAccordion({ sections, locale }: { sections:
                             )}
                           </ul>
                         ) : (
-                          <p className="mt-2 text-sm text-muted">{t("contentPending")}</p>
+                          <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">
+                            🕒 {t("comingSoon")}
+                          </span>
                         )}
                       </div>
                     );
                   })}
                   {section.lessons.length === 0 && (
-                    <p className="p-4 text-sm text-muted">{t("lessonsPendingInSection")}</p>
+                    <div className="p-4">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">
+                        🕒 {t("comingSoon")}
+                      </span>
+                    </div>
                   )}
                 </div>
               )}
