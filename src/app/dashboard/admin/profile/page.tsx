@@ -23,6 +23,7 @@ export default async function AdminProfilePage() {
             title: user!.title,
             titleEn: user!.titleEn,
             bio: user!.bio,
+            bioEn: user!.bioEn,
             phone: user!.phone,
           }}
         />

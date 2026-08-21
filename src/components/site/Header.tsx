@@ -2,8 +2,9 @@ import NextLink from "next/link";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { auth, signOut } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { getSiteSettings } from "@/lib/queries";
-import { roleLabel } from "@/lib/utils";
+import { roleLabel, localizedName } from "@/lib/utils";
 import LanguageSwitcher from "@/components/site/LanguageSwitcher";
 import BrandLockup from "@/components/site/BrandLockup";
 
@@ -15,6 +16,15 @@ export default async function Header() {
     getTranslations("footer"),
     getLocale(),
   ]);
+  const currentUser = session?.user
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { name: true, nameEn: true, designation: true },
+      })
+    : null;
+  const displayName = currentUser
+    ? localizedName(currentUser.name, currentUser.nameEn, currentUser.designation, locale)
+    : session?.user?.name;
 
   const NAV_LINKS = [
     { href: "/", label: t("home") },
@@ -61,7 +71,7 @@ export default async function Header() {
                   className="hidden text-sm text-muted lg:block"
                   title={session.user.email ?? undefined}
                 >
-                  {session.user.name} · {roleLabel(session.user.role, locale)}
+                  {displayName} · {roleLabel(session.user.role, locale)}
                 </NextLink>
                 <NextLink
                   href="/dashboard"

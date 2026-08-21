@@ -16,6 +16,7 @@ export default function ProfileForm({
     title: string | null;
     titleEn: string | null;
     bio: string | null;
+    bioEn: string | null;
     phone: string | null;
   };
 }) {
@@ -87,6 +88,17 @@ export default function ProfileForm({
           name="bio"
           rows={5}
           defaultValue={initial.bio ?? ""}
+          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+        />
+      </div>
+
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-muted">نبذة تعريفية بالإنجليزية (اختياري)</label>
+        <textarea
+          name="bioEn"
+          dir="ltr"
+          rows={5}
+          defaultValue={initial.bioEn ?? ""}
           className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
         />
       </div>

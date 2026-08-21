@@ -64,7 +64,7 @@ export default async function CourseDetailPage({
   const myReview = session?.user ? course.reviews.find((r) => r.userId === session.user!.id) : undefined;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-6 pb-10 sm:px-6 sm:pt-8">
+    <div className="mx-auto max-w-6xl px-4 pt-3 pb-10 sm:px-6 sm:pt-5">
       {!course.published && (
         <div className="mb-6 rounded-xl border border-accent/40 bg-accent/10 px-4 py-3 text-sm text-accent-soft">
           {t("draftNotice")}

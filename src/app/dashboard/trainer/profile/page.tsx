@@ -21,6 +21,7 @@ export default async function TrainerProfilePage() {
             title: user!.title,
             titleEn: user!.titleEn,
             bio: user!.bio,
+            bioEn: user!.bioEn,
             phone: user!.phone,
           }}
         />

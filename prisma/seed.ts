@@ -30,6 +30,8 @@ async function main() {
       title: "مهندس ميكانيكي - خبير هندسة الأنابيب والمعدات الثابتة والدوارة",
       titleEn: "Mechanical Engineer — Piping & Static/Rotating Equipment Specialist",
       bio: "مهندس ميكانيكي متخصص في هندسة الأنابيب والمعدات الميكانيكية بقطاع النفط والغاز والبتروكيماويات، له خبرة تمتد لسنوات طويلة في التصميم والتنفيذ والاستشارات الهندسية، ومؤسس أكاديمية تيار المهارات (SkillStream Academy).",
+      bioEn:
+        "A mechanical engineer specializing in piping and mechanical equipment engineering across the oil, gas, and petrochemical sector, with many years of experience in design, execution, and engineering consulting — and the founder of SkillStream Academy.",
     },
   });
 

@@ -162,6 +162,7 @@ const profileSchema = z.object({
   title: z.string().trim().max(200).optional().or(z.literal("")),
   titleEn: z.string().trim().max(200).nullish(),
   bio: z.string().trim().max(2000).optional().or(z.literal("")),
+  bioEn: z.string().trim().max(2000).nullish(),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
 });
 
@@ -175,6 +176,7 @@ export async function updateOwnProfile(formData: FormData): Promise<ActionResult
       title: formData.get("title"),
       titleEn: formData.get("titleEn"),
       bio: formData.get("bio"),
+      bioEn: formData.get("bioEn"),
       phone: formData.get("phone"),
     });
     if (!parsed.success) {
@@ -198,6 +200,7 @@ export async function updateOwnProfile(formData: FormData): Promise<ActionResult
         title: data.title || null,
         titleEn: data.titleEn || null,
         bio: data.bio || null,
+        bioEn: data.bioEn || null,
         phone: data.phone || null,
         ...(avatarUrl ? { avatarUrl } : {}),
       },

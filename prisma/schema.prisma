@@ -46,6 +46,7 @@ model User {
   title        String? // professional title shown on trainer profile
   titleEn      String?
   bio          String?
+  bioEn        String?
   phone        String?
   socialUrl    String? // Facebook / social media profile link or handle
   createdAt    DateTime    @default(now())

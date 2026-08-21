@@ -35,7 +35,11 @@ export default async function TrainerProfilePage({
         <div>
           <h1 className="text-2xl font-extrabold text-foreground">{name}</h1>
           <p className="mt-1 font-medium text-accent-soft">{title}</p>
-          {trainer.bio && <p className="mt-3 max-w-2xl leading-7 text-muted">{trainer.bio}</p>}
+          {trainer.bio && (
+            <p className="mt-3 max-w-2xl leading-7 text-muted">
+              {localizedTitle(trainer.bio, trainer.bioEn, locale)}
+            </p>
+          )}
         </div>
       </div>
 

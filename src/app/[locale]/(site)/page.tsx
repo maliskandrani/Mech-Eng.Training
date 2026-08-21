@@ -158,7 +158,9 @@ export default async function HomePage() {
                   {localizedName(mainTrainer.name, mainTrainer.nameEn, mainTrainer.designation, locale)}
                 </h2>
                 {mainTrainer.bio && (
-                  <p className="mt-4 leading-7 text-muted">{mainTrainer.bio}</p>
+                  <p className="mt-4 leading-7 text-muted">
+                    {localizedTitle(mainTrainer.bio, mainTrainer.bioEn, locale)}
+                  </p>
                 )}
                 <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                   {FEATURES.map((f) => (
