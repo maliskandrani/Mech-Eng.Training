@@ -23,7 +23,9 @@ export default async function Header() {
       })
     : null;
   const displayName = currentUser
-    ? localizedName(currentUser.name, currentUser.nameEn, currentUser.designation, locale)
+    ? session?.user?.role === "ADMIN"
+      ? currentUser.nameEn ?? currentUser.name
+      : localizedName(currentUser.name, currentUser.nameEn, currentUser.designation, locale)
     : session?.user?.name;
 
   const NAV_LINKS = [
