@@ -8,7 +8,7 @@ import { auth } from "@/lib/auth";
 import { canAccessCourseMaterials } from "@/lib/access";
 import { getCourseBySlug, getSiteSettings, getMyEnrollment } from "@/lib/queries";
 import { submitReview } from "@/lib/actions/review-actions";
-import { formatDuration, localizedTitle } from "@/lib/utils";
+import { formatDuration, localizedTitle, localizedName } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
 import EnrollButton from "@/components/site/EnrollButton";
 import StarRating from "@/components/site/StarRating";
@@ -48,6 +48,10 @@ export default async function CourseDetailPage({
   const totalDuration = formatDuration(totalMinutes, locale);
   const title = localizedTitle(course.title, course.titleEn, locale);
   const subtitle = course.subtitle ? localizedTitle(course.subtitle, course.subtitleEn, locale) : null;
+  const trainerName = localizedName(course.trainer.name, course.trainer.nameEn, course.trainer.designation, locale);
+  const trainerTitle = course.trainer.title
+    ? localizedTitle(course.trainer.title, course.trainer.titleEn, locale)
+    : tTrainers("defaultTitle");
   const loginHref = `${localizedHref(locale, "/login")}?callbackUrl=${encodeURIComponent(
     localizedHref(locale, `/courses/${course.slug}`)
   )}`;
@@ -70,7 +74,9 @@ export default async function CourseDetailPage({
       <div className="grid gap-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
-            {course.category && <span className="text-accent-soft">{course.category.name}</span>}
+            {course.category && (
+              <span className="text-accent-soft">{localizedTitle(course.category.name, course.category.nameEn, locale)}</span>
+            )}
             <span>·</span>
             <span>{t(`level.${course.level}` as "level.BEGINNER")}</span>
             {reviewCount > 0 && (
@@ -108,7 +114,15 @@ export default async function CourseDetailPage({
           )}
 
           <div className="mt-10">
-            <h2 className="text-xl font-bold text-foreground">{t("contentTitle")}</h2>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="text-xl font-bold text-foreground">{t("contentTitle")}</h2>
+              <Link
+                href={`/courses/${course.slug}/materials`}
+                className="text-sm font-semibold text-accent-soft hover:underline"
+              >
+                {t("browseMaterials")}
+              </Link>
+            </div>
             <p className="mt-1 text-sm text-muted">
               {t("sectionsCount", { count: course.sections.length })} ·{" "}
               {t("lessonsCount", { count: lessons.length })}
@@ -193,7 +207,9 @@ export default async function CourseDetailPage({
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-2xl border border-border bg-background-card p-6">
             <div className="text-3xl font-extrabold text-accent">
-              {course.price > 0 ? format.number(course.price, { style: "currency", currency }) : t("free")}
+              {course.price > 0
+                ? format.number(course.price, { style: "currency", currency, maximumFractionDigits: 0 })
+                : t("free")}
             </div>
 
             {!session?.user && (
@@ -240,15 +256,15 @@ export default async function CourseDetailPage({
             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-lg font-bold text-accent-foreground">
               {course.trainer.avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={course.trainer.avatarUrl} alt={course.trainer.name} className="h-full w-full object-cover object-top" />
+                <img src={course.trainer.avatarUrl} alt={trainerName} className="h-full w-full object-cover object-top" />
               ) : (
                 course.trainer.name.charAt(0)
               )}
             </div>
             <div>
               <p className="text-xs text-muted">{t("trainerLabel")}</p>
-              <h3 className="font-bold text-foreground">{course.trainer.name}</h3>
-              <p className="text-sm text-muted">{course.trainer.title ?? tTrainers("defaultTitle")}</p>
+              <h3 className="font-bold text-foreground">{trainerName}</h3>
+              <p className="text-sm text-muted">{trainerTitle}</p>
             </div>
           </Link>
         </aside>

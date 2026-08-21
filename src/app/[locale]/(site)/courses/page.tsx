@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
 import { searchPublishedCourses, getComingSoonCourses, getCategories, getSiteSettings } from "@/lib/queries";
+import { localizedTitle } from "@/lib/utils";
 import CourseCard from "@/components/site/CourseCard";
 import SearchInput from "@/components/ui/SearchInput";
 import PaginationBar from "@/components/ui/PaginationBar";
@@ -59,7 +60,7 @@ export default async function CoursesPage({
                   : "border-border text-muted hover:border-navy/40 hover:text-navy"
               }`}
             >
-              {cat.name}
+              {localizedTitle(cat.name, cat.nameEn, locale)}
             </Link>
           ))}
         </div>

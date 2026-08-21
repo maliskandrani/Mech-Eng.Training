@@ -55,9 +55,31 @@ export default function CreateUserForm({
       />
       {role === "TRAINER" && (
         <>
+          <select
+            name="designation"
+            defaultValue="NONE"
+            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+          >
+            <option value="NONE">بدون صفة</option>
+            <option value="ENGINEER">مهندس</option>
+            <option value="DOCTOR">دكتور</option>
+            <option value="PROFESSOR">أستاذ</option>
+          </select>
+          <input
+            name="nameEn"
+            dir="ltr"
+            placeholder="الاسم بالإنجليزية (اختياري)"
+            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+          />
           <input
             name="title"
             placeholder="اللقب الوظيفي (اختياري)"
+            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
+          />
+          <input
+            name="titleEn"
+            dir="ltr"
+            placeholder="اللقب الوظيفي بالإنجليزية (اختياري)"
             className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-accent"
           />
           <div className="flex flex-col gap-1 text-xs text-muted sm:col-span-2">

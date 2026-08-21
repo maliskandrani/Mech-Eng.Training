@@ -39,9 +39,10 @@ export async function setMaterialPrice(materialId: string, price: number | null)
     });
     if (!material) return { ok: false, error: "الملف غير موجود" };
 
+    const rounded = price != null ? Math.round(price) : null;
     await prisma.material.update({
       where: { id: materialId },
-      data: { price: price != null && price > 0 ? price : null },
+      data: { price: rounded != null && rounded > 0 ? rounded : null },
     });
 
     revalidatePath("/dashboard");

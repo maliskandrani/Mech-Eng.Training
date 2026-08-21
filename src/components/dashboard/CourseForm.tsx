@@ -111,8 +111,8 @@ export default function CourseForm({
             name="price"
             type="number"
             min={0}
-            step="0.01"
-            defaultValue={initial?.price ?? 0}
+            step="1"
+            defaultValue={Math.round(initial?.price ?? 0)}
             className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
           />
         </div>

@@ -14,7 +14,7 @@ const courseSchema = z.object({
   subtitle: z.string().trim().max(200).optional().or(z.literal("")),
   subtitleEn: z.string().trim().max(200).optional().or(z.literal("")),
   description: z.string().trim().max(4000).optional().or(z.literal("")),
-  price: z.coerce.number().min(0).max(1_000_000),
+  price: z.coerce.number().min(0).max(1_000_000).transform((v) => Math.round(v)),
   level: z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"]),
   categoryId: z.string().trim().optional().or(z.literal("")),
   trainerId: z.string().trim().min(1),

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useTranslations, useFormatter, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { localizedTitle } from "@/lib/utils";
+import { localizedTitle, localizedName } from "@/lib/utils";
 import StarRating from "@/components/site/StarRating";
 
 type CourseCardData = {
@@ -15,8 +15,8 @@ type CourseCardData = {
   totalHours: number | null;
   level: string;
   order: number;
-  trainer: { name: string };
-  category: { name: string } | null;
+  trainer: { name: string; nameEn: string | null; designation: string };
+  category: { name: string; nameEn: string | null } | null;
   _count: { sections: number };
   sections: { _count: { lessons: number }; lessons: { materials: { durationMinutes: number | null }[] }[] }[];
   reviews: { rating: number }[];
@@ -43,6 +43,8 @@ export default function CourseCard({
   const totalHours = course.totalHours ?? computedMinutes / 60;
   const title = localizedTitle(course.title, course.titleEn, locale);
   const subtitle = course.subtitle ? localizedTitle(course.subtitle, course.subtitleEn, locale) : null;
+  const trainerName = localizedName(course.trainer.name, course.trainer.nameEn, course.trainer.designation, locale);
+  const categoryName = course.category ? localizedTitle(course.category.name, course.category.nameEn, locale) : null;
   const featured = course.order === 1;
   const reviewCount = course.reviews.length;
   const avgRating = reviewCount > 0 ? course.reviews.reduce((n, r) => n + r.rating, 0) / reviewCount : 0;
@@ -66,9 +68,9 @@ export default function CourseCard({
           ) : (
             <span />
           )}
-          {course.category && (
+          {categoryName && (
             <span className="rounded-full bg-navy px-3 py-1 text-xs font-semibold text-navy-foreground">
-              {course.category.name}
+              {categoryName}
             </span>
           )}
         </div>
@@ -95,7 +97,7 @@ export default function CourseCard({
         </span>
         <h3 className="text-lg font-bold text-foreground line-clamp-2">{title}</h3>
         {subtitle && <p className="text-sm text-muted line-clamp-2">{subtitle}</p>}
-        <p className="text-xs text-muted">{course.trainer.name}</p>
+        <p className="text-xs text-muted">{trainerName}</p>
 
         {reviewCount > 0 && (
           <div className="flex items-center gap-1.5 text-xs">
@@ -122,7 +124,9 @@ export default function CourseCard({
           ) : (
             <>
               <span className="font-bold text-accent">
-                {course.price > 0 ? format.number(course.price, { style: "currency", currency }) : t("free")}
+                {course.price > 0
+                  ? format.number(course.price, { style: "currency", currency, maximumFractionDigits: 0 })
+                  : t("free")}
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-navy-foreground transition group-hover:bg-navy-soft">
                 {t("viewDetails")}

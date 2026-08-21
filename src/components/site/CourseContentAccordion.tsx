@@ -221,7 +221,7 @@ export default function CourseContentAccordion({
                                   </span>
                                   {mat.price != null && mat.price > 0 && (
                                     <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
-                                      {formatPrice(mat.price, currency)}
+                                      {formatPrice(mat.price, currency, locale)}
                                     </span>
                                   )}
                                 </li>

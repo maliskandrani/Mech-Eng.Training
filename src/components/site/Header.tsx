@@ -1,18 +1,19 @@
 import NextLink from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { auth, signOut } from "@/lib/auth";
 import { getSiteSettings } from "@/lib/queries";
-import { ROLE_LABELS } from "@/lib/utils";
+import { roleLabel } from "@/lib/utils";
 import LanguageSwitcher from "@/components/site/LanguageSwitcher";
 import BrandLockup from "@/components/site/BrandLockup";
 
 export default async function Header() {
-  const [session, settings, t, tFooter] = await Promise.all([
+  const [session, settings, t, tFooter, locale] = await Promise.all([
     auth(),
     getSiteSettings(),
     getTranslations("nav"),
     getTranslations("footer"),
+    getLocale(),
   ]);
 
   const NAV_LINKS = [
@@ -60,7 +61,7 @@ export default async function Header() {
                   className="hidden text-sm text-muted lg:block"
                   title={session.user.email ?? undefined}
                 >
-                  {session.user.name} · {ROLE_LABELS[session.user.role]}
+                  {session.user.name} · {roleLabel(session.user.role, locale)}
                 </NextLink>
                 <NextLink
                   href="/dashboard"

@@ -31,11 +31,11 @@ function MaterialPriceControl({
   setMaterialPrice: (materialId: string, price: number | null) => Promise<ActionResult>;
 }) {
   const router = useRouter();
-  const [value, setValue] = useState(price != null ? String(price) : "");
+  const [value, setValue] = useState(price != null ? String(Math.round(price)) : "");
   const [, startTransition] = useTransition();
 
   function save() {
-    const parsed = value.trim() === "" ? null : Number(value);
+    const parsed = value.trim() === "" ? null : Math.round(Number(value));
     startTransition(async () => {
       await setMaterialPrice(materialId, parsed);
       router.refresh();
@@ -47,7 +47,7 @@ function MaterialPriceControl({
       <input
         type="number"
         min="0"
-        step="0.01"
+        step="1"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onBlur={save}

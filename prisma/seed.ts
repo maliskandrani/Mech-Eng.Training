@@ -21,11 +21,14 @@ async function main() {
     where: { email: ADMIN_EMAIL },
     update: {},
     create: {
-      name: "Mohamed Y. Rajab",
+      name: "محمد يوسف رجب",
+      nameEn: "Mohamed Y. Rajab",
+      designation: "ENGINEER",
       email: ADMIN_EMAIL,
       passwordHash: adminHash,
       role: "ADMIN",
       title: "مهندس ميكانيكي - خبير هندسة الأنابيب والمعدات الثابتة والدوارة",
+      titleEn: "Mechanical Engineer — Piping & Static/Rotating Equipment Specialist",
       bio: "مهندس ميكانيكي متخصص في هندسة الأنابيب والمعدات الميكانيكية بقطاع النفط والغاز والبتروكيماويات، له خبرة تمتد لسنوات طويلة في التصميم والتنفيذ والاستشارات الهندسية، ومؤسس أكاديمية تيار المهارات (SkillStream Academy).",
     },
   });
@@ -34,36 +37,45 @@ async function main() {
     prisma.category.upsert({
       where: { slug: "piping-mechanical" },
       update: {},
-      create: { slug: "piping-mechanical", name: "هندسة الأنابيب والميكانيكا" },
+      create: {
+        slug: "piping-mechanical",
+        name: "هندسة الأنابيب والميكانيكا",
+        nameEn: "Piping & Mechanical Engineering",
+      },
     }),
     prisma.category.upsert({
       where: { slug: "hvac" },
       update: {},
-      create: { slug: "hvac", name: "التكييف والتبريد المركزي" },
+      create: { slug: "hvac", name: "التكييف والتبريد المركزي", nameEn: "Central HVAC & Refrigeration" },
     }),
     prisma.category.upsert({
       where: { slug: "engineering-software" },
       update: {},
-      create: { slug: "engineering-software", name: "البرمجيات والنمذجة الهندسية" },
+      create: {
+        slug: "engineering-software",
+        name: "البرمجيات والنمذجة الهندسية",
+        nameEn: "Engineering Software & Modeling",
+      },
     }),
   ]);
 
-  // Course 1: flagship piping & mechanical course — one section per book (1-10),
-  // each holding a single lesson ready for that book's materials. Keep the
+  // Course 1: flagship piping & mechanical course — one section (lesson) per
+  // topic (1-10). "الكتب" (books) are the individually-sold material
+  // attachments within each lesson, not the lesson grouping itself. Keep the
   // "(English Name)" suffix on every entry — extractTitleEn() below parses it
   // into each section's titleEn so English-locale pages show a clean English
   // title instead of the full Arabic string.
-  const BOOKS = [
-    "الكتاب 1: مقدمة في مصانع النفط والغاز والبتروكيماويات (Introduction to Oil, Gas & Petrochemical Plants)",
-    "الكتاب 2: هندسة المعدات الثابتة (Static Equipment Engineering)",
-    "الكتاب 3: هندسة مكونات الأنابيب (Piping Components Engineering)",
-    "الكتاب 4: هندسة المعدات الدوارة (Rotating Equipment Engineering)",
-    "الكتاب 5: الرسومات الهندسية وتخطيط المصانع (Engineering Drawings & Plant Layout)",
-    "الكتاب 6: الحسابات الهندسية اليدوية وتحليل الإجهادات (Manual Engineering Calculations & Stress Analysis)",
-    "الكتاب 7: التطبيقات البرمجية في تحليل الإجهادات (Software Applications in Stress Analysis)",
-    "الكتاب 8: النمذجة الثلاثية الأبعاد وبرمجيات تصميم المصانع (3D Modeling & Plant Design Software)",
-    "الكتاب 9: هندسة الأنابيب المتقدمة (Advanced Piping Engineering)",
-    "الكتاب 10: هندسة المشاريع وFEED وEPC (Project Engineering, FEED & EPC)",
+  const LESSON_TITLES = [
+    "الدرس 1: مقدمة في مصانع النفط والغاز والبتروكيماويات (Introduction to Oil, Gas & Petrochemical Plants)",
+    "الدرس 2: هندسة المعدات الثابتة (Static Equipment Engineering)",
+    "الدرس 3: هندسة مكونات الأنابيب (Piping Components Engineering)",
+    "الدرس 4: هندسة المعدات الدوارة (Rotating Equipment Engineering)",
+    "الدرس 5: الرسومات الهندسية وتخطيط المصانع (Engineering Drawings & Plant Layout)",
+    "الدرس 6: الحسابات الهندسية اليدوية وتحليل الإجهادات (Manual Engineering Calculations & Stress Analysis)",
+    "الدرس 7: التطبيقات البرمجية في تحليل الإجهادات (Software Applications in Stress Analysis)",
+    "الدرس 8: النمذجة الثلاثية الأبعاد وبرمجيات تصميم المصانع (3D Modeling & Plant Design Software)",
+    "الدرس 9: هندسة الأنابيب المتقدمة (Advanced Piping Engineering)",
+    "الدرس 10: هندسة المشاريع وFEED وEPC (Project Engineering, FEED & EPC)",
   ];
 
   const pipingCourse = await prisma.course.upsert({
@@ -85,11 +97,11 @@ async function main() {
       trainerId: admin.id,
       categoryId: pipingCategory.id,
       sections: {
-        create: BOOKS.map((title, i) => {
+        create: LESSON_TITLES.map((title, i) => {
           const en = extractTitleEn(title);
           return {
             title,
-            titleEn: en ? `Book ${i + 1}: ${en}` : null,
+            titleEn: en ? `Lesson ${i + 1}: ${en}` : null,
             order: i + 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           };
@@ -105,7 +117,9 @@ async function main() {
     create: {
       slug: "central-hvac-systems",
       title: "الدورة الشاملة في منظومات التكييف المركزي",
+      titleEn: "The Comprehensive Course in Central HVAC Systems",
       subtitle: "مكونات وأنواع أنظمة التكييف، حساب أحمال التكييف، وتصميم الدكتينج",
+      subtitleEn: "HVAC system components and types, cooling load calculations, and ductwork design",
       description:
         "دورة متكاملة في أنظمة التكييف المركزي: التعرف على المكونات والأنواع، طرق حساب الأحمال الحرارية، وأساسيات وتصميم شبكات الدكت (Ductwork).",
       price: 0,
@@ -139,7 +153,9 @@ async function main() {
     create: {
       slug: "solidworks-piping-engineering",
       title: "دورة SolidWorks في هندسة الأنابيب",
+      titleEn: "SolidWorks for Piping Engineering",
       subtitle: "النمذجة الثلاثية الأبعاد لمكونات وشبكات الأنابيب باستخدام SolidWorks",
+      subtitleEn: "3D modeling of piping components and networks using SolidWorks",
       description: "تطبيق عملي على برنامج SolidWorks في تصميم ونمذجة مكونات وشبكات الأنابيب.",
       price: 0,
       level: "INTERMEDIATE",
@@ -166,7 +182,9 @@ async function main() {
     create: {
       slug: "autocad-piping-isometrics",
       title: "عمل رسومات الأيزومترك للأنابيب بالأوتوكاد",
+      titleEn: "Creating Piping Isometric Drawings with AutoCAD",
       subtitle: "قراءة ورسم مخططات الأيزومترك (Isometric) لشبكات الأنابيب باستخدام AutoCAD",
+      subtitleEn: "Reading and drafting isometric drawings for piping networks using AutoCAD",
       description: "دورة عملية في قراءة وإعداد رسومات الأيزومترك لخطوط الأنابيب باستخدام AutoCAD.",
       price: 0,
       level: "BEGINNER",

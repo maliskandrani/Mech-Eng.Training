@@ -10,10 +10,13 @@ import type { ActionResult } from "@/lib/actions/auth-actions";
 
 const createUserSchema = z.object({
   name: z.string().trim().min(2).max(120),
+  nameEn: z.string().trim().max(120).nullish(),
+  designation: z.enum(["NONE", "ENGINEER", "DOCTOR", "PROFESSOR"]).nullish(),
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(8),
   role: z.enum(["TRAINER", "STUDENT"]),
   title: z.string().trim().max(200).nullish(),
+  titleEn: z.string().trim().max(200).nullish(),
   phone: z.string().trim().max(30).nullish(),
   socialUrl: z.string().trim().max(300).nullish(),
 });
@@ -23,17 +26,20 @@ export async function createUser(formData: FormData): Promise<ActionResult> {
     await requireRole(["ADMIN"]);
     const parsed = createUserSchema.safeParse({
       name: formData.get("name"),
+      nameEn: formData.get("nameEn"),
+      designation: formData.get("designation"),
       email: formData.get("email"),
       password: formData.get("password"),
       role: formData.get("role"),
       title: formData.get("title"),
+      titleEn: formData.get("titleEn"),
       phone: formData.get("phone"),
       socialUrl: formData.get("socialUrl"),
     });
     if (!parsed.success) {
       return { ok: false, error: parsed.error.issues[0]?.message ?? "بيانات غير صحيحة" };
     }
-    const { name, email, password, role, title, phone, socialUrl } = parsed.data;
+    const { name, nameEn, designation, email, password, role, title, titleEn, phone, socialUrl } = parsed.data;
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return { ok: false, error: "هذا البريد الإلكتروني مستخدم مسبقًا." };
@@ -49,10 +55,13 @@ export async function createUser(formData: FormData): Promise<ActionResult> {
     await prisma.user.create({
       data: {
         name,
+        nameEn: nameEn || null,
+        designation: designation ?? "NONE",
         email,
         passwordHash,
         role,
         title: title || null,
+        titleEn: titleEn || null,
         phone: phone || null,
         socialUrl: socialUrl || null,
         avatarUrl,
@@ -148,7 +157,10 @@ export async function unenrollStudent(enrollmentId: string): Promise<ActionResul
 
 const profileSchema = z.object({
   name: z.string().trim().min(2).max(120),
+  nameEn: z.string().trim().max(120).nullish(),
+  designation: z.enum(["NONE", "ENGINEER", "DOCTOR", "PROFESSOR"]).nullish(),
   title: z.string().trim().max(200).optional().or(z.literal("")),
+  titleEn: z.string().trim().max(200).nullish(),
   bio: z.string().trim().max(2000).optional().or(z.literal("")),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
 });
@@ -158,7 +170,10 @@ export async function updateOwnProfile(formData: FormData): Promise<ActionResult
     const user = await requireUser();
     const parsed = profileSchema.safeParse({
       name: formData.get("name"),
+      nameEn: formData.get("nameEn"),
+      designation: formData.get("designation"),
       title: formData.get("title"),
+      titleEn: formData.get("titleEn"),
       bio: formData.get("bio"),
       phone: formData.get("phone"),
     });
@@ -178,7 +193,10 @@ export async function updateOwnProfile(formData: FormData): Promise<ActionResult
       where: { id: user.id },
       data: {
         name: data.name,
+        nameEn: data.nameEn || null,
+        ...(data.designation ? { designation: data.designation } : {}),
         title: data.title || null,
+        titleEn: data.titleEn || null,
         bio: data.bio || null,
         phone: data.phone || null,
         ...(avatarUrl ? { avatarUrl } : {}),

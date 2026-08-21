@@ -16,7 +16,15 @@ export default async function AdminProfilePage() {
       <div className="mt-6">
         <ProfileForm
           action={updateOwnProfile}
-          initial={{ name: user!.name, title: user!.title, bio: user!.bio, phone: user!.phone }}
+          initial={{
+            name: user!.name,
+            nameEn: user!.nameEn,
+            designation: user!.designation,
+            title: user!.title,
+            titleEn: user!.titleEn,
+            bio: user!.bio,
+            phone: user!.phone,
+          }}
         />
       </div>
     </div>

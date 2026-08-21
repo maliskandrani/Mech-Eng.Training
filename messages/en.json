@@ -49,7 +49,7 @@
     "trainersTitle": "Our Trainers"
   },
   "footer": {
-    "description": "Comprehensive scientific content backed by real field experience in piping and mechanical equipment engineering, central HVAC, and engineering design software.",
+    "description": "Comprehensive, hands-on training in piping and mechanical equipment engineering, central HVAC systems, and engineering design software — grounded in real field experience.",
     "quickLinks": "Quick Links",
     "contactTitle": "Contact Us",
     "contactText": "For questions about courses and enrollment, please reach out via the academy's email.",
@@ -115,7 +115,12 @@
     "hoursShort": "hrs",
     "expandAll": "Expand all sections",
     "collapseAll": "Collapse all sections",
-    "courseRating": "course rating"
+    "courseRating": "course rating",
+    "browseMaterials": "Browse materials & attachments for sale",
+    "materialsPageTitle": "Course materials",
+    "materialsPageSubtitle": "Every book, video, and slide deck in this course — some are free, others are available for purchase as set by the admin.",
+    "noMaterialsYet": "No materials have been added to this course yet.",
+    "contactToBuy": "Contact us to buy"
   },
   "trainers": {
     "pageTitle": "Trainers",

@@ -115,7 +115,12 @@
     "hoursShort": "ساعة",
     "expandAll": "توسيع كل الأقسام",
     "collapseAll": "طي كل الأقسام",
-    "courseRating": "تقييم الدورة"
+    "courseRating": "تقييم الدورة",
+    "browseMaterials": "تصفّح المرفقات والمواد للشراء",
+    "materialsPageTitle": "مرفقات ومواد الدورة",
+    "materialsPageSubtitle": "كل الكتب والفيديوهات والسلايدز ضمن هذه الدورة — بعضها مجاني وبعضها متاح للشراء حسب ما يحدده المدير.",
+    "noMaterialsYet": "لم تتم إضافة أي مرفقات لهذه الدورة بعد.",
+    "contactToBuy": "تواصل معنا للشراء"
   },
   "trainers": {
     "pageTitle": "المدربون",

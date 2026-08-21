@@ -9,7 +9,15 @@ export default function ProfileForm({
   initial,
 }: {
   action: (formData: FormData) => Promise<ActionResult>;
-  initial: { name: string; title: string | null; bio: string | null; phone: string | null };
+  initial: {
+    name: string;
+    nameEn: string | null;
+    designation: string;
+    title: string | null;
+    titleEn: string | null;
+    bio: string | null;
+    phone: string | null;
+  };
 }) {
   const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
     async (_prev, formData) => action(formData),
@@ -18,23 +26,59 @@ export default function ProfileForm({
 
   return (
     <form action={formAction} className="max-w-xl space-y-4 rounded-2xl border border-border bg-background-card p-6">
-      <div>
-        <label className="mb-1.5 block text-sm font-medium text-muted">الاسم</label>
-        <input
-          name="name"
-          required
-          defaultValue={initial.name}
-          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
-        />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-muted">الاسم</label>
+          <input
+            name="name"
+            required
+            defaultValue={initial.name}
+            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+          />
+        </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-muted">الاسم بالإنجليزية (اختياري)</label>
+          <input
+            name="nameEn"
+            dir="ltr"
+            defaultValue={initial.nameEn ?? ""}
+            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+          />
+        </div>
       </div>
 
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-muted">اللقب الوظيفي</label>
-        <input
-          name="title"
-          defaultValue={initial.title ?? ""}
+        <label className="mb-1.5 block text-sm font-medium text-muted">الصفة</label>
+        <select
+          name="designation"
+          defaultValue={initial.designation}
           className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
-        />
+        >
+          <option value="NONE">بدون صفة</option>
+          <option value="ENGINEER">مهندس</option>
+          <option value="DOCTOR">دكتور</option>
+          <option value="PROFESSOR">أستاذ</option>
+        </select>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-muted">اللقب الوظيفي</label>
+          <input
+            name="title"
+            defaultValue={initial.title ?? ""}
+            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+          />
+        </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-muted">اللقب الوظيفي بالإنجليزية (اختياري)</label>
+          <input
+            name="titleEn"
+            dir="ltr"
+            defaultValue={initial.titleEn ?? ""}
+            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+          />
+        </div>
       </div>
 
       <div>

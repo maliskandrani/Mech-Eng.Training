@@ -7,7 +7,7 @@ import {
   getSiteSettings,
   incrementHomeViews,
 } from "@/lib/queries";
-import { localizedTitle } from "@/lib/utils";
+import { localizedTitle, localizedName } from "@/lib/utils";
 import CourseCard from "@/components/site/CourseCard";
 import StoryCarousel from "@/components/site/StoryCarousel";
 import BarChart from "@/components/site/BarChart";
@@ -51,7 +51,7 @@ export default async function HomePage() {
 
   const categoryCounts = new Map<string, number>();
   for (const c of courses) {
-    const name = c.category?.name ?? "—";
+    const name = c.category ? localizedTitle(c.category.name, c.category.nameEn, locale) : "—";
     categoryCounts.set(name, (categoryCounts.get(name) ?? 0) + 1);
   }
   const categoryData = Array.from(categoryCounts.entries()).map(([label, value], i) => ({
@@ -154,7 +154,9 @@ export default async function HomePage() {
             <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
               <div>
                 <span className="text-sm font-semibold text-accent-soft">{tTrainers("pageTitle")}</span>
-                <h2 className="mt-2 text-2xl font-bold text-foreground">{mainTrainer.name}</h2>
+                <h2 className="mt-2 text-2xl font-bold text-foreground">
+                  {localizedName(mainTrainer.name, mainTrainer.nameEn, mainTrainer.designation, locale)}
+                </h2>
                 {mainTrainer.bio && (
                   <p className="mt-4 leading-7 text-muted">{mainTrainer.bio}</p>
                 )}
@@ -192,29 +194,35 @@ export default async function HomePage() {
 
             {trainers.length > 1 && (
               <div className="mt-14 grid gap-6 border-t border-border pt-10 sm:grid-cols-2 lg:grid-cols-3">
-                {trainers.slice(1).map((trainer) => (
-                  <Link
-                    key={trainer.id}
-                    href={`/trainers/${trainer.id}`}
-                    className="flex items-center gap-4 rounded-2xl border border-border bg-background-card p-5 transition hover:border-accent/60"
-                  >
-                    <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-xl font-bold text-accent-foreground">
-                      {trainer.avatarUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={trainer.avatarUrl} alt={trainer.name} className="h-full w-full object-cover object-top" />
-                      ) : (
-                        trainer.name.charAt(0)
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-foreground">{trainer.name}</h3>
-                      <p className="text-sm text-muted">{trainer.title ?? tTrainers("defaultTitle")}</p>
-                      <p className="mt-1 text-xs text-accent-soft">
-                        {tTrainers("coursesCount", { count: trainer._count.coursesTaught })}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
+                {trainers.slice(1).map((trainer) => {
+                  const trainerName = localizedName(trainer.name, trainer.nameEn, trainer.designation, locale);
+                  const trainerTitle = trainer.title
+                    ? localizedTitle(trainer.title, trainer.titleEn, locale)
+                    : tTrainers("defaultTitle");
+                  return (
+                    <Link
+                      key={trainer.id}
+                      href={`/trainers/${trainer.id}`}
+                      className="flex items-center gap-4 rounded-2xl border border-border bg-background-card p-5 transition hover:border-accent/60"
+                    >
+                      <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-xl font-bold text-accent-foreground">
+                        {trainer.avatarUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={trainer.avatarUrl} alt={trainerName} className="h-full w-full object-cover object-top" />
+                        ) : (
+                          trainer.name.charAt(0)
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-foreground">{trainerName}</h3>
+                        <p className="text-sm text-muted">{trainerTitle}</p>
+                        <p className="mt-1 text-xs text-accent-soft">
+                          {tTrainers("coursesCount", { count: trainer._count.coursesTaught })}
+                        </p>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             )}
           </div>

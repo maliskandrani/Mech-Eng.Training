@@ -27,19 +27,29 @@ enum CourseLevel {
   ADVANCED
 }
 
+enum Designation {
+  NONE
+  ENGINEER
+  DOCTOR
+  PROFESSOR
+}
+
 model User {
-  id           String   @id @default(cuid())
+  id           String      @id @default(cuid())
   name         String
-  email        String   @unique
+  nameEn       String? // English name shown on non-Arabic pages; Arabic pages always use `name`
+  designation  Designation @default(NONE) // prefixed before the Arabic name only (م./د./أ.)
+  email        String      @unique
   passwordHash String
-  role         Role     @default(STUDENT)
+  role         Role        @default(STUDENT)
   avatarUrl    String?
   title        String? // professional title shown on trainer profile
+  titleEn      String?
   bio          String?
   phone        String?
   socialUrl    String? // Facebook / social media profile link or handle
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   coursesTaught Course[]     @relation("TrainerCourses")
   enrollments   Enrollment[]
@@ -52,6 +62,7 @@ model Category {
   id      String   @id @default(cuid())
   slug    String   @unique
   name    String
+  nameEn  String?
   courses Course[]
 
   @@map("categories")
