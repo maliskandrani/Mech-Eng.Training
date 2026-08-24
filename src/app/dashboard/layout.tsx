@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Cairo } from "next/font/google";
 import { auth, signOut } from "@/lib/auth";
-import { getSiteSettings, getUnreadMessageCount } from "@/lib/queries";
+import { getSiteSettings, getUnreadMessageCount, getPendingPurchaseCount, getPendingPurchaseCountForTrainer } from "@/lib/queries";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { ROLE_LABELS } from "@/lib/utils";
 import "../globals.css";
@@ -21,6 +21,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const [session, settings] = await Promise.all([auth(), getSiteSettings()]);
   if (!session?.user) redirect("/login?callbackUrl=/dashboard");
   const unreadMessages = session.user.role === "ADMIN" ? await getUnreadMessageCount() : 0;
+  const pendingPurchases =
+    session.user.role === "ADMIN"
+      ? await getPendingPurchaseCount()
+      : session.user.role === "TRAINER"
+        ? await getPendingPurchaseCountForTrainer(session.user.id)
+        : 0;
 
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
@@ -56,7 +62,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </header>
 
           <div className="flex flex-1 flex-col md:flex-row">
-            <Sidebar role={session.user.role} logoUrl={settings?.logoUrl} unreadMessages={unreadMessages} />
+            <Sidebar
+              role={session.user.role}
+              logoUrl={settings?.logoUrl}
+              unreadMessages={unreadMessages}
+              pendingPurchases={pendingPurchases}
+            />
             <main className="flex-1 bg-background p-4 sm:p-6">{children}</main>
           </div>
         </div>

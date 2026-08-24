@@ -35,14 +35,18 @@ export default function CourseContentAccordion({
   locale,
   isLoggedIn,
   isManager,
+  purchasedMaterialIds,
   loginHref,
+  purchaseBaseHref,
   currency,
 }: {
   sections: Section[];
   locale: string;
   isLoggedIn: boolean;
   isManager: boolean;
+  purchasedMaterialIds: Set<string>;
   loginHref: string;
+  purchaseBaseHref: string;
   currency: string;
 }) {
   const t = useTranslations("courses");
@@ -146,7 +150,8 @@ export default function CourseContentAccordion({
                           <ul className="mt-2 space-y-1.5">
                             {lesson.materials.map((mat) => {
                               const isFree = mat.price == null || mat.price <= 0;
-                              const unlocked = isManager || (isFree && isLoggedIn);
+                              const purchased = purchasedMaterialIds.has(mat.id);
+                              const unlocked = isManager || purchased || (isFree && isLoggedIn);
                               const freeNeedsLogin = isFree && !isLoggedIn && !isManager;
 
                               if (unlocked) {
@@ -208,21 +213,34 @@ export default function CourseContentAccordion({
                               }
 
                               return (
-                                <li key={mat.id} className="flex flex-wrap items-center gap-2 text-sm text-muted">
-                                  <span className="text-accent-soft">🔒</span>
-                                  <span>
-                                    {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
-                                  </span>
-                                  {formatDuration(mat.durationMinutes, locale) && (
-                                    <span className="text-xs">{formatDuration(mat.durationMinutes, locale)}</span>
-                                  )}
-                                  <span className="rounded-full border border-border px-2 py-0.5 text-xs">
-                                    {t(`materialType.${mat.type}` as "materialType.BOOK")}
+                                <li
+                                  key={mat.id}
+                                  className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted"
+                                >
+                                  <span className="flex flex-wrap items-center gap-2">
+                                    <span className="text-accent-soft">🔒</span>
+                                    <span>
+                                      {MATERIAL_TYPE_ICONS[mat.type] ?? ""} {mat.title}
+                                    </span>
+                                    {formatDuration(mat.durationMinutes, locale) && (
+                                      <span className="text-xs">{formatDuration(mat.durationMinutes, locale)}</span>
+                                    )}
+                                    <span className="rounded-full border border-border px-2 py-0.5 text-xs">
+                                      {t(`materialType.${mat.type}` as "materialType.BOOK")}
+                                    </span>
+                                    {mat.price != null && mat.price > 0 && (
+                                      <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
+                                        {formatPrice(mat.price, currency, locale)}
+                                      </span>
+                                    )}
                                   </span>
                                   {mat.price != null && mat.price > 0 && (
-                                    <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent-soft">
-                                      {formatPrice(mat.price, currency, locale)}
-                                    </span>
+                                    <NextLink
+                                      href={isLoggedIn ? `${purchaseBaseHref}?materialId=${mat.id}` : loginHref}
+                                      className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent-soft transition hover:bg-accent/20"
+                                    >
+                                      {t("buySeparately")}
+                                    </NextLink>
                                   )}
                                 </li>
                               );

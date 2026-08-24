@@ -4,48 +4,44 @@ import { Readable } from "stream";
 import path from "path";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { isCourseManager } from "@/lib/access";
 import { resolveMaterialPath } from "@/lib/storage";
 
 const CONTENT_TYPES: Record<string, string> = {
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".webp": "image/webp",
   ".pdf": "application/pdf",
-  ".mp4": "video/mp4",
-  ".webm": "video/webm",
-  ".mov": "video/quicktime",
-  ".ppt": "application/vnd.ms-powerpoint",
-  ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
 };
 
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ materialId: string }> }
+  { params }: { params: Promise<{ requestId: string }> }
 ) {
-  const { materialId } = await params;
+  const { requestId } = await params;
 
-  const material = await prisma.material.findUnique({
-    where: { id: materialId },
-    include: { lesson: { select: { id: true, section: { select: { courseId: true } } } } },
+  const purchaseRequest = await prisma.purchaseRequest.findUnique({
+    where: { id: requestId },
+    include: {
+      course: { select: { trainerId: true } },
+      material: { select: { lesson: { select: { section: { select: { course: { select: { trainerId: true } } } } } } } },
+    },
   });
-  if (!material) return NextResponse.json({ error: "الملف غير موجود" }, { status: 404 });
+  if (!purchaseRequest) return NextResponse.json({ error: "الطلب غير موجود" }, { status: 404 });
 
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "يجب تسجيل الدخول للوصول لهذا الملف" }, { status: 401 });
   }
 
-  const courseId = material.lesson.section.courseId;
-  const isFree = material.price == null || material.price <= 0;
-  let allowed = isFree || (await isCourseManager(courseId));
-  if (!allowed) {
-    const purchase = await prisma.purchaseRequest.findFirst({
-      where: { userId: session.user.id, materialId, status: "APPROVED" },
-      select: { id: true },
-    });
-    allowed = Boolean(purchase);
-  }
+  const receiverId = purchaseRequest.course?.trainerId ?? purchaseRequest.material?.lesson.section.course.trainerId;
+  const allowed =
+    session.user.role === "ADMIN" ||
+    session.user.id === purchaseRequest.userId ||
+    session.user.id === receiverId;
   if (!allowed) return NextResponse.json({ error: "غير مصرح لك بالوصول لهذا الملف" }, { status: 403 });
 
-  const filePath = resolveMaterialPath(material.fileUrl);
+  const filePath = resolveMaterialPath(purchaseRequest.proofUrl);
   let stat;
   try {
     stat = statSync(filePath);
@@ -61,7 +57,7 @@ export async function GET(
     headers: {
       "Content-Type": contentType,
       "Content-Length": String(stat.size),
-      "Content-Disposition": `inline; filename="${encodeURIComponent(material.title)}${ext}"`,
+      "Content-Disposition": `inline; filename="payment-proof${ext}"`,
       "Cache-Control": "private, no-store",
     },
   });

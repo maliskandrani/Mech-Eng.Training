@@ -68,6 +68,41 @@ export async function deleteStoryImage(id: string): Promise<ActionResult> {
 
 const VALID_CURRENCIES = ["LYD", "EGP", "USD"];
 
+export async function updatePaymentInfo(formData: FormData): Promise<ActionResult> {
+  try {
+    await requireRole(["ADMIN"]);
+    const field = (name: string) => {
+      const v = String(formData.get(name) ?? "").trim();
+      return v || null;
+    };
+
+    await prisma.siteSettings.upsert({
+      where: { id: "main" },
+      update: {
+        paymentBankDetails: field("paymentBankDetails"),
+        paymentLibyanaInfo: field("paymentLibyanaInfo"),
+        paymentMadarInfo: field("paymentMadarInfo"),
+        paymentLttInfo: field("paymentLttInfo"),
+        paymentCashOfficeInfo: field("paymentCashOfficeInfo"),
+      },
+      create: {
+        id: "main",
+        paymentBankDetails: field("paymentBankDetails"),
+        paymentLibyanaInfo: field("paymentLibyanaInfo"),
+        paymentMadarInfo: field("paymentMadarInfo"),
+        paymentLttInfo: field("paymentLttInfo"),
+        paymentCashOfficeInfo: field("paymentCashOfficeInfo"),
+      },
+    });
+
+    revalidatePath("/dashboard/admin/settings");
+    revalidatePath("/courses", "layout");
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "حدث خطأ غير متوقع" };
+  }
+}
+
 export async function updateCurrency(formData: FormData): Promise<ActionResult> {
   try {
     await requireRole(["ADMIN"]);

@@ -96,7 +96,32 @@
     "freePreview": "معاينة مجانية",
     "freePreviewNote": "سجّل دخولك للمشاهدة",
     "comingSoon": "قريبًا",
-    "contactToEnroll": "تواصل معنا للتسجيل",
+    "buyCourse": "شراء الدورة",
+    "enrolledBadge": "أنت مشترك في هذه الدورة ✓",
+    "buySeparately": "شراء منفصل",
+    "purchaseStatusPending": "طلب الشراء قيد المراجعة",
+    "purchaseStatusReceived": "تم استلام الدفع، بانتظار الموافقة النهائية",
+    "purchaseStatusRejected": "تم رفض طلب الشراء السابق",
+    "purchasePageTitle": "إتمام عملية الشراء",
+    "purchasingLabel": "أنت بصدد شراء:",
+    "paymentMethodLabel": "طريقة الدفع",
+    "method": {
+      "BANK_TRANSFER": "تحويل مصرفي",
+      "LIBYANA_CARD": "كرت ليبيانا",
+      "MADAR_CARD": "كرت مدار",
+      "LTT_CARD": "كرت ليبيا للاتصالات والتقنية",
+      "CASH_OFFICE": "دفع كاش بالمكتب"
+    },
+    "proofLabel": "صورة أو ملف إثبات الدفع",
+    "noteLabel": "ملاحظة (رقم العملية، تفاصيل إضافية) — اختياري",
+    "submitPurchase": "إرسال طلب الشراء",
+    "submittingPurchase": "جارٍ الإرسال...",
+    "purchaseSubmitted": "تم إرسال طلب الشراء بنجاح. سيتم مراجعته والتحقق منه، وستحصل على الوصول فور الموافقة النهائية.",
+    "paymentInfoTitle": "بيانات الدفع",
+    "noPaymentInfoYet": "لم يتم إضافة بيانات دفع بعد. تواصل معنا لإتمام الشراء.",
+    "alreadyPurchased": "لقد حصلت على هذا العنصر بالفعل.",
+    "notAvailableForPurchase": "هذا العنصر غير متاح للشراء حاليًا.",
+    "studentsOnly": "الشراء متاح فقط لحسابات المتدربين.",
     "perks": {
       "fullAccess": "الوصول الكامل لجميع مواد الدورة",
       "materials": "كتب PDF وفيديوهات وسلايدز",
@@ -119,8 +144,7 @@
     "browseMaterials": "تصفّح المرفقات والمواد للشراء",
     "materialsPageTitle": "مرفقات ومواد الدورة",
     "materialsPageSubtitle": "كل الكتب والفيديوهات والسلايدز ضمن هذه الدورة — بعضها مجاني وبعضها متاح للشراء حسب ما يحدده المدير.",
-    "noMaterialsYet": "لم تتم إضافة أي مرفقات لهذه الدورة بعد.",
-    "contactToBuy": "تواصل معنا للشراء"
+    "noMaterialsYet": "لم تتم إضافة أي مرفقات لهذه الدورة بعد."
   },
   "trainers": {
     "pageTitle": "المدربون",

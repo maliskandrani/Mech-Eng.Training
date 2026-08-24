@@ -91,3 +91,29 @@ export async function savePublicImage(
   await writeFile(path.join(dir, safeName), buffer);
   return `/media/${subdir}/${safeName}`;
 }
+
+export function assertValidPaymentProof(file: File) {
+  const ext = sanitizeExt(file.name);
+  if (![".jpg", ".jpeg", ".png", ".webp", ".pdf"].includes(ext)) {
+    throw new Error("صيغة الملف غير مسموحة. استخدم صورة (JPG/PNG/WEBP) أو PDF.");
+  }
+  if (file.size <= 0) {
+    throw new Error("الملف فارغ.");
+  }
+  if (file.size > 15 * 1024 * 1024) {
+    throw new Error("حجم الملف كبير جدًا (الحد 15MB).");
+  }
+}
+
+/** Saves a payment-proof upload under the same private storage dir as materials, and returns a DB-storable relative key. */
+export async function savePaymentProof(file: File, userId: string): Promise<string> {
+  const ext = sanitizeExt(file.name);
+  const safeName = `${crypto.randomUUID()}${ext}`;
+  const dir = path.join(/* turbopackIgnore: true */ process.cwd(), UPLOAD_DIR, "payment-proofs", userId);
+  await mkdir(dir, { recursive: true });
+
+  const buffer = Buffer.from(await file.arrayBuffer());
+  await writeFile(path.join(/* turbopackIgnore: true */ dir, safeName), buffer);
+
+  return path.posix.join("payment-proofs", userId, safeName);
+}

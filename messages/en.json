@@ -96,7 +96,32 @@
     "freePreview": "Free preview",
     "freePreviewNote": "Log in to view",
     "comingSoon": "Coming soon",
-    "contactToEnroll": "Contact us to enroll",
+    "buyCourse": "Buy this course",
+    "enrolledBadge": "You're enrolled in this course ✓",
+    "buySeparately": "Buy separately",
+    "purchaseStatusPending": "Purchase request under review",
+    "purchaseStatusReceived": "Payment received, awaiting final approval",
+    "purchaseStatusRejected": "Your previous purchase request was rejected",
+    "purchasePageTitle": "Complete your purchase",
+    "purchasingLabel": "You're purchasing:",
+    "paymentMethodLabel": "Payment method",
+    "method": {
+      "BANK_TRANSFER": "Bank transfer",
+      "LIBYANA_CARD": "Libyana recharge card",
+      "MADAR_CARD": "Madar recharge card",
+      "LTT_CARD": "Libya Telecom & Technology card",
+      "CASH_OFFICE": "Cash at an office"
+    },
+    "proofLabel": "Payment proof (image or file)",
+    "noteLabel": "Note (transaction reference, extra details) — optional",
+    "submitPurchase": "Submit purchase request",
+    "submittingPurchase": "Submitting...",
+    "purchaseSubmitted": "Your purchase request has been submitted. It will be reviewed and verified, and you'll get access as soon as it's finally approved.",
+    "paymentInfoTitle": "Payment information",
+    "noPaymentInfoYet": "No payment information has been added yet. Contact us to complete the purchase.",
+    "alreadyPurchased": "You already have access to this item.",
+    "notAvailableForPurchase": "This item isn't available for purchase right now.",
+    "studentsOnly": "Purchasing is only available for student accounts.",
     "perks": {
       "fullAccess": "Full access to all course materials",
       "materials": "PDF books, videos, and slides",
@@ -119,8 +144,7 @@
     "browseMaterials": "Browse materials & attachments for sale",
     "materialsPageTitle": "Course materials",
     "materialsPageSubtitle": "Every book, video, and slide deck in this course — some are free, others are available for purchase as set by the admin.",
-    "noMaterialsYet": "No materials have been added to this course yet.",
-    "contactToBuy": "Contact us to buy"
+    "noMaterialsYet": "No materials have been added to this course yet."
   },
   "trainers": {
     "pageTitle": "Trainers",

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { getSiteSettings, getStoryImages } from "@/lib/queries";
-import { updateLogo, addStoryImage, deleteStoryImage, updateCurrency } from "@/lib/actions/site-actions";
+import { updateLogo, addStoryImage, deleteStoryImage, updateCurrency, updatePaymentInfo } from "@/lib/actions/site-actions";
 import LogoUploadForm from "@/components/dashboard/LogoUploadForm";
 import CurrencyForm from "@/components/dashboard/CurrencyForm";
+import PaymentInfoForm from "@/components/dashboard/PaymentInfoForm";
 import StoryImageForm from "@/components/dashboard/StoryImageForm";
 import { ConfirmDeleteButton } from "@/components/dashboard/ActionButtons";
 import Logo from "@/components/site/Logo";
@@ -33,6 +34,25 @@ export default async function AdminSettingsPage() {
         <p className="mt-1 text-sm text-muted">تُستخدم في عرض أسعار جميع الدورات على الموقع ولوحة التحكم.</p>
         <div className="mt-4">
           <CurrencyForm action={updateCurrency} currentCurrency={settings?.currency ?? "LYD"} />
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-border bg-background-card p-6">
+        <h2 className="font-bold text-foreground">بيانات الدفع</h2>
+        <p className="mt-1 text-sm text-muted">
+          تظهر هذه البيانات للمتدرب عند شراء دورة أو مرفق بسعر — اترك أي خانة فارغة لإخفاء تلك الطريقة عن المتدربين.
+        </p>
+        <div className="mt-4">
+          <PaymentInfoForm
+            action={updatePaymentInfo}
+            initial={{
+              paymentBankDetails: settings?.paymentBankDetails,
+              paymentLibyanaInfo: settings?.paymentLibyanaInfo,
+              paymentMadarInfo: settings?.paymentMadarInfo,
+              paymentLttInfo: settings?.paymentLttInfo,
+              paymentCashOfficeInfo: settings?.paymentCashOfficeInfo,
+            }}
+          />
         </div>
       </section>
 

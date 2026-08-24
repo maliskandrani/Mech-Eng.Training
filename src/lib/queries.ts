@@ -210,6 +210,69 @@ export function getUnreadMessageCount() {
   return prisma.contactMessage.count({ where: { read: false } });
 }
 
+/** Material IDs within a course this user has an APPROVED purchase for. */
+export async function getApprovedMaterialIds(userId: string, courseId: string): Promise<Set<string>> {
+  const rows = await prisma.purchaseRequest.findMany({
+    where: {
+      userId,
+      status: "APPROVED",
+      material: { lesson: { section: { courseId } } },
+    },
+    select: { materialId: true },
+  });
+  return new Set(rows.map((r) => r.materialId).filter((id): id is string => id != null));
+}
+
+/** This user's latest purchase request for a given course or material (to show its status). */
+export function getMyPurchaseRequest(userId: string, target: { courseId?: string; materialId?: string }) {
+  return prisma.purchaseRequest.findFirst({
+    where: { userId, courseId: target.courseId ?? null, materialId: target.materialId ?? null },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+const purchaseRequestInclude = {
+  user: { select: { name: true, email: true } },
+  course: { select: { id: true, slug: true, title: true, titleEn: true, trainerId: true, trainer: { select: { name: true } } } },
+  material: {
+    select: {
+      id: true,
+      title: true,
+      lesson: { select: { section: { select: { course: { select: { id: true, slug: true, title: true, titleEn: true, trainerId: true, trainer: { select: { name: true } } } } } } } },
+    },
+  },
+};
+
+export function getPurchaseRequestsForAdmin() {
+  return prisma.purchaseRequest.findMany({
+    include: purchaseRequestInclude,
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export function getPurchaseRequestsForTrainer(trainerId: string) {
+  return prisma.purchaseRequest.findMany({
+    where: {
+      OR: [{ course: { trainerId } }, { material: { lesson: { section: { course: { trainerId } } } } }],
+    },
+    include: purchaseRequestInclude,
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export function getPendingPurchaseCount() {
+  return prisma.purchaseRequest.count({ where: { status: { in: ["PENDING", "RECEIVED"] } } });
+}
+
+export function getPendingPurchaseCountForTrainer(trainerId: string) {
+  return prisma.purchaseRequest.count({
+    where: {
+      status: "PENDING",
+      OR: [{ course: { trainerId } }, { material: { lesson: { section: { course: { trainerId } } } } }],
+    },
+  });
+}
+
 /** Simple homepage load counter (not unique-visitor analytics). Safe to show publicly. */
 export async function incrementHomeViews(): Promise<number> {
   const row = await prisma.siteSettings.upsert({

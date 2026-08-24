@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
 import { isCourseManager } from "@/lib/access";
-import { getCourseBySlug, getSiteSettings, getMyEnrollment } from "@/lib/queries";
+import { getCourseBySlug, getSiteSettings, getMyEnrollment, getApprovedMaterialIds, getMyPurchaseRequest } from "@/lib/queries";
 import { submitReview } from "@/lib/actions/review-actions";
 import { formatDuration, localizedTitle, localizedName } from "@/lib/utils";
 import VideoEmbed from "@/components/site/VideoEmbed";
@@ -62,6 +62,14 @@ export default async function CourseDetailPage({
   const myEnrollment =
     isStudent && session?.user ? await getMyEnrollment(session.user.id, course.id) : null;
   const myReview = session?.user ? course.reviews.find((r) => r.userId === session.user!.id) : undefined;
+  const purchasedMaterialIds = session?.user
+    ? await getApprovedMaterialIds(session.user.id, course.id)
+    : new Set<string>();
+  const myCoursePurchase =
+    isStudent && session?.user && course.price > 0 && !myEnrollment
+      ? await getMyPurchaseRequest(session.user.id, { courseId: course.id })
+      : null;
+  const coursePurchaseHref = localizedHref(locale, `/courses/${course.slug}/purchase`);
 
   return (
     <div className="mx-auto max-w-6xl px-4 pt-3 pb-10 sm:px-6 sm:pt-5">
@@ -136,7 +144,9 @@ export default async function CourseDetailPage({
                 locale={locale}
                 isLoggedIn={Boolean(session?.user)}
                 isManager={isManager}
+                purchasedMaterialIds={purchasedMaterialIds}
                 loginHref={loginHref}
+                purchaseBaseHref={coursePurchaseHref}
                 currency={currency}
               />
             </div>
@@ -222,18 +232,42 @@ export default async function CourseDetailPage({
                 {t("loginToEnroll")}
               </NextLink>
             )}
-            {isStudent && course.price === 0 && (
+            {isStudent && myEnrollment && (
+              <NextLink
+                href={localizedHref(locale, "/dashboard")}
+                className="mt-5 block w-full rounded-xl border border-green-400/30 bg-green-400/10 px-6 py-3 text-center font-bold text-green-700 transition hover:bg-green-400/20"
+              >
+                {t("enrolledBadge")}
+              </NextLink>
+            )}
+            {isStudent && course.price === 0 && !myEnrollment && (
               <div className="mt-5">
                 <EnrollButton courseId={course.id} />
               </div>
             )}
-            {isStudent && course.price > 0 && (
-              <NextLink
-                href="/contact"
-                className="mt-5 block w-full rounded-xl gold-gradient px-6 py-3 text-center font-bold text-accent-foreground transition hover:opacity-90"
-              >
-                {t("contactToEnroll")}
-              </NextLink>
+            {isStudent && course.price > 0 && !myEnrollment && (
+              <div className="mt-5">
+                {!myCoursePurchase || myCoursePurchase.status === "REJECTED" ? (
+                  <>
+                    {myCoursePurchase?.status === "REJECTED" && (
+                      <p className="mb-2 rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs text-red-700">
+                        {t("purchaseStatusRejected")}
+                        {myCoursePurchase.rejectionReason ? `: ${myCoursePurchase.rejectionReason}` : ""}
+                      </p>
+                    )}
+                    <NextLink
+                      href={coursePurchaseHref}
+                      className="block w-full rounded-xl gold-gradient px-6 py-3 text-center font-bold text-accent-foreground transition hover:opacity-90"
+                    >
+                      {t("buyCourse")}
+                    </NextLink>
+                  </>
+                ) : (
+                  <p className="rounded-lg border border-accent/30 bg-accent/10 px-3 py-2 text-center text-sm font-semibold text-accent-soft">
+                    {myCoursePurchase.status === "PENDING" ? t("purchaseStatusPending") : t("purchaseStatusReceived")}
+                  </p>
+                )}
+              </div>
             )}
             {session?.user && !isStudent && (
               <NextLink

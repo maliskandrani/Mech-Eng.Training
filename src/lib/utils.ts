@@ -103,6 +103,21 @@ export const MATERIAL_TYPE_ICONS: Record<string, string> = {
   SLIDE: "📊",
 };
 
+export const PAYMENT_METHOD_LABELS: Record<string, string> = {
+  BANK_TRANSFER: "تحويل مصرفي",
+  LIBYANA_CARD: "كرت ليبيانا",
+  MADAR_CARD: "كرت مدار",
+  LTT_CARD: "كرت ليبيا للاتصالات والتقنية",
+  CASH_OFFICE: "دفع كاش بالمكتب",
+};
+
+export const PURCHASE_STATUS_LABELS: Record<string, string> = {
+  PENDING: "قيد المراجعة",
+  RECEIVED: "تم استلام الدفع",
+  APPROVED: "مقبول",
+  REJECTED: "مرفوض",
+};
+
 const DURATION_UNITS: Record<string, { hour: string; minute: string }> = {
   ar: { hour: "س", minute: "د" },
   en: { hour: "h", minute: "m" },

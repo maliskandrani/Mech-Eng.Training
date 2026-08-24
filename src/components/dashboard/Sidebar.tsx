@@ -10,6 +10,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ADMIN: [
     { href: "/dashboard/admin", label: "نظرة عامة", icon: "📊" },
     { href: "/dashboard/admin/courses", label: "الدورات", icon: "📚" },
+    { href: "/dashboard/admin/purchases", label: "طلبات الشراء", icon: "💳" },
     { href: "/dashboard/admin/trainers", label: "المدربون", icon: "🧑‍🏫" },
     { href: "/dashboard/admin/students", label: "المتدربون", icon: "🎓" },
     { href: "/dashboard/admin/messages", label: "الرسائل", icon: "✉️" },
@@ -18,6 +19,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
   ],
   TRAINER: [
     { href: "/dashboard/trainer", label: "دوراتي", icon: "📚" },
+    { href: "/dashboard/trainer/purchases", label: "طلبات الشراء", icon: "💳" },
     { href: "/dashboard/trainer/profile", label: "الملف الشخصي", icon: "🧑‍🏫" },
   ],
   STUDENT: [{ href: "/dashboard/student", label: "دوراتي", icon: "🎓" }],
@@ -27,10 +29,12 @@ export default function Sidebar({
   role,
   logoUrl,
   unreadMessages = 0,
+  pendingPurchases = 0,
 }: {
   role: "ADMIN" | "TRAINER" | "STUDENT";
   logoUrl?: string | null;
   unreadMessages?: number;
+  pendingPurchases?: number;
 }) {
   const items = NAV_BY_ROLE[role] ?? [];
   const pathname = usePathname();
@@ -52,7 +56,12 @@ export default function Sidebar({
       <nav className="flex gap-2 overflow-x-auto p-4 md:flex-col md:overflow-visible">
         {items.map((item) => {
           const active = pathname === item.href;
-          const badge = item.href === "/dashboard/admin/messages" ? unreadMessages : 0;
+          const badge =
+            item.href === "/dashboard/admin/messages"
+              ? unreadMessages
+              : item.href === "/dashboard/admin/purchases" || item.href === "/dashboard/trainer/purchases"
+                ? pendingPurchases
+                : 0;
           return (
             <Link
               key={item.href}

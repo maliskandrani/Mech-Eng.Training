@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
 import { isCourseManager } from "@/lib/access";
-import { getCourseBySlug, getSiteSettings } from "@/lib/queries";
+import { getCourseBySlug, getSiteSettings, getApprovedMaterialIds } from "@/lib/queries";
 import { MATERIAL_TYPE_ICONS, formatDuration, formatPrice, localizedTitle } from "@/lib/utils";
 
 export default async function CourseMaterialsPage({
@@ -30,6 +30,9 @@ export default async function CourseMaterialsPage({
   const title = localizedTitle(course.title, course.titleEn, locale);
   const isLoggedIn = Boolean(session?.user);
   const isManager = await isCourseManager(course.id);
+  const purchasedMaterialIds = session?.user
+    ? await getApprovedMaterialIds(session.user.id, course.id)
+    : new Set<string>();
   const loginHref = `${localizedHref(locale, "/login")}?callbackUrl=${encodeURIComponent(
     localizedHref(locale, `/courses/${course.slug}/materials`)
   )}`;
@@ -60,7 +63,7 @@ export default async function CourseMaterialsPage({
         <div className="mt-8 space-y-3">
           {items.map((mat) => {
             const isFree = mat.price == null || mat.price <= 0;
-            const unlocked = isManager || (isFree && isLoggedIn);
+            const unlocked = isManager || purchasedMaterialIds.has(mat.id) || (isFree && isLoggedIn);
             const duration = formatDuration(mat.durationMinutes, locale);
 
             return (
@@ -108,10 +111,14 @@ export default async function CourseMaterialsPage({
                     </NextLink>
                   ) : (
                     <NextLink
-                      href="/contact"
+                      href={
+                        isLoggedIn
+                          ? localizedHref(locale, `/courses/${course.slug}/purchase?materialId=${mat.id}`)
+                          : loginHref
+                      }
                       className="rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
                     >
-                      {t("contactToBuy")}
+                      {t("buySeparately")}
                     </NextLink>
                   )}
                 </div>

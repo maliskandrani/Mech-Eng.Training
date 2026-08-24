@@ -34,6 +34,21 @@ enum Designation {
   PROFESSOR
 }
 
+enum PaymentMethod {
+  BANK_TRANSFER
+  LIBYANA_CARD
+  MADAR_CARD
+  LTT_CARD
+  CASH_OFFICE
+}
+
+enum PurchaseStatus {
+  PENDING
+  RECEIVED
+  APPROVED
+  REJECTED
+}
+
 model User {
   id           String      @id @default(cuid())
   name         String
@@ -52,9 +67,12 @@ model User {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
-  coursesTaught Course[]     @relation("TrainerCourses")
-  enrollments   Enrollment[]
-  reviews       Review[]
+  coursesTaught     Course[]          @relation("TrainerCourses")
+  enrollments       Enrollment[]
+  reviews           Review[]
+  purchaseRequests  PurchaseRequest[] @relation("BuyerPurchases")
+  receivedPurchases PurchaseRequest[] @relation("ReceivedPurchases")
+  approvedPurchases PurchaseRequest[] @relation("ApprovedPurchases")
 
   @@map("users")
 }
@@ -93,9 +111,10 @@ model Course {
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
 
-  sections    Section[]
-  enrollments Enrollment[]
-  reviews     Review[]
+  sections         Section[]
+  enrollments      Enrollment[]
+  reviews          Review[]
+  purchaseRequests PurchaseRequest[]
 
   @@map("courses")
 }
@@ -159,7 +178,44 @@ model Material {
   lessonId String
   lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
+  purchaseRequests PurchaseRequest[]
+
   @@map("materials")
+}
+
+// A manual, offline-payment purchase — bank transfer, a Libyana/Madar/LTT
+// recharge card, or cash at an office. Approval requires two steps: the
+// receiver (course-owning trainer, or admin) confirms the money arrived,
+// then admin gives the final approval that actually unlocks access.
+model PurchaseRequest {
+  id              String         @id @default(cuid())
+  amount          Float
+  paymentMethod   PaymentMethod
+  proofUrl        String
+  note            String?
+  status          PurchaseStatus @default(PENDING)
+  rejectionReason String?
+  receivedAt      DateTime?
+  approvedAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  userId String
+  user   User   @relation("BuyerPurchases", fields: [userId], references: [id], onDelete: Cascade)
+
+  courseId String?
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  materialId String?
+  material   Material? @relation(fields: [materialId], references: [id], onDelete: Cascade)
+
+  receivedById String?
+  receivedBy   User?   @relation("ReceivedPurchases", fields: [receivedById], references: [id])
+
+  approvedById String?
+  approvedBy   User?   @relation("ApprovedPurchases", fields: [approvedById], references: [id])
+
+  @@map("purchase_requests")
 }
 
 model Enrollment {
@@ -182,6 +238,14 @@ model SiteSettings {
   logoUrl   String?
   currency  String  @default("LYD") // ISO 4217 code: LYD, EGP, or USD
   homeViews Int     @default(0) // simple homepage load counter, not unique-visitor analytics
+
+  // Free-form instructions shown to a buyer on the purchase page for each
+  // payment channel; admin-edited, null/empty means that channel isn't offered.
+  paymentBankDetails    String?
+  paymentLibyanaInfo    String?
+  paymentMadarInfo      String?
+  paymentLttInfo        String?
+  paymentCashOfficeInfo String?
 
   @@map("site_settings")
 }
