@@ -34,14 +34,14 @@ export default function CourseContentAccordion({
   sections,
   locale,
   isLoggedIn,
-  hasFullAccess,
+  isManager,
   loginHref,
   currency,
 }: {
   sections: Section[];
   locale: string;
   isLoggedIn: boolean;
-  hasFullAccess: boolean;
+  isManager: boolean;
   loginHref: string;
   currency: string;
 }) {
@@ -146,8 +146,8 @@ export default function CourseContentAccordion({
                           <ul className="mt-2 space-y-1.5">
                             {lesson.materials.map((mat) => {
                               const isFree = mat.price == null || mat.price <= 0;
-                              const unlocked = hasFullAccess || (isFree && isLoggedIn);
-                              const freeNeedsLogin = isFree && !isLoggedIn && !hasFullAccess;
+                              const unlocked = isManager || (isFree && isLoggedIn);
+                              const freeNeedsLogin = isFree && !isLoggedIn && !isManager;
 
                               if (unlocked) {
                                 return (

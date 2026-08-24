@@ -31,8 +31,16 @@ export async function requireCourseManager(courseId: string) {
   return user;
 }
 
-/** Admin, the owning trainer, or an enrolled student may view course materials. */
-export async function canAccessCourseMaterials(courseId: string): Promise<boolean> {
+/**
+ * Admin or the owning trainer can always view/download every material in a course,
+ * including priced ones, for management and preview purposes.
+ *
+ * Course enrollment alone does NOT grant this — a priced material is a separate,
+ * individually-sold attachment (see courses/[slug]/materials), not something
+ * enrollment unlocks. Only materials the admin marks free (price null/0) are
+ * included with the course, and those are already open to any logged-in user.
+ */
+export async function isCourseManager(courseId: string): Promise<boolean> {
   const session = await auth();
   if (!session?.user) return false;
   const user = session.user;
@@ -42,11 +50,5 @@ export async function canAccessCourseMaterials(courseId: string): Promise<boolea
     where: { id: courseId },
     select: { trainerId: true },
   });
-  if (!course) return false;
-  if (course.trainerId === user.id) return true;
-
-  const enrollment = await prisma.enrollment.findUnique({
-    where: { userId_courseId: { userId: user.id, courseId } },
-  });
-  return Boolean(enrollment);
+  return course?.trainerId === user.id;
 }

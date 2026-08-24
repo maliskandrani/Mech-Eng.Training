@@ -4,7 +4,7 @@ import { Readable } from "stream";
 import path from "path";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { canAccessCourseMaterials } from "@/lib/access";
+import { isCourseManager } from "@/lib/access";
 import { resolveMaterialPath } from "@/lib/storage";
 
 const CONTENT_TYPES: Record<string, string> = {
@@ -35,7 +35,7 @@ export async function GET(
 
   const courseId = material.lesson.section.courseId;
   const isFree = material.price == null || material.price <= 0;
-  const allowed = isFree || (await canAccessCourseMaterials(courseId));
+  const allowed = isFree || (await isCourseManager(courseId));
   if (!allowed) return NextResponse.json({ error: "غير مصرح لك بالوصول لهذا الملف" }, { status: 403 });
 
   const filePath = resolveMaterialPath(material.fileUrl);

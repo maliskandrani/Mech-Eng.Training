@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { localizedHref } from "@/i18n/routing";
 import { auth } from "@/lib/auth";
-import { canAccessCourseMaterials } from "@/lib/access";
+import { isCourseManager } from "@/lib/access";
 import { getCourseBySlug, getSiteSettings } from "@/lib/queries";
 import { MATERIAL_TYPE_ICONS, formatDuration, formatPrice, localizedTitle } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ export default async function CourseMaterialsPage({
   const currency = settings?.currency ?? "LYD";
   const title = localizedTitle(course.title, course.titleEn, locale);
   const isLoggedIn = Boolean(session?.user);
-  const hasFullAccess = await canAccessCourseMaterials(course.id);
+  const isManager = await isCourseManager(course.id);
   const loginHref = `${localizedHref(locale, "/login")}?callbackUrl=${encodeURIComponent(
     localizedHref(locale, `/courses/${course.slug}/materials`)
   )}`;
@@ -60,7 +60,7 @@ export default async function CourseMaterialsPage({
         <div className="mt-8 space-y-3">
           {items.map((mat) => {
             const isFree = mat.price == null || mat.price <= 0;
-            const unlocked = hasFullAccess || (isFree && isLoggedIn);
+            const unlocked = isManager || (isFree && isLoggedIn);
             const duration = formatDuration(mat.durationMinutes, locale);
 
             return (
