@@ -13,6 +13,7 @@ type InitialCourse = {
   subtitle: string | null;
   subtitleEn: string | null;
   description: string | null;
+  descriptionEn: string | null;
   price: number;
   totalHours: number | null;
   level: string;
@@ -98,6 +99,18 @@ export default function CourseForm({
           name="description"
           rows={5}
           defaultValue={initial?.description ?? ""}
+          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+        />
+      </div>
+
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-muted">الوصف التفصيلي بالإنجليزية (اختياري)</label>
+        <textarea
+          name="descriptionEn"
+          dir="ltr"
+          rows={5}
+          defaultValue={initial?.descriptionEn ?? ""}
+          placeholder="English description shown to non-Arabic visitors"
           className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
         />
       </div>

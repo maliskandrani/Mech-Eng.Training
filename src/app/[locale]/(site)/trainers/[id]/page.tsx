@@ -23,7 +23,7 @@ export default async function TrainerProfilePage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <div className="flex flex-col items-center gap-6 rounded-2xl border border-border bg-background-card p-8 text-center sm:flex-row sm:text-right">
+      <div className="flex flex-col items-center gap-6 rounded-2xl border border-border bg-background-card p-8 text-center sm:flex-row sm:rtl:text-right sm:ltr:text-left">
         <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full gold-gradient text-4xl font-bold text-accent-foreground">
           {trainer.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element

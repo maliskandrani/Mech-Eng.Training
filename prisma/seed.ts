@@ -92,6 +92,8 @@ async function main() {
         "10 comprehensive books that build you into a professional piping and mechanical equipment engineer, covering both static and rotating machinery.",
       description:
         "برنامج تدريبي متكامل يغطي هندسة الأنابيب والمعدات الميكانيكية الثابتة والدوارة في مصانع النفط والغاز والبتروكيماويات، من الأساسيات النظرية إلى الحسابات اليدوية والتطبيقات البرمجية والنمذجة الثلاثية الأبعاد ورسومات الأيزومترك ومشاريع FEED و EPC.",
+      descriptionEn:
+        "A comprehensive training program covering the engineering of piping and static/rotating mechanical equipment in oil, gas, and petrochemical plants — from theoretical fundamentals through manual calculations, software applications, 3D modeling, isometric drawings, and FEED and EPC projects.",
       price: 0,
       level: "INTERMEDIATE",
       published: true,
@@ -124,6 +126,8 @@ async function main() {
       subtitleEn: "HVAC system components and types, cooling load calculations, and ductwork design",
       description:
         "دورة متكاملة في أنظمة التكييف المركزي: التعرف على المكونات والأنواع، طرق حساب الأحمال الحرارية، وأساسيات وتصميم شبكات الدكت (Ductwork).",
+      descriptionEn:
+        "A complete course on central HVAC systems: an introduction to their components and types, methods for calculating thermal loads, and the fundamentals and design of ductwork networks.",
       price: 0,
       level: "INTERMEDIATE",
       published: false,
@@ -159,6 +163,7 @@ async function main() {
       subtitle: "النمذجة الثلاثية الأبعاد لمكونات وشبكات الأنابيب باستخدام SolidWorks",
       subtitleEn: "3D modeling of piping components and networks using SolidWorks",
       description: "تطبيق عملي على برنامج SolidWorks في تصميم ونمذجة مكونات وشبكات الأنابيب.",
+      descriptionEn: "Hands-on practice with SolidWorks for designing and modeling piping components and networks.",
       price: 0,
       level: "INTERMEDIATE",
       published: false,
@@ -188,6 +193,7 @@ async function main() {
       subtitle: "قراءة ورسم مخططات الأيزومترك (Isometric) لشبكات الأنابيب باستخدام AutoCAD",
       subtitleEn: "Reading and drafting isometric drawings for piping networks using AutoCAD",
       description: "دورة عملية في قراءة وإعداد رسومات الأيزومترك لخطوط الأنابيب باستخدام AutoCAD.",
+      descriptionEn: "A practical course on reading and preparing isometric drawings for piping lines using AutoCAD.",
       price: 0,
       level: "BEGINNER",
       published: false,

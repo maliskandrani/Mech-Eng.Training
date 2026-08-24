@@ -109,7 +109,9 @@ export default async function CourseDetailPage({
           {course.description && (
             <div className="mt-8">
               <h2 className="text-xl font-bold text-foreground">{t("aboutTitle")}</h2>
-              <p className="mt-3 whitespace-pre-line leading-8 text-muted">{course.description}</p>
+              <p className="mt-3 whitespace-pre-line text-justify leading-8 text-muted">
+                {localizedTitle(course.description, course.descriptionEn, locale)}
+              </p>
             </div>
           )}
 
