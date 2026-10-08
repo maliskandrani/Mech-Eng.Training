@@ -62,22 +62,18 @@ async function main() {
   ]);
 
   // Course 1: flagship piping & mechanical course — one section (lesson) per
-  // topic (1-10). "الكتب" (books) are the individually-sold material
+  // topic (1-6). "الكتب" (books) are the individually-sold material
   // attachments within each lesson, not the lesson grouping itself. Keep the
   // "(English Name)" suffix on every entry — extractTitleEn() below parses it
   // into each section's titleEn so English-locale pages show a clean English
   // title instead of the full Arabic string.
   const LESSON_TITLES = [
-    "الدرس 1: مقدمة في مصانع النفط والغاز والبتروكيماويات (Introduction to Oil, Gas & Petrochemical Plants)",
-    "الدرس 2: هندسة المعدات الثابتة (Static Equipment Engineering)",
-    "الدرس 3: هندسة مكونات الأنابيب (Piping Components Engineering)",
-    "الدرس 4: هندسة المعدات الدوارة (Rotating Equipment Engineering)",
-    "الدرس 5: الرسومات الهندسية وتخطيط المصانع (Engineering Drawings & Plant Layout)",
-    "الدرس 6: الحسابات الهندسية اليدوية وتحليل الإجهادات (Manual Engineering Calculations & Stress Analysis)",
-    "الدرس 7: التطبيقات البرمجية في تحليل الإجهادات (Software Applications in Stress Analysis)",
-    "الدرس 8: النمذجة الثلاثية الأبعاد وبرمجيات تصميم المصانع (3D Modeling & Plant Design Software)",
-    "الدرس 9: هندسة الأنابيب المتقدمة (Advanced Piping Engineering)",
-    "الدرس 10: هندسة المشاريع وFEED وEPC (Project Engineering, FEED & EPC)",
+    "الدرس 1: مقدمة في مصانع النفط والغاز والبتروكيماويات (Fundamentals of the Oil and Gas Industry)",
+    "الدرس 2: هندسة الأنابيب وملحقاتها وتصميم الخرائط الأيزومترية (Piping, Fittings, and Isometric Drawings)",
+    "الدرس 3: تحليل الإجهادات للأنابيب والمعدات الميكانيكية (Piping and Mechanical Equipment Stress Analysis)",
+    "الدرس 4: هندسة المعدات الثابتة (Static Equipment Engineering)",
+    "الدرس 5: هندسة المعدات الدوارة (Rotating Equipment Engineering)",
+    "الدرس 6: هندسة المشاريع الصناعية: من FEED إلى EPC (Industrial Project Engineering: From FEED to EPC)",
   ];
 
   const pipingCourse = await prisma.course.upsert({
@@ -87,9 +83,9 @@ async function main() {
       slug: "piping-mechanical-complete",
       title: "الكورس الشامل في الأنابيب والهندسة الميكانيكية",
       titleEn: "The Comprehensive Course for Piping and Mechanical Engineering",
-      subtitle: "10 كتب متكاملة تجعل منك مهندس أنابيب ومعدات ميكانيكية ثابتة ودوارة محترف",
+      subtitle: "6 كتب متكاملة تجعل منك مهندس أنابيب ومعدات ميكانيكية ثابتة ودوارة محترف",
       subtitleEn:
-        "10 comprehensive books that build you into a professional piping and mechanical equipment engineer, covering both static and rotating machinery.",
+        "6 comprehensive books that build you into a professional piping and mechanical equipment engineer, covering both static and rotating machinery.",
       description:
         "برنامج تدريبي متكامل يغطي هندسة الأنابيب والمعدات الميكانيكية الثابتة والدوارة في مصانع النفط والغاز والبتروكيماويات، من الأساسيات النظرية إلى الحسابات اليدوية والتطبيقات البرمجية والنمذجة الثلاثية الأبعاد ورسومات الأيزومترك ومشاريع FEED و EPC.",
       descriptionEn:
