@@ -40,16 +40,16 @@ export default function Sidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="sidebar-green w-full shrink-0 text-navy-foreground md:w-64 md:min-h-[calc(100vh-61px)]">
+    <aside className="sidebar-green w-full shrink-0 text-foreground md:w-64 md:min-h-[calc(100vh-61px)]">
       <Link
         href="/"
         title="العودة إلى الموقع الرئيسي"
-        className="hidden items-center justify-center gap-3 border-b border-white/10 px-5 py-6 transition hover:bg-white/5 md:flex"
+        className="hidden items-center justify-center gap-3 border-b border-border px-5 py-6 transition hover:bg-accent/5 md:flex"
       >
         <Logo logoUrl={logoUrl} size={72} />
         <div className="text-sm leading-5">
-          <p className="text-base font-extrabold tracking-wide text-navy-foreground">SkillStream</p>
-          <p className="text-navy-muted">Academy</p>
+          <p className="text-base font-extrabold tracking-wide text-foreground">SkillStream</p>
+          <p className="text-muted">Academy</p>
         </div>
       </Link>
 
@@ -69,7 +69,7 @@ export default function Sidebar({
               className={`flex items-center gap-2 whitespace-nowrap rounded-lg border px-3.5 py-2.5 text-sm font-semibold transition ${
                 active
                   ? "border-accent/30 bg-accent/15 text-accent-soft"
-                  : "border-transparent text-navy-muted hover:bg-white/5 hover:text-navy-foreground"
+                  : "border-transparent text-muted hover:bg-accent/5 hover:text-foreground"
               }`}
             >
               <span>{item.icon}</span>
@@ -84,7 +84,7 @@ export default function Sidebar({
         })}
         <Link
           href="/"
-          className="flex items-center gap-2 whitespace-nowrap rounded-lg border border-transparent px-3.5 py-2.5 text-sm font-semibold text-navy-muted transition hover:bg-white/5 hover:text-navy-foreground"
+          className="flex items-center gap-2 whitespace-nowrap rounded-lg border border-transparent px-3.5 py-2.5 text-sm font-semibold text-muted transition hover:bg-accent/5 hover:text-foreground"
         >
           <span>🏠</span>
           <span>الموقع الرئيسي</span>
