@@ -68,12 +68,12 @@ async function main() {
   // into each section's titleEn so English-locale pages show a clean English
   // title instead of the full Arabic string.
   const LESSON_TITLES = [
-    "الدرس 1: مقدمة في مصانع النفط والغاز والبتروكيماويات (Fundamentals of the Oil and Gas Industry)",
-    "الدرس 2: هندسة الأنابيب وملحقاتها وتصميم الخرائط الأيزومترية (Piping, Fittings, and Isometric Drawings)",
-    "الدرس 3: تحليل الإجهادات للأنابيب والمعدات الميكانيكية (Piping and Mechanical Equipment Stress Analysis)",
-    "الدرس 4: هندسة المعدات الثابتة (Static Equipment Engineering)",
-    "الدرس 5: هندسة المعدات الدوارة (Rotating Equipment Engineering)",
-    "الدرس 6: هندسة المشاريع الصناعية: من FEED إلى EPC (Industrial Project Engineering: From FEED to EPC)",
+    "الدرس 1: مقدمة مختصرة في صناعة النفط والغاز (Introduction to Oil, Gas & Petrochemical Plants)",
+    "الدرس 2: أساسيات هندسة الأنابيب (Fundamentals of Piping Engineering)",
+    "الدرس 3: رسومات الأنابيب والمخططات وتخطيط المنشآت (Piping Drawings, Diagrams & Plant Layout)",
+    "الدرس 4: مكونات الأنابيب وملحقاتها (Piping Components, Fittings & Accessories)",
+    "الدرس 5: المعدات الدوارة: الأنواع والتطبيقات (Rotating Equipment Engineering — Types & Applications)",
+    "الدرس 6: المعدات الثابتة: الأنواع والتطبيقات (Static Equipment Engineering — Types & Applications)",
   ];
 
   const pipingCourse = await prisma.course.upsert({
@@ -83,13 +83,13 @@ async function main() {
       slug: "piping-mechanical-complete",
       title: "الكورس الشامل في الأنابيب والهندسة الميكانيكية",
       titleEn: "The Comprehensive Course for Piping and Mechanical Engineering",
-      subtitle: "6 كتب متكاملة تجعل منك مهندس أنابيب ومعدات ميكانيكية ثابتة ودوارة محترف",
+      subtitle: "6 كتب مترابطة تؤسس معرفتك في هندسة الأنابيب والمعدات الميكانيكية بمنشآت النفط والغاز",
       subtitleEn:
-        "6 comprehensive books that build you into a professional piping and mechanical equipment engineer, covering both static and rotating machinery.",
+        "6 interconnected books building your foundation in piping and mechanical equipment engineering for oil & gas facilities.",
       description:
-        "برنامج تدريبي متكامل يغطي هندسة الأنابيب والمعدات الميكانيكية الثابتة والدوارة في مصانع النفط والغاز والبتروكيماويات، من الأساسيات النظرية إلى الحسابات اليدوية والتطبيقات البرمجية والنمذجة الثلاثية الأبعاد ورسومات الأيزومترك ومشاريع FEED و EPC.",
+        "برنامج تأسيسي مترابط يغطي المعرفة التي يحتاجها مهندس الأنابيب والهندسة الميكانيكية في منشآت النفط والغاز والبتروكيماويات: من مدخل إلى الصناعة، إلى أساسيات الأنابيب ورسوماتها ومكوناتها، وصولًا إلى المعدات الدوارة والثابتة وتطبيقاتها — دون التوسع في التصميم التفصيلي أو التصنيع أو المحاكاة والاختبارات.",
       descriptionEn:
-        "A comprehensive training program covering the engineering of piping and static/rotating mechanical equipment in oil, gas, and petrochemical plants — from theoretical fundamentals through manual calculations, software applications, 3D modeling, isometric drawings, and FEED and EPC projects.",
+        "A connected foundational program covering what a piping and mechanical engineer needs to know in oil, gas, and petrochemical facilities: from an industry overview, through piping fundamentals, drawings, and components, to rotating and static equipment types and applications — without going into detailed design, manufacturing, simulation, or testing.",
       price: 0,
       level: "INTERMEDIATE",
       published: true,
