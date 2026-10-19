@@ -49,6 +49,9 @@ export default function CourseForm({
     async (_prev, formData) => action(formData),
     null
   );
+  // Renaming an existing course's title is admin-only; a trainer still sets
+  // the initial title when first creating their own course.
+  const titleLocked = !isAdmin && Boolean(initial);
 
   return (
     <form action={formAction} className="space-y-5 rounded-2xl border border-border bg-background-card p-6">
@@ -57,9 +60,13 @@ export default function CourseForm({
         <input
           name="title"
           required
+          readOnly={titleLocked}
           defaultValue={initial?.title}
-          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60"
         />
+        {titleLocked && (
+          <p className="mt-1.5 text-xs text-muted">عنوان الدورة يُعدَّله المدير (الأدمن) فقط.</p>
+        )}
       </div>
 
       <div>
@@ -67,9 +74,10 @@ export default function CourseForm({
         <input
           name="titleEn"
           dir="ltr"
+          readOnly={titleLocked}
           defaultValue={initial?.titleEn ?? ""}
           placeholder="English title shown to non-Arabic visitors"
-          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent"
+          className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60"
         />
       </div>
 

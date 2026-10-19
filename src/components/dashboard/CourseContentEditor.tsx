@@ -147,12 +147,23 @@ export default function CourseContentEditor({
                 >
                   ⠿
                 </button>
-                <InlineRename
-                  value={section.title}
-                  valueEn={section.titleEn}
-                  action={updateSectionTitle.bind(null, section.id)}
-                  textClassName="font-bold text-foreground"
-                />
+                {isAdmin ? (
+                  <InlineRename
+                    value={section.title}
+                    valueEn={section.titleEn}
+                    action={updateSectionTitle.bind(null, section.id)}
+                    textClassName="font-bold text-foreground"
+                  />
+                ) : (
+                  <div className="flex-1">
+                    <span className="font-bold text-foreground">{section.title}</span>
+                    {section.titleEn && (
+                      <p className="text-xs text-muted" dir="ltr">
+                        {section.titleEn}
+                      </p>
+                    )}
+                  </div>
+                )}
                 <ConfirmDeleteButton
                   onConfirm={() => deleteSection(section.id)}
                   confirmText="سيتم حذف القسم وكل دروسه وملفاته. هل أنت متأكد؟"
@@ -192,12 +203,23 @@ export default function CourseContentEditor({
                         >
                           ⠿
                         </button>
-                        <InlineRename
-                          value={lesson.title}
-                          valueEn={lesson.titleEn}
-                          action={updateLessonTitle.bind(null, lesson.id)}
-                          textClassName="text-sm font-semibold text-foreground"
-                        />
+                        {isAdmin ? (
+                          <InlineRename
+                            value={lesson.title}
+                            valueEn={lesson.titleEn}
+                            action={updateLessonTitle.bind(null, lesson.id)}
+                            textClassName="text-sm font-semibold text-foreground"
+                          />
+                        ) : (
+                          <div className="flex-1">
+                            <span className="text-sm font-semibold text-foreground">{lesson.title}</span>
+                            {lesson.titleEn && (
+                              <p className="text-xs text-muted" dir="ltr">
+                                {lesson.titleEn}
+                              </p>
+                            )}
+                          </div>
+                        )}
                         <ConfirmDeleteButton
                           onConfirm={() => deleteLesson(lesson.id)}
                           confirmText="سيتم حذف الدرس وكل ملفاته. هل أنت متأكد؟"

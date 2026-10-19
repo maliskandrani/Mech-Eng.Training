@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { requireRole, requireCourseManager, requireUser } from "@/lib/access";
+import { requireRole, requireCourseManager } from "@/lib/access";
 import { slugify } from "@/lib/utils";
 import { savePublicImage, assertValidPoster } from "@/lib/storage";
 import type { ActionResult } from "@/lib/actions/auth-actions";
@@ -99,7 +99,7 @@ export async function createCourse(formData: FormData): Promise<ActionResult> {
 
 export async function updateCourse(courseId: string, formData: FormData): Promise<ActionResult> {
   try {
-    await requireCourseManager(courseId);
+    const user = await requireCourseManager(courseId);
     const parsed = courseSchema
       .omit({ trainerId: true })
       .extend({ trainerId: z.string().trim().optional() })
@@ -120,7 +120,6 @@ export async function updateCourse(courseId: string, formData: FormData): Promis
       return { ok: false, error: parsed.error.issues[0]?.message ?? "بيانات غير صحيحة" };
     }
     const data = parsed.data;
-    const user = await requireUser();
 
     let posterUrl: string | undefined;
     const poster = formData.get("poster");
@@ -132,8 +131,8 @@ export async function updateCourse(courseId: string, formData: FormData): Promis
     await prisma.course.update({
       where: { id: courseId },
       data: {
-        title: data.title,
-        titleEn: data.titleEn || null,
+        // Course titles are an admin-only right — a trainer's submitted title is ignored, not an error.
+        ...(user.role === "ADMIN" ? { title: data.title, titleEn: data.titleEn || null } : {}),
         subtitle: data.subtitle || null,
         subtitleEn: data.subtitleEn || null,
         description: data.description || null,
@@ -197,9 +196,10 @@ export async function createSection(courseId: string, formData: FormData): Promi
 
 export async function updateSectionTitle(sectionId: string, formData: FormData): Promise<ActionResult> {
   try {
+    // Section (book) titles are an admin-only right, regardless of who manages the course.
+    await requireRole(["ADMIN"]);
     const section = await prisma.section.findUnique({ where: { id: sectionId }, select: { courseId: true } });
     if (!section) return { ok: false, error: "القسم غير موجود" };
-    await requireCourseManager(section.courseId);
 
     const title = String(formData.get("title") ?? "").trim();
     if (title.length < 2) return { ok: false, error: "عنوان القسم قصير جدًا" };
@@ -284,12 +284,13 @@ export async function createLesson(sectionId: string, formData: FormData): Promi
 
 export async function updateLessonTitle(lessonId: string, formData: FormData): Promise<ActionResult> {
   try {
+    // Lesson (chapter) titles are an admin-only right, regardless of who manages the course.
+    await requireRole(["ADMIN"]);
     const lesson = await prisma.lesson.findUnique({
       where: { id: lessonId },
       select: { section: { select: { courseId: true } } },
     });
     if (!lesson) return { ok: false, error: "الدرس غير موجود" };
-    await requireCourseManager(lesson.section.courseId);
 
     const title = String(formData.get("title") ?? "").trim();
     if (title.length < 2) return { ok: false, error: "عنوان الدرس قصير جدًا" };
