@@ -103,41 +103,33 @@ button:not(:disabled):active,
 }
 
 /* ---------------------------------------------------------------------- */
-/* Dashboard theme: dark navy + gold — scoped to /dashboard only.         */
-/* Overriding the same custom properties retints every Tailwind utility   */
-/* built on them (bg-background, text-accent, gold-gradient, …) without   */
-/* touching individual components.                                       */
+/* Dashboard theme: light ivory + navy/gold — scoped to /dashboard only.  */
+/* Same brand family as the public site (navy + gold), but a warmer      */
+/* light background and a dark navy sidebar keep it visually distinct    */
+/* from the public pages at a glance. Overriding the same custom         */
+/* properties retints every Tailwind utility built on them               */
+/* (bg-background, text-accent, gold-gradient, …) without touching       */
+/* individual components.                                                */
 /* ---------------------------------------------------------------------- */
 .dash-theme {
-  --background: #0a1229;
-  --background-elevated: #101b38;
-  --background-card: #131f3f;
-  --foreground: #f2f0e8;
-  --muted: #9aa6c4;
-  --border: #22315a;
+  --background: #faf6ec;
+  --background-elevated: #ffffff;
+  --background-card: #ffffff;
+  --foreground: #16233f;
+  --muted: #6b6552;
+  --border: #ece3cc;
   --accent: #d4af37;
-  --accent-soft: #f0d78c;
+  --accent-soft: #a3791b;
   --accent-foreground: #1a1305;
 }
 
-.dash-theme .gold-gradient {
-  background-image: linear-gradient(135deg, #f0d78c 0%, #d4af37 55%, #a9812a 100%);
-}
-
-.dash-theme .gold-text-gradient {
-  background-image: linear-gradient(135deg, #f0d78c 0%, #d4af37 60%, #b8912f 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .dash-theme .sidebar-green {
-  background-image: linear-gradient(180deg, #101b38 0%, #0a1229 100%);
-  border-inline-end: 1px solid rgba(212, 175, 55, 0.15);
+  background-image: linear-gradient(180deg, #1c3468 0%, #142850 100%);
+  border-inline-end: 1px solid rgba(212, 175, 55, 0.25);
 }
 
-.dash-theme .kpi-pink   { background: rgba(236, 72, 153, 0.14); color: #f9a8d4; }
-.dash-theme .kpi-green  { background: rgba(74, 222, 128, 0.14); color: #86efac; }
-.dash-theme .kpi-purple { background: rgba(167, 139, 250, 0.14); color: #c4b5fd; }
-.dash-theme .kpi-yellow { background: rgba(212, 175, 55, 0.16); color: #f0d78c; }
-.dash-theme .kpi-blue   { background: rgba(96, 165, 250, 0.14); color: #93c5fd; }
+.dash-theme .kpi-pink   { background: #fdf0f6; color: #be185d; }
+.dash-theme .kpi-green  { background: #eefbf3; color: #15803d; }
+.dash-theme .kpi-purple { background: #f4f0fe; color: #6d28d9; }
+.dash-theme .kpi-yellow { background: #fdf6e3; color: #92700f; }
+.dash-theme .kpi-blue   { background: #eef4fe; color: #1d4ed8; }

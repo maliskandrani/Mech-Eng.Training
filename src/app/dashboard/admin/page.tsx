@@ -70,7 +70,7 @@ export default async function AdminOverviewPage() {
             <Link key={s.label} href={s.href} className={`kpi rounded-2xl p-5 transition hover:opacity-90 ${s.color}`}>
               <div className="flex items-center justify-between">
                 <span className="text-xs font-extrabold">{s.label}</span>
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-sm">{s.icon}</span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/5 text-sm">{s.icon}</span>
               </div>
               <p className="mt-3 text-3xl font-extrabold">{s.value}</p>
               {s.sub && (
