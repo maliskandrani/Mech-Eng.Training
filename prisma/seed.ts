@@ -230,7 +230,7 @@ async function main() {
       sections: {
         create: PIPING_BOOKS.map((book, i) => ({
           title: `الجزء ${i + 1}: ${book.ar} (${book.en})`,
-          titleEn: `Part ${i + 1}: ${book.en}`,
+          titleEn: `Section ${i + 1}: ${book.en}`,
           order: i + 1,
           lessons: {
             create: book.chapters.map((ch, j) => ({
@@ -368,37 +368,37 @@ async function main() {
         create: [
           {
             title: "الجزء 1: مقدمة في تحليل إجهادات الأنابيب (Introduction to Piping Stress Analysis)",
-            titleEn: "Part 1: Introduction to Piping Stress Analysis",
+            titleEn: "Section 1: Introduction to Piping Stress Analysis",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 2: المرونة في أنظمة الأنابيب (Piping Flexibility Fundamentals)",
-            titleEn: "Part 2: Piping Flexibility Fundamentals",
+            titleEn: "Section 2: Piping Flexibility Fundamentals",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 3: الأحمال والإجهادات المسموحة (Loads and Allowable Stresses)",
-            titleEn: "Part 3: Loads and Allowable Stresses",
+            titleEn: "Section 3: Loads and Allowable Stresses",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 4: التمدد الحراري ودعامات الأنابيب (Thermal Expansion & Pipe Supports)",
-            titleEn: "Part 4: Thermal Expansion & Pipe Supports",
+            titleEn: "Section 4: Thermal Expansion & Pipe Supports",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 5: تحليل الإجهادات بالبرامج المتخصصة (Computerized Stress Analysis — CAESAR II)",
-            titleEn: "Part 5: Computerized Stress Analysis — CAESAR II",
+            titleEn: "Section 5: Computerized Stress Analysis — CAESAR II",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 6: حالات عملية ودراسات تطبيقية (Practical Case Studies)",
-            titleEn: "Part 6: Practical Case Studies",
+            titleEn: "Section 6: Practical Case Studies",
             order: 6,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
@@ -431,31 +431,31 @@ async function main() {
         create: [
           {
             title: "الجزء 1: أساسيات الرسم الهندسي بالحاسوب (Introduction to CAD & Engineering Drafting)",
-            titleEn: "Part 1: Introduction to CAD & Engineering Drafting",
+            titleEn: "Section 1: Introduction to CAD & Engineering Drafting",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 2: أدوات الرسم ثنائي الأبعاد (2D Drafting Tools & Commands)",
-            titleEn: "Part 2: 2D Drafting Tools & Commands",
+            titleEn: "Section 2: 2D Drafting Tools & Commands",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 3: الطبقات والأبعاد والتدوين (Layers, Dimensioning & Annotation)",
-            titleEn: "Part 3: Layers, Dimensioning & Annotation",
+            titleEn: "Section 3: Layers, Dimensioning & Annotation",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 4: إعداد المخططات الهندسية للطباعة (Plotting & Drawing Sheet Setup)",
-            titleEn: "Part 4: Plotting & Drawing Sheet Setup",
+            titleEn: "Section 4: Plotting & Drawing Sheet Setup",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 5: رسم مخططات الأنابيب والأيزومترك بالأوتوكاد (Piping & Isometric Drawings with AutoCAD)",
-            titleEn: "Part 5: Piping & Isometric Drawings with AutoCAD",
+            titleEn: "Section 5: Piping & Isometric Drawings with AutoCAD",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
@@ -488,31 +488,31 @@ async function main() {
         create: [
           {
             title: "الجزء 1: مقدمة في النمذجة الثلاثية الأبعاد للمصانع (Introduction to 3D Plant Modeling)",
-            titleEn: "Part 1: Introduction to 3D Plant Modeling",
+            titleEn: "Section 1: Introduction to 3D Plant Modeling",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 2: نمذجة خطوط الأنابيب والمعدات (Piping & Equipment Modeling)",
-            titleEn: "Part 2: Piping & Equipment Modeling",
+            titleEn: "Section 2: Piping & Equipment Modeling",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 3: تنسيق التخصصات داخل النموذج (Multi-Discipline Model Coordination)",
-            titleEn: "Part 3: Multi-Discipline Model Coordination",
+            titleEn: "Section 3: Multi-Discipline Model Coordination",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 4: استخراج الرسومات وقوائم المواد (Drawing Extraction & Bill of Materials)",
-            titleEn: "Part 4: Drawing Extraction & Bill of Materials",
+            titleEn: "Section 4: Drawing Extraction & Bill of Materials",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 5: تطبيق عملي باستخدام SolidWorks (Practical Application with SolidWorks)",
-            titleEn: "Part 5: Practical Application with SolidWorks",
+            titleEn: "Section 5: Practical Application with SolidWorks",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
@@ -546,37 +546,37 @@ async function main() {
         create: [
           {
             title: "الجزء 1: مقدمة في مراحل المشاريع الهندسية (Introduction to Project Engineering Phases)",
-            titleEn: "Part 1: Introduction to Project Engineering Phases",
+            titleEn: "Section 1: Introduction to Project Engineering Phases",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 2: الهندسة الأساسية (FEED) (Front-End Engineering Design — FEED)",
-            titleEn: "Part 2: Front-End Engineering Design — FEED",
+            titleEn: "Section 2: Front-End Engineering Design — FEED",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 3: نطاق العمل والمستندات الهندسية (Scope of Work & Engineering Documents)",
-            titleEn: "Part 3: Scope of Work & Engineering Documents",
+            titleEn: "Section 3: Scope of Work & Engineering Documents",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 4: التنسيق بين التخصصات الهندسية (Interdisciplinary Coordination)",
-            titleEn: "Part 4: Interdisciplinary Coordination",
+            titleEn: "Section 4: Interdisciplinary Coordination",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 5: إدارة التعديلات والتسليمات الهندسية (Change Management & Engineering Deliverables)",
-            titleEn: "Part 5: Change Management & Engineering Deliverables",
+            titleEn: "Section 5: Change Management & Engineering Deliverables",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
             title: "الجزء 6: من الهندسة التفصيلية إلى التنفيذ (EPC) (From Detailed Engineering to EPC Execution)",
-            titleEn: "Part 6: From Detailed Engineering to EPC Execution",
+            titleEn: "Section 6: From Detailed Engineering to EPC Execution",
             order: 6,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
