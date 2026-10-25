@@ -55,54 +55,99 @@ async function main() {
     }),
   ]);
 
-  // Course 1: flagship piping & mechanical course — 6 books (sections), each
-  // broken into its full chapter-level table of contents (one Lesson row per
-  // chapter). This is the detailed curriculum outline the trainer authored;
-  // each chapter still holds no Material yet — those get uploaded later as
-  // the actual book content is written.
+  // Course 1: flagship piping & mechanical course — 6 parts (sections), each
+  // broken into its full lesson-level table of contents (one Lesson row per
+  // topic — a course page, not a book chapter). This is the detailed
+  // curriculum outline the trainer authored; each lesson still holds no
+  // Material yet — those get uploaded later as the actual content is written.
   const PIPING_BOOKS: { ar: string; en: string; chapters: { ar: string; en: string }[] }[] = [
     {
       ar: "مقدمة مختصرة في صناعة النفط والغاز",
       en: "Introduction to Oil, Gas & Petrochemical Plants",
       chapters: [
-        { ar: "الفصل 1: مقدمة في صناعة النفط والغاز", en: "Chapter 1 — Introduction to the Oil & Gas Industry" },
-        { ar: "الفصل 2: سلسلة القيمة في صناعة النفط والغاز", en: "Chapter 2 — The Oil & Gas Value Chain" },
-        { ar: "الفصل 3: منشآت النفط والغاز", en: "Chapter 3 — Oil & Gas Facilities" },
-        { ar: "الفصل 4: المعدات الصناعية الرئيسية", en: "Chapter 4 — Main Industrial Equipment" },
         {
-          ar: "الفصل 5: التخصصات الهندسية ودورة حياة المشروع",
-          en: "Chapter 5 — Engineering Disciplines and Project Lifecycle",
+          ar: "الدرس 1: مقدمة إلى صناعة النفط والغاز والبتروكيماويات",
+          en: "Lesson 1: Introduction to the Oil, Gas & Petrochemical Industry",
         },
-        { ar: "الفصل 6: مقدمة في المستندات الهندسية", en: "Chapter 6 — Introduction to Engineering Documents" },
+        {
+          ar: "الدرس 2: الجيولوجيا البترولية ومكامن النفط والغاز",
+          en: "Lesson 2: Petroleum Geology & Reservoir Fundamentals",
+        },
+        {
+          ar: "الدرس 3: مراحل صناعة النفط والغاز: من المنبع إلى المصب",
+          en: "Lesson 3: Upstream, Midstream & Downstream Operations",
+        },
+        {
+          ar: "الدرس 4: الخصائص الفيزيائية والكيميائية للنفط والغاز",
+          en: "Lesson 4: Physical & Chemical Properties of Oil and Gas",
+        },
+        {
+          ar: "الدرس 5: منشآت الإنتاج ومعالجة النفط والغاز",
+          en: "Lesson 5: Oil & Gas Production Facilities and Processing",
+        },
+        { ar: "الدرس 6: أساسيات صناعة تكرير النفط", en: "Lesson 6: Fundamentals of Petroleum Refining" },
+        { ar: "الدرس 7: أساسيات صناعة البتروكيماويات", en: "Lesson 7: Petrochemical Industry Fundamentals" },
+        {
+          ar: "الدرس 8: المعدات الرئيسية في المنشآت الصناعية",
+          en: "Lesson 8: Major Equipment in Oil, Gas & Petrochemical Plants",
+        },
+        {
+          ar: "الدرس 9: مقدمة إلى أنظمة الأنابيب الصناعية",
+          en: "Lesson 9: Introduction to Industrial Piping Systems",
+        },
+        {
+          ar: "الدرس 10: مقدمة إلى أنظمة التحكم والأجهزة الصناعية",
+          en: "Lesson 10: Introduction to Instrumentation & Process Control",
+        },
+        {
+          ar: "الدرس 11: السلامة الصناعية والمخاطر في منشآت النفط والغاز",
+          en: "Lesson 11: Industrial Safety & Process Hazards",
+        },
+        {
+          ar: "الدرس 12: البيئة وكفاءة الطاقة والاستدامة الصناعية",
+          en: "Lesson 12: Environmental Protection, Energy Efficiency & Sustainability",
+        },
+        {
+          ar: "الدرس 13: قراءة المخططات والوثائق الهندسية الأساسية",
+          en: "Lesson 13: Introduction to Engineering Drawings & Documents",
+        },
+        {
+          ar: "الدرس 14: الأكواد والمعايير والمصطلحات الهندسية الشائعة",
+          en: "Lesson 14: Engineering Codes, Standards & Industry Terminology",
+        },
+        {
+          ar: "الدرس 15: دراسة حالة متكاملة لمنشأة نفط وغاز",
+          en: "Lesson 15: Integrated Oil & Gas Plant Case Study",
+        },
       ],
     },
     {
       ar: "أساسيات هندسة الأنابيب",
       en: "Fundamentals of Piping Engineering",
       chapters: [
-        { ar: "الفصل 1: مقدمة في هندسة الأنابيب", en: "Chapter 1 — Introduction to Piping Engineering" },
-        { ar: "الفصل 2: أكواد ومعايير الأنابيب", en: "Chapter 2 — Piping Codes and Standards" },
-        { ar: "الفصل 3: مواد الأنابيب وطرق التصنيع", en: "Chapter 3 — Pipe Materials and Manufacturing Types" },
-        { ar: "الفصل 4: أبعاد الأنابيب وتصنيفات الضغط", en: "Chapter 4 — Pipe Dimensions and Ratings" },
+        { ar: "الدرس 1: مقدمة في هندسة الأنابيب", en: "Lesson 1: Introduction to Piping Engineering" },
+        { ar: "الدرس 2: أكواد ومعايير الأنابيب", en: "Lesson 2: Piping Codes and Standards" },
+        { ar: "الدرس 3: مواد الأنابيب وطرق التصنيع", en: "Lesson 3: Pipe Materials and Manufacturing Types" },
+        { ar: "الدرس 4: أبعاد الأنابيب وتصنيفات الضغط", en: "Lesson 4: Pipe Dimensions and Ratings" },
         {
-          ar: "الفصل 5: مواصفات الأنابيب وتصنيف الخطوط",
-          en: "Chapter 5 — Piping Specifications and Line Classification",
+          ar: "الدرس 5: مواصفات الأنابيب وتصنيف الخطوط",
+          en: "Lesson 5: Piping Specifications and Line Classification",
         },
-        { ar: "الفصل 6: أساسيات أنظمة الأنابيب", en: "Chapter 6 — Piping System Fundamentals" },
-        { ar: "الفصل 7: نظرة عامة على التركيب ودورة الحياة", en: "Chapter 7 — Installation and Lifecycle Overview" },
+        { ar: "الدرس 6: أساسيات أنظمة الأنابيب", en: "Lesson 6: Piping System Fundamentals" },
+        { ar: "الدرس 7: نظرة عامة على التركيب ودورة الحياة", en: "Lesson 7: Installation and Lifecycle Overview" },
       ],
     },
     {
       ar: "رسومات الأنابيب والمخططات وتخطيط المنشآت",
       en: "Piping Drawings, Diagrams & Plant Layout",
       chapters: [
-        { ar: "الفصل 1: أساسيات الرسومات الهندسية", en: "Chapter 1 — Engineering Drawings Fundamentals" },
-        { ar: "الفصل 2: المخططات الإجرائية (PFD وP&ID)", en: "Chapter 2 — Process Diagrams" },
-        { ar: "الفصل 3: رموز واختصارات الأنابيب", en: "Chapter 3 — Piping Symbols and Abbreviations" },
-        { ar: "الفصل 4: رسومات ترتيب الأنابيب", en: "Chapter 4 — Piping Arrangement Drawings" },
-        { ar: "الفصل 5: الرسومات الأيزومترية والمسقطة", en: "Chapter 5 — Isometric and Orthographic Drawings" },
-        { ar: "الفصل 6: المستندات والقوائم المساندة", en: "Chapter 6 — Supporting Documents and Lists" },
-        { ar: "الفصل 7: التطبيق العملي لقراءة الرسومات", en: "Chapter 7 — Practical Drawing Interpretation" },
+        { ar: "الدرس 1: أساسيات الرسومات الهندسية", en: "Lesson 1: Engineering Drawings Fundamentals" },
+        { ar: "الدرس 2: المخططات الإجرائية (PFD وP&ID)", en: "Lesson 2: Process Diagrams" },
+        { ar: "الدرس 3: رموز واختصارات الأنابيب", en: "Lesson 3: Piping Symbols and Abbreviations" },
+        { ar: "الدرس 4: رسومات ترتيب الأنابيب", en: "Lesson 4: Piping Arrangement Drawings" },
+        { ar: "الدرس 5: الرسومات الأيزومترية والمسقطة", en: "Lesson 5: Isometric and Orthographic Drawings" },
+        { ar: "الدرس 6: المستندات والقوائم المساندة", en: "Lesson 6: Supporting Documents and Lists" },
+        { ar: "الدرس 7: التطبيق العملي لقراءة الرسومات", en: "Lesson 7: Practical Drawing Interpretation" },
       ],
     },
     {
@@ -110,53 +155,53 @@ async function main() {
       en: "Piping Components, Fittings & Accessories",
       chapters: [
         {
-          ar: "الفصل 1: أنواع الأنابيب وتصنيف المكونات",
-          en: "Chapter 1 — Pipe Types and Component Classification",
+          ar: "الدرس 1: أنواع الأنابيب وتصنيف المكونات",
+          en: "Lesson 1: Pipe Types and Component Classification",
         },
-        { ar: "الفصل 2: وصلات الأنابيب (الفيتنجز)", en: "Chapter 2 — Pipe Fittings" },
-        { ar: "الفصل 3: الفلانشات والوصلات", en: "Chapter 3 — Flanges and Connections" },
-        { ar: "الفصل 4: الصمامات", en: "Chapter 4 — Valves" },
-        { ar: "الفصل 5: المكونات الخاصة للأنابيب", en: "Chapter 5 — Special Piping Components" },
-        { ar: "الفصل 6: دعامات الأنابيب وملحقاتها", en: "Chapter 6 — Pipe Supports and Accessories" },
-        { ar: "الفصل 7: اختيار المكونات والتعرف عليها", en: "Chapter 7 — Component Selection and Identification" },
+        { ar: "الدرس 2: وصلات الأنابيب (الفيتنجز)", en: "Lesson 2: Pipe Fittings" },
+        { ar: "الدرس 3: الفلانشات والوصلات", en: "Lesson 3: Flanges and Connections" },
+        { ar: "الدرس 4: الصمامات", en: "Lesson 4: Valves" },
+        { ar: "الدرس 5: المكونات الخاصة للأنابيب", en: "Lesson 5: Special Piping Components" },
+        { ar: "الدرس 6: دعامات الأنابيب وملحقاتها", en: "Lesson 6: Pipe Supports and Accessories" },
+        { ar: "الدرس 7: اختيار المكونات والتعرف عليها", en: "Lesson 7: Component Selection and Identification" },
       ],
     },
     {
       ar: "المعدات الدوارة: الأنواع والتطبيقات",
       en: "Rotating Equipment Engineering — Types & Applications",
       chapters: [
-        { ar: "الفصل 1: مقدمة في المعدات الدوارة", en: "Chapter 1 — Introduction to Rotating Equipment" },
-        { ar: "الفصل 2: المضخات", en: "Chapter 2 — Pumps" },
-        { ar: "الفصل 3: الضواغط", en: "Chapter 3 — Compressors" },
-        { ar: "الفصل 4: التوربينات والموسعات", en: "Chapter 4 — Turbines and Expanders" },
-        { ar: "الفصل 5: المحركات القائدة ونقل الحركة", en: "Chapter 5 — Drivers and Power Transmission" },
+        { ar: "الدرس 1: مقدمة في المعدات الدوارة", en: "Lesson 1: Introduction to Rotating Equipment" },
+        { ar: "الدرس 2: المضخات", en: "Lesson 2: Pumps" },
+        { ar: "الدرس 3: الضواغط", en: "Lesson 3: Compressors" },
+        { ar: "الدرس 4: التوربينات والموسعات", en: "Lesson 4: Turbines and Expanders" },
+        { ar: "الدرس 5: المحركات القائدة ونقل الحركة", en: "Lesson 5: Drivers and Power Transmission" },
         {
-          ar: "الفصل 6: الأنظمة المساندة والمكونات المشتركة",
-          en: "Chapter 6 — Auxiliary Systems and Common Components",
+          ar: "الدرس 6: الأنظمة المساندة والمكونات المشتركة",
+          en: "Lesson 6: Auxiliary Systems and Common Components",
         },
-        { ar: "الفصل 7: التشغيل والموثوقية والصيانة", en: "Chapter 7 — Operation, Reliability and Maintenance" },
+        { ar: "الدرس 7: التشغيل والموثوقية والصيانة", en: "Lesson 7: Operation, Reliability and Maintenance" },
       ],
     },
     {
       ar: "المعدات الثابتة: الأنواع والتطبيقات",
       en: "Static Equipment Engineering — Types & Applications",
       chapters: [
-        { ar: "الفصل 1: مقدمة في المعدات الثابتة", en: "Chapter 1 — Introduction to Static Equipment" },
-        { ar: "الفصل 2: أوعية الضغط", en: "Chapter 2 — Pressure Vessels" },
-        { ar: "الفصل 3: خزانات التخزين", en: "Chapter 3 — Storage Tanks" },
-        { ar: "الفصل 4: المبادلات الحرارية", en: "Chapter 4 — Heat Exchangers" },
+        { ar: "الدرس 1: مقدمة في المعدات الثابتة", en: "Lesson 1: Introduction to Static Equipment" },
+        { ar: "الدرس 2: أوعية الضغط", en: "Lesson 2: Pressure Vessels" },
+        { ar: "الدرس 3: خزانات التخزين", en: "Lesson 3: Storage Tanks" },
+        { ar: "الدرس 4: المبادلات الحرارية", en: "Lesson 4: Heat Exchangers" },
         {
-          ar: "الفصل 5: الأعمدة والأبراج والمكونات الداخلية",
-          en: "Chapter 5 — Columns, Towers and Process Internals",
+          ar: "الدرس 5: الأعمدة والأبراج والمكونات الداخلية",
+          en: "Lesson 5: Columns, Towers and Process Internals",
         },
         {
-          ar: "الفصل 6: الغلايات والسخانات والمعدات الحرارية",
-          en: "Chapter 6 — Boilers, Fired Heaters and Thermal Equipment",
+          ar: "الدرس 6: الغلايات والسخانات والمعدات الحرارية",
+          en: "Lesson 6: Boilers, Fired Heaters and Thermal Equipment",
         },
-        { ar: "الفصل 7: معدات ثابتة أخرى", en: "Chapter 7 — Other Static Equipment" },
+        { ar: "الدرس 7: معدات ثابتة أخرى", en: "Lesson 7: Other Static Equipment" },
         {
-          ar: "الفصل 8: نظرة عامة على التركيب والتشغيل والصيانة",
-          en: "Chapter 8 — Installation, Operation and Maintenance Overview",
+          ar: "الدرس 8: نظرة عامة على التركيب والتشغيل والصيانة",
+          en: "Lesson 8: Installation, Operation and Maintenance Overview",
         },
       ],
     },
@@ -184,8 +229,8 @@ async function main() {
       categoryId: pipingCategory.id,
       sections: {
         create: PIPING_BOOKS.map((book, i) => ({
-          title: `الدرس ${i + 1}: ${book.ar} (${book.en})`,
-          titleEn: `Lesson ${i + 1}: ${book.en}`,
+          title: `الجزء ${i + 1}: ${book.ar} (${book.en})`,
+          titleEn: `Part ${i + 1}: ${book.en}`,
           order: i + 1,
           lessons: {
             create: book.chapters.map((ch, j) => ({
@@ -322,38 +367,38 @@ async function main() {
       sections: {
         create: [
           {
-            title: "الدرس 1: مقدمة في تحليل إجهادات الأنابيب (Introduction to Piping Stress Analysis)",
-            titleEn: "Lesson 1: Introduction to Piping Stress Analysis",
+            title: "الجزء 1: مقدمة في تحليل إجهادات الأنابيب (Introduction to Piping Stress Analysis)",
+            titleEn: "Part 1: Introduction to Piping Stress Analysis",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 2: المرونة في أنظمة الأنابيب (Piping Flexibility Fundamentals)",
-            titleEn: "Lesson 2: Piping Flexibility Fundamentals",
+            title: "الجزء 2: المرونة في أنظمة الأنابيب (Piping Flexibility Fundamentals)",
+            titleEn: "Part 2: Piping Flexibility Fundamentals",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 3: الأحمال والإجهادات المسموحة (Loads and Allowable Stresses)",
-            titleEn: "Lesson 3: Loads and Allowable Stresses",
+            title: "الجزء 3: الأحمال والإجهادات المسموحة (Loads and Allowable Stresses)",
+            titleEn: "Part 3: Loads and Allowable Stresses",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 4: التمدد الحراري ودعامات الأنابيب (Thermal Expansion & Pipe Supports)",
-            titleEn: "Lesson 4: Thermal Expansion & Pipe Supports",
+            title: "الجزء 4: التمدد الحراري ودعامات الأنابيب (Thermal Expansion & Pipe Supports)",
+            titleEn: "Part 4: Thermal Expansion & Pipe Supports",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 5: تحليل الإجهادات بالبرامج المتخصصة (Computerized Stress Analysis — CAESAR II)",
-            titleEn: "Lesson 5: Computerized Stress Analysis — CAESAR II",
+            title: "الجزء 5: تحليل الإجهادات بالبرامج المتخصصة (Computerized Stress Analysis — CAESAR II)",
+            titleEn: "Part 5: Computerized Stress Analysis — CAESAR II",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 6: حالات عملية ودراسات تطبيقية (Practical Case Studies)",
-            titleEn: "Lesson 6: Practical Case Studies",
+            title: "الجزء 6: حالات عملية ودراسات تطبيقية (Practical Case Studies)",
+            titleEn: "Part 6: Practical Case Studies",
             order: 6,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
@@ -385,32 +430,32 @@ async function main() {
       sections: {
         create: [
           {
-            title: "الدرس 1: أساسيات الرسم الهندسي بالحاسوب (Introduction to CAD & Engineering Drafting)",
-            titleEn: "Lesson 1: Introduction to CAD & Engineering Drafting",
+            title: "الجزء 1: أساسيات الرسم الهندسي بالحاسوب (Introduction to CAD & Engineering Drafting)",
+            titleEn: "Part 1: Introduction to CAD & Engineering Drafting",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 2: أدوات الرسم ثنائي الأبعاد (2D Drafting Tools & Commands)",
-            titleEn: "Lesson 2: 2D Drafting Tools & Commands",
+            title: "الجزء 2: أدوات الرسم ثنائي الأبعاد (2D Drafting Tools & Commands)",
+            titleEn: "Part 2: 2D Drafting Tools & Commands",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 3: الطبقات والأبعاد والتدوين (Layers, Dimensioning & Annotation)",
-            titleEn: "Lesson 3: Layers, Dimensioning & Annotation",
+            title: "الجزء 3: الطبقات والأبعاد والتدوين (Layers, Dimensioning & Annotation)",
+            titleEn: "Part 3: Layers, Dimensioning & Annotation",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 4: إعداد المخططات الهندسية للطباعة (Plotting & Drawing Sheet Setup)",
-            titleEn: "Lesson 4: Plotting & Drawing Sheet Setup",
+            title: "الجزء 4: إعداد المخططات الهندسية للطباعة (Plotting & Drawing Sheet Setup)",
+            titleEn: "Part 4: Plotting & Drawing Sheet Setup",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 5: رسم مخططات الأنابيب والأيزومترك بالأوتوكاد (Piping & Isometric Drawings with AutoCAD)",
-            titleEn: "Lesson 5: Piping & Isometric Drawings with AutoCAD",
+            title: "الجزء 5: رسم مخططات الأنابيب والأيزومترك بالأوتوكاد (Piping & Isometric Drawings with AutoCAD)",
+            titleEn: "Part 5: Piping & Isometric Drawings with AutoCAD",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
@@ -442,32 +487,32 @@ async function main() {
       sections: {
         create: [
           {
-            title: "الدرس 1: مقدمة في النمذجة الثلاثية الأبعاد للمصانع (Introduction to 3D Plant Modeling)",
-            titleEn: "Lesson 1: Introduction to 3D Plant Modeling",
+            title: "الجزء 1: مقدمة في النمذجة الثلاثية الأبعاد للمصانع (Introduction to 3D Plant Modeling)",
+            titleEn: "Part 1: Introduction to 3D Plant Modeling",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 2: نمذجة خطوط الأنابيب والمعدات (Piping & Equipment Modeling)",
-            titleEn: "Lesson 2: Piping & Equipment Modeling",
+            title: "الجزء 2: نمذجة خطوط الأنابيب والمعدات (Piping & Equipment Modeling)",
+            titleEn: "Part 2: Piping & Equipment Modeling",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 3: تنسيق التخصصات داخل النموذج (Multi-Discipline Model Coordination)",
-            titleEn: "Lesson 3: Multi-Discipline Model Coordination",
+            title: "الجزء 3: تنسيق التخصصات داخل النموذج (Multi-Discipline Model Coordination)",
+            titleEn: "Part 3: Multi-Discipline Model Coordination",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 4: استخراج الرسومات وقوائم المواد (Drawing Extraction & Bill of Materials)",
-            titleEn: "Lesson 4: Drawing Extraction & Bill of Materials",
+            title: "الجزء 4: استخراج الرسومات وقوائم المواد (Drawing Extraction & Bill of Materials)",
+            titleEn: "Part 4: Drawing Extraction & Bill of Materials",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 5: تطبيق عملي باستخدام SolidWorks (Practical Application with SolidWorks)",
-            titleEn: "Lesson 5: Practical Application with SolidWorks",
+            title: "الجزء 5: تطبيق عملي باستخدام SolidWorks (Practical Application with SolidWorks)",
+            titleEn: "Part 5: Practical Application with SolidWorks",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
@@ -500,38 +545,38 @@ async function main() {
       sections: {
         create: [
           {
-            title: "الدرس 1: مقدمة في مراحل المشاريع الهندسية (Introduction to Project Engineering Phases)",
-            titleEn: "Lesson 1: Introduction to Project Engineering Phases",
+            title: "الجزء 1: مقدمة في مراحل المشاريع الهندسية (Introduction to Project Engineering Phases)",
+            titleEn: "Part 1: Introduction to Project Engineering Phases",
             order: 1,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 2: الهندسة الأساسية (FEED) (Front-End Engineering Design — FEED)",
-            titleEn: "Lesson 2: Front-End Engineering Design — FEED",
+            title: "الجزء 2: الهندسة الأساسية (FEED) (Front-End Engineering Design — FEED)",
+            titleEn: "Part 2: Front-End Engineering Design — FEED",
             order: 2,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 3: نطاق العمل والمستندات الهندسية (Scope of Work & Engineering Documents)",
-            titleEn: "Lesson 3: Scope of Work & Engineering Documents",
+            title: "الجزء 3: نطاق العمل والمستندات الهندسية (Scope of Work & Engineering Documents)",
+            titleEn: "Part 3: Scope of Work & Engineering Documents",
             order: 3,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 4: التنسيق بين التخصصات الهندسية (Interdisciplinary Coordination)",
-            titleEn: "Lesson 4: Interdisciplinary Coordination",
+            title: "الجزء 4: التنسيق بين التخصصات الهندسية (Interdisciplinary Coordination)",
+            titleEn: "Part 4: Interdisciplinary Coordination",
             order: 4,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 5: إدارة التعديلات والتسليمات الهندسية (Change Management & Engineering Deliverables)",
-            titleEn: "Lesson 5: Change Management & Engineering Deliverables",
+            title: "الجزء 5: إدارة التعديلات والتسليمات الهندسية (Change Management & Engineering Deliverables)",
+            titleEn: "Part 5: Change Management & Engineering Deliverables",
             order: 5,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
           {
-            title: "الدرس 6: من الهندسة التفصيلية إلى التنفيذ (EPC) (From Detailed Engineering to EPC Execution)",
-            titleEn: "Lesson 6: From Detailed Engineering to EPC Execution",
+            title: "الجزء 6: من الهندسة التفصيلية إلى التنفيذ (EPC) (From Detailed Engineering to EPC Execution)",
+            titleEn: "Part 6: From Detailed Engineering to EPC Execution",
             order: 6,
             lessons: { create: [{ title: "المحاضرة", titleEn: "Lecture", order: 1 }] },
           },
