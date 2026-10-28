@@ -44,6 +44,7 @@ export default async function Header() {
               size={64}
               nameClassName="text-foreground text-sm sm:text-base"
               translatedClassName="text-muted"
+              hideTextOnMobile
             />
           </Link>
 
@@ -96,16 +97,16 @@ export default async function Header() {
                 </form>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <Link
                   href="/login"
-                  className="whitespace-nowrap rounded-lg border border-navy/25 px-4 py-2 text-sm font-semibold text-navy transition hover:border-navy hover:bg-navy hover:text-navy-foreground"
+                  className="whitespace-nowrap rounded-lg border border-navy/25 px-2.5 py-1.5 text-xs font-semibold text-navy transition hover:border-navy hover:bg-navy hover:text-navy-foreground sm:px-4 sm:py-2 sm:text-sm"
                 >
                   {t("login")}
                 </Link>
                 <Link
                   href="/register"
-                  className="whitespace-nowrap rounded-lg gold-gradient px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
+                  className="whitespace-nowrap rounded-lg gold-gradient px-2.5 py-1.5 text-xs font-semibold text-accent-foreground transition hover:opacity-90 sm:px-4 sm:py-2 sm:text-sm"
                 >
                   {t("signup")}
                 </Link>

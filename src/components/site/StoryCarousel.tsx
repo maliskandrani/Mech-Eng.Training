@@ -19,8 +19,8 @@ export default function StoryCarousel({ slides }: { slides: Slide[] }) {
   if (slides.length === 0) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-navy-elevated shadow-lg">
-      <div className="relative aspect-[16/6] w-full">
+    <div className="relative w-full overflow-hidden bg-navy">
+      <div className="relative aspect-[4/3] w-full sm:aspect-[16/7] lg:aspect-[21/7]">
         {slides.map((slide, i) => (
           <div
             key={slide.id}
@@ -28,22 +28,24 @@ export default function StoryCarousel({ slides }: { slides: Slide[] }) {
               i === index ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Image src={slide.imageUrl} alt="" fill className="object-contain" />
+            <Image src={slide.imageUrl} alt="" fill className="object-contain" priority={i === 0} />
           </div>
         ))}
       </div>
 
       {slides.length > 1 && (
-        <div className="absolute bottom-3 start-1/2 flex -translate-x-1/2 gap-1.5">
+        <div className="absolute inset-x-0 top-3 flex justify-center gap-1.5">
           {slides.map((slide, i) => (
             <button
               key={slide.id}
               onClick={() => setIndex(i)}
               aria-label={`slide ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all ${
-                i === index ? "w-6 bg-accent" : "w-1.5 bg-white/40"
+              className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold backdrop-blur-sm transition ${
+                i === index ? "bg-accent text-accent-foreground" : "bg-black/30 text-white/70 hover:bg-black/50"
               }`}
-            />
+            >
+              {i + 1}
+            </button>
           ))}
         </div>
       )}

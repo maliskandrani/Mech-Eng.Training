@@ -247,6 +247,12 @@ model SiteSettings {
   paymentLttInfo        String?
   paymentCashOfficeInfo String?
 
+  // Admin-edited social page links shown in the footer; null/empty hides that icon.
+  socialYoutubeUrl  String?
+  socialFacebookUrl String?
+  socialTwitterUrl  String?
+  socialLinkedinUrl String?
+
   @@map("site_settings")
 }
 

@@ -74,10 +74,10 @@ export default async function HomePage() {
   return (
     <div>
       <section className="hero-navy relative overflow-hidden text-navy-foreground">
-        <div className="mx-auto max-w-6xl px-4 pb-8 pt-2 sm:px-6">
-          <StoryCarousel slides={storySlides} />
+        <StoryCarousel slides={storySlides} />
 
-          <div className="mt-4 flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-white/10 pt-4">
+        <div className="mx-auto max-w-6xl px-4 pb-8 pt-4 sm:px-6">
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-white/10 pt-4">
             {STATS.map((s) => (
               <div key={s.label} className="text-center">
                 <div className="text-2xl font-extrabold text-accent">{s.value}</div>

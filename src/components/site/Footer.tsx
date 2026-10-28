@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getSiteSettings } from "@/lib/queries";
 import BrandLockup from "@/components/site/BrandLockup";
+import { YoutubeIcon, FacebookIcon, TwitterIcon, LinkedinIcon } from "@/components/site/SocialIcons";
 
 export default async function Footer() {
   const [settings, t, tNav] = await Promise.all([
@@ -9,6 +10,13 @@ export default async function Footer() {
     getTranslations("footer"),
     getTranslations("nav"),
   ]);
+
+  const SOCIAL_LINKS = [
+    { url: settings?.socialYoutubeUrl, label: "YouTube", Icon: YoutubeIcon },
+    { url: settings?.socialFacebookUrl, label: "Facebook", Icon: FacebookIcon },
+    { url: settings?.socialTwitterUrl, label: "Twitter/X", Icon: TwitterIcon },
+    { url: settings?.socialLinkedinUrl, label: "LinkedIn", Icon: LinkedinIcon },
+  ].filter((s): s is { url: string; label: string; Icon: typeof YoutubeIcon } => Boolean(s.url));
 
   return (
     <footer className="bg-navy text-navy-foreground">
@@ -51,6 +59,24 @@ export default async function Footer() {
                 <a href="mailto:albarasi37@gmail.com" className="hover:text-accent">albarasi37@gmail.com</a>
               </li>
             </ul>
+
+            {SOCIAL_LINKS.length > 0 && (
+              <ul className="mt-4 flex flex-wrap justify-end gap-3" dir="ltr">
+                {SOCIAL_LINKS.map(({ url, label, Icon }) => (
+                  <li key={label}>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-xs text-navy-muted transition hover:border-accent hover:text-accent"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 

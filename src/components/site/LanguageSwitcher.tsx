@@ -30,10 +30,10 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted transition hover:border-accent hover:text-accent"
+        className="flex items-center gap-1.5 rounded-full border border-border bg-background px-2 py-1.5 text-xs font-medium text-muted transition hover:border-accent hover:text-accent sm:px-3"
       >
         <span aria-hidden>🌐</span>
-        <span>{LOCALE_LABELS[locale as AppLocale]}</span>
+        <span className="hidden sm:inline">{LOCALE_LABELS[locale as AppLocale]}</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>

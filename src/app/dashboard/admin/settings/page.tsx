@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { getSiteSettings, getStoryImages } from "@/lib/queries";
-import { updateLogo, addStoryImage, deleteStoryImage, updateCurrency, updatePaymentInfo } from "@/lib/actions/site-actions";
+import { updateLogo, addStoryImage, deleteStoryImage, updateCurrency, updatePaymentInfo, updateSocialLinks } from "@/lib/actions/site-actions";
 import LogoUploadForm from "@/components/dashboard/LogoUploadForm";
 import CurrencyForm from "@/components/dashboard/CurrencyForm";
 import PaymentInfoForm from "@/components/dashboard/PaymentInfoForm";
+import SocialLinksForm from "@/components/dashboard/SocialLinksForm";
 import StoryImageForm from "@/components/dashboard/StoryImageForm";
 import { ConfirmDeleteButton } from "@/components/dashboard/ActionButtons";
 import Logo from "@/components/site/Logo";
@@ -51,6 +52,24 @@ export default async function AdminSettingsPage() {
               paymentMadarInfo: settings?.paymentMadarInfo,
               paymentLttInfo: settings?.paymentLttInfo,
               paymentCashOfficeInfo: settings?.paymentCashOfficeInfo,
+            }}
+          />
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-border bg-background-card p-6">
+        <h2 className="font-bold text-foreground">روابط التواصل الاجتماعي</h2>
+        <p className="mt-1 text-sm text-muted">
+          تظهر أيقونات هذه الحسابات أسفل قسم "تواصل معنا" في تذييل الموقع — اترك أي خانة فارغة لإخفاء تلك الأيقونة.
+        </p>
+        <div className="mt-4">
+          <SocialLinksForm
+            action={updateSocialLinks}
+            initial={{
+              socialYoutubeUrl: settings?.socialYoutubeUrl,
+              socialFacebookUrl: settings?.socialFacebookUrl,
+              socialTwitterUrl: settings?.socialTwitterUrl,
+              socialLinkedinUrl: settings?.socialLinkedinUrl,
             }}
           />
         </div>
